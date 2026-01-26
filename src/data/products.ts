@@ -1,0 +1,77 @@
+import { Product } from "@/types/product";
+
+export const products: Product[] = [
+  {
+    id: "P001",
+    slug: "laptop-asus-tuf-a15-rtx4060",
+    name: "Laptop ASUS TUF A15 (RTX 4060)",
+    category: "laptop",
+    price: 27990000,
+    salePrice: 25990000,
+    stock: 12,
+    images: [
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=80",
+      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=1200&q=80",
+    ],
+    specs: { brand: "ASUS", cpu: "Ryzen 7", ram: "16GB", gpu: "RTX 4060", storage: "512GB SSD", screen: "15.6 FHD", refreshRate: "144Hz" },
+    shortDesc: "Laptop gaming bền bỉ, tản tốt, chiến game mượt 2K.",
+  },
+  {
+    id: "P002",
+    slug: "laptop-lenovo-legion-5-rtx4050",
+    name: "Laptop Lenovo Legion 5 (RTX 4050)",
+    category: "laptop",
+    price: 25990000,
+    salePrice: 23990000,
+    stock: 9,
+    images: [
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=1200&q=80",
+      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
+    ],
+    specs: { brand: "Lenovo", cpu: "Ryzen 5", ram: "16GB", gpu: "RTX 4050", storage: "512GB SSD", screen: "15.6 FHD", refreshRate: "165Hz" },
+    shortDesc: "Legion 5 cân mọi tựa game eSports, màn 165Hz mượt.",
+  },
+  {
+    id: "P003",
+    slug: "pc-gaming-i5-13400f-rtx4060",
+    name: "PC Gaming i5-13400F / RTX 4060",
+    category: "pc-gaming",
+    price: 22990000,
+    stock: 6,
+    images: [
+      "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&q=80",
+      "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&q=80",
+    ],
+    specs: { brand: "GEARVN", cpu: "i5-13400F", ram: "16GB", gpu: "RTX 4060", storage: "1TB SSD" },
+    shortDesc: "Build quốc dân: stream + game 1080p/2K ngon.",
+  },
+  {
+    id: "P004",
+    slug: "gpu-rtx-4070-super",
+    name: "VGA NVIDIA GeForce RTX 4070 SUPER",
+    category: "gpu",
+    price: 17990000,
+    stock: 5,
+    images: [
+      "https://images.unsplash.com/photo-1587202372583-49330bd2fd21?w=1200&q=80",
+      "https://images.unsplash.com/photo-1612198188060-c7c2a3b29b0a?w=1200&q=80",
+    ],
+    specs: { brand: "NVIDIA", gpu: "RTX 4070 SUPER" },
+    shortDesc: "Hiệu năng/điện năng tối ưu, chiến AAA 2K cực mạnh.",
+  },
+  {
+    id: "P005",
+    slug: "man-hinh-27-165hz",
+    name: "Màn hình 27 inch 165Hz Gaming",
+    category: "man-hinh",
+    price: 4990000,
+    salePrice: 4490000,
+    stock: 20,
+    images: [
+      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=1200&q=80",
+      "https://images.unsplash.com/photo-1547658719-da2b51169166?w=1200&q=80",
+    ],
+    specs: { brand: "AOC", screen: "27 QHD", refreshRate: "165Hz" },
+    shortDesc: "Màn lớn QHD, tần số quét cao cho FPS mượt.",
+  },
+];
