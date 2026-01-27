@@ -1,38 +1,57 @@
-import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/products";
+import CategorySidebar from "@/components/home/CategorySidebar";
+import HeroCarousel from "@/components/home/HeroCarousel";
+import PromoRight from "@/components/home/PromoRight";
+import BottomBanners from "@/components/home/BottomBanners";
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 
-export const revalidate = 60; // ISR: 60s
+import ProductCard from "@/components/ProductCard";
+import { getProductsByCategory } from "@/lib/products";
+
+export const revalidate = 60;
 
 export default function HomePage() {
-  const top = products.slice(0, 8);
+  const featured = [
+    ...getProductsByCategory("laptop"),
+    ...getProductsByCategory("pc-gaming"),
+    ...getProductsByCategory("gpu"),
+    ...getProductsByCategory("man-hinh"),
+  ].slice(0, 8);
 
   return (
-    <div className="space-y-6">
-      <section className="rounded-3xl bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-bold">GEARVN Clone</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Next.js App Router • ISR/SEO • Next/Image • Cart state phức tạp • Animation mượt
-        </p>
+    <div className="bg-[#f2f2f2]">
+      <SideFloatBanners />
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link className="rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" href="/category/laptop">Laptop</Link>
-          <Link className="rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" href="/category/pc-gaming">PC Gaming</Link>
-          <Link className="rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" href="/category/gpu">GPU</Link>
-          <Link className="rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" href="/category/man-hinh">Màn hình</Link>
-        </div>
-      </section>
+      <div className="mx-auto max-w-[1200px] px-3 py-3">
+        
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[250px_minmax(0,1fr)_240px] lg:gap-x-0 lg:gap-y-0">
+          <div className="hidden lg:block">
+            <CategorySidebar />
+          </div>
 
-      <section>
-        <div className="mb-3 flex items-end justify-between">
-          <h2 className="text-lg font-bold">Sản phẩm nổi bật</h2>
-          <span className="text-xs text-gray-500">Render từ server (ISR)</span>
+          <div className="min-w-0">
+            <HeroCarousel />
+          </div>
+
+          <div className="hidden lg:block">
+            <PromoRight />
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {top.map(p => <ProductCard key={p.id} p={p} />)}
+        <div className="mt-3 hidden lg:block">
+          <BottomBanners />
         </div>
-      </section>
+
+        <div className="mt-6 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-black">Sản phẩm nổi bật</h2>
+          <span className="text-sm text-gray-600">Render từ server (ISR)</span>
+        </div>
+
+        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          {featured.map((p) => (
+            <ProductCard key={p.id} p={p} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

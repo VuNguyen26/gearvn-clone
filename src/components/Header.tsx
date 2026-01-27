@@ -44,7 +44,7 @@ export default function Header() {
       </div>
 
       {/* 2) MAIN RED HEADER */}
-      <div className="bg-[#D70018]">
+      <div className="bg-[#E30019]">
         <div className={`mx-auto ${MAX_W} h-[74px] px-3 flex items-center gap-3`}>
           {/* Logo */}
           <Link href="/" className="flex items-center pr-1 shrink-0">
