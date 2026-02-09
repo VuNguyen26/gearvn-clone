@@ -17,36 +17,60 @@ export default function HomePage() {
     ...getProductsByCategory("man-hinh"),
   ].slice(0, 8);
 
+  // khe giống GearVN
+  const GAP = "gap-[6px]";
+  const PAD = "px-[6px] py-[6px]";
+  const MT = "mt-[6px]";
+
+  // chiều cao cụm hero + banner phải (desktop)
+  const TOP_H = "lg:h-[360px]";
+
+  // tỷ lệ giống ảnh gốc: cột phải ~300px (345px làm hero bị nhỏ)
+  const GRID_COLS = "lg:grid-cols-[250px_minmax(0,1fr)_300px]";
+
   return (
     <div className="bg-[#f2f2f2]">
       <SideFloatBanners />
 
-      <div className="mx-auto max-w-[1200px] px-3 py-3">
-        
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[250px_minmax(0,1fr)_240px] lg:gap-x-0 lg:gap-y-0">
+      <div className={`mx-auto max-w-[1200px] ${PAD}`}>
+        {/* ===== TOP: Sidebar | Hero | Right Promo ===== */}
+        <div className={["grid grid-cols-1", GAP, GRID_COLS, "lg:items-start"].join(" ")}>
+          {/* Left category */}
           <div className="hidden lg:block">
-            <CategorySidebar />
+            {/* overflow-visible để mũi tên hover không bị cắt */}
+            <div className="overflow-visible">
+              <CategorySidebar />
+            </div>
           </div>
 
-          <div className="min-w-0">
+          {/* Center hero */}
+          <div className={`min-w-0 ${TOP_H}`}>
             <HeroCarousel />
           </div>
 
-          <div className="hidden lg:block">
+          {/* Right promos */}
+          <div className={`hidden lg:block self-start ${TOP_H}`}>
             <PromoRight />
           </div>
         </div>
 
-        <div className="mt-3 hidden lg:block">
-          <BottomBanners />
+        {/* ===== BOTTOM BANNERS: chỉ nằm dưới Hero + cột phải (không nằm dưới sidebar) ===== */}
+        <div className={["hidden lg:grid", MT, GAP, GRID_COLS].join(" ")}>
+          {/* cột trái để trống đúng như ảnh gốc */}
+          <div />
+          {/* span 2 cột (Hero + PromoRight) */}
+          <div className="col-span-2">
+            <BottomBanners />
+          </div>
         </div>
 
+        {/* ===== FEATURED ===== */}
         <div className="mt-6 flex items-center justify-between">
           <h2 className="text-xl font-bold text-black">Sản phẩm nổi bật</h2>
           <span className="text-sm text-gray-600">Render từ server (ISR)</span>
         </div>
 
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <div className={`${MT} grid grid-cols-2 gap-[6px] sm:grid-cols-3 lg:grid-cols-4`}>
           {featured.map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}

@@ -38,7 +38,7 @@ const items = [
 
 export default function CategorySidebar() {
   return (
-    <aside className="w-[240px] rounded-md bg-white shadow-sm border border-gray-200 overflow-visible">
+    <aside className="w-[220px] rounded-md border border-gray-200 bg-white shadow-sm overflow-visible">
       <ul className="divide-y divide-gray-200">
         {items.map((it) => {
           const Icon = it.icon;
@@ -48,26 +48,32 @@ export default function CategorySidebar() {
               <Link
                 href={it.href}
                 className={[
-                  // nhỏ row
-                  "group relative flex h-[30px] items-center gap-1.5 px-2.5 pr-3",
+                  "group relative flex h-[30px] items-center",
+                  "gap-1.5 px-2 pr-2.5",
                   "text-[12.5px] font-medium text-black",
                   "hover:bg-[#E30019] hover:text-white",
                   "hover:z-10",
-
-                  // mũi tên lòi ra ngoài (hover)
-                  "after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2",
-                  "after:w-0 after:h-0 after:right-0 after:z-10 after:pointer-events-none",
-                  "after:border-t-[15px] after:border-t-transparent",
-                  "after:border-b-[15px] after:border-b-transparent",
-                  "after:border-l-[0px] after:border-l-transparent",
-                  "hover:after:-right-[20px]",
-                  "hover:after:border-l-[20px]",
-                  "hover:after:border-l-[#E30019]",
                 ].join(" ")}
               >
-                <Icon className="h-[15px] w-[15px] text-black/70 group-hover:text-white" />
-                <span className="flex-1 truncate">{it.label}</span>
-                <ChevronRight className="h-[13px] w-[13px] text-black/60 group-hover:text-white" />
+                {/* Mũi tên đỏ */}
+                <span
+                  aria-hidden
+                  className={[
+                    "pointer-events-none absolute top-1/2 -translate-y-1/2",
+                    "right-0 translate-x-full",
+                    "hidden group-hover:block",
+                    "z-0",
+                    "w-0 h-0",
+                    "border-t-[15px] border-t-transparent",
+                    "border-b-[15px] border-b-transparent",
+                    "border-l-[20px] border-l-[#E30019]",
+                  ].join(" ")}
+                />
+
+                {/* Content */}
+                <Icon className="relative z-10 h-[15px] w-[15px] text-black/70 group-hover:text-white" />
+                <span className="relative z-10 flex-1 truncate">{it.label}</span>
+                <ChevronRight className="relative z-10 h-[13px] w-[13px] shrink-0 text-black/60 group-hover:text-white" />
               </Link>
             </li>
           );
