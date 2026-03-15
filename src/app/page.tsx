@@ -1,80 +1,129 @@
+import Link from "next/link";
 import CategorySidebar from "@/components/home/CategorySidebar";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import PromoRight from "@/components/home/PromoRight";
 import BottomBanners from "@/components/home/BottomBanners";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
-
 import ProductCard from "@/components/ProductCard";
-import { getProductsByCategory } from "@/lib/products";
+import { getPaginatedProducts } from "@/lib/products";
 
 export const revalidate = 60;
 
-export default function HomePage() {
-  const featured = [
-    ...getProductsByCategory("laptop"),
-    ...getProductsByCategory("pc-gaming"),
-    ...getProductsByCategory("gpu"),
-    ...getProductsByCategory("man-hinh"),
-  ].slice(0, 8);
+type HomePageProps = {
+  searchParams: Promise<{
+    page?: string;
+  }>;
+};
 
-  // khe giống GearVN
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const sp = await searchParams;
+
+  const page = Number(sp.page || "1");
+  const safePage = Number.isFinite(page) && page > 0 ? page : 1;
+
+  const { items, totalPages, currentPage, totalItems } = getPaginatedProducts(
+    safePage,
+    20
+  );
+
   const GAP = "gap-[6px]";
   const PAD = "px-[6px] py-[6px]";
   const MT = "mt-[6px]";
-
-  // chiều cao cụm hero + banner phải (desktop)
   const TOP_H = "lg:h-[360px]";
-
-  // tỷ lệ giống ảnh gốc: cột phải ~300px (345px làm hero bị nhỏ)
   const GRID_COLS = "lg:grid-cols-[250px_minmax(0,1fr)_300px]";
 
   return (
-    <div className="bg-[#f2f2f2]">
+    <div className="min-h-screen bg-[#f2f2f2]">
       <SideFloatBanners />
 
       <div className={`mx-auto max-w-[1200px] ${PAD}`}>
-        {/* ===== TOP: Sidebar | Hero | Right Promo ===== */}
-        <div className={["grid grid-cols-1", GAP, GRID_COLS, "lg:items-start"].join(" ")}>
-          {/* Left category */}
+        <div
+          className={["grid grid-cols-1", GAP, GRID_COLS, "lg:items-start"].join(
+            " "
+          )}
+        >
           <div className="hidden lg:block">
-            {/* overflow-visible để mũi tên hover không bị cắt */}
             <div className="overflow-visible">
               <CategorySidebar />
             </div>
           </div>
 
-          {/* Center hero */}
           <div className={`min-w-0 ${TOP_H}`}>
             <HeroCarousel />
           </div>
 
-          {/* Right promos */}
           <div className={`hidden lg:block self-start ${TOP_H}`}>
             <PromoRight />
           </div>
         </div>
 
-        {/* ===== BOTTOM BANNERS: chỉ nằm dưới Hero + cột phải (không nằm dưới sidebar) ===== */}
         <div className={["hidden lg:grid", MT, GAP, GRID_COLS].join(" ")}>
-          {/* cột trái để trống đúng như ảnh gốc */}
           <div />
-          {/* span 2 cột (Hero + PromoRight) */}
           <div className="col-span-2">
             <BottomBanners />
           </div>
         </div>
 
-        {/* ===== FEATURED ===== */}
-        <div className="mt-6 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-black">Sản phẩm nổi bật</h2>
-          <span className="text-sm text-gray-600">Render từ server (ISR)</span>
-        </div>
+        <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="text-[22px] font-bold text-black">
+                Tất cả sản phẩm
+              </h2>
+              <p className="text-sm text-gray-600">
+                Tổng cộng: {totalItems} sản phẩm
+              </p>
+            </div>
 
-        <div className={`${MT} grid grid-cols-2 gap-[6px] sm:grid-cols-3 lg:grid-cols-4`}>
-          {featured.map((p) => (
-            <ProductCard key={p.id} p={p} />
-          ))}
-        </div>
+            <span className="text-sm text-gray-600">
+              Trang {currentPage}/{totalPages}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {items.map((p) => (
+              <ProductCard key={p.id} p={p} />
+            ))}
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            <Link
+              href={currentPage > 1 ? `/?page=${currentPage - 1}` : "#"}
+              className={`rounded-xl border px-4 py-2 text-sm ${
+                currentPage > 1
+                  ? "hover:bg-gray-50"
+                  : "pointer-events-none opacity-50"
+              }`}
+            >
+              Trang trước
+            </Link>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+              <Link
+                key={pageNum}
+                href={`/?page=${pageNum}`}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold ${
+                  pageNum === currentPage
+                    ? "bg-red-600 text-white"
+                    : "border hover:bg-gray-50"
+                }`}
+              >
+                {pageNum}
+              </Link>
+            ))}
+
+            <Link
+              href={currentPage < totalPages ? `/?page=${currentPage + 1}` : "#"}
+              className={`rounded-xl border px-4 py-2 text-sm ${
+                currentPage < totalPages
+                  ? "hover:bg-gray-50"
+                  : "pointer-events-none opacity-50"
+              }`}
+            >
+              Trang sau
+            </Link>
+          </div>
+        </section>
       </div>
     </div>
   );
