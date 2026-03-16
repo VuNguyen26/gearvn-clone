@@ -1,0 +1,120 @@
+import { Product } from "@/types/product";
+
+export const webcams: Product[] = [
+  {
+    id: "WBC001",
+    slug: "webcam-logitech-brio-4k",
+    name: "Webcam Logitech Brio 4K",
+    category: "webcam",
+    subcategory: "speaker_micro_webcam",
+    price: 4990000,
+    salePrice: 4590000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_4k/webcam_logitech_brio_4k.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_4k/webcam_logitech_brio_4k_01.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_4k/webcam_logitech_brio_4k_02.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_4k/webcam_logitech_brio_4k_03.png",
+    ],
+    shortDesc: "Webcam chất lượng cao, phù hợp họp online, stream và làm việc chuyên nghiệp.",
+    brand: "Logitech",
+    specs: {
+      brand: "Logitech",
+    },
+    cardSpecs: [{ label: "Độ phân giải", value: "4K" }],
+    detailSpecs: [{ label: "Độ phân giải", value: "4K" }],
+  },
+
+  {
+    id: "WBC002",
+    slug: "webcam-logitech-brio-100-graphite",
+    name: "Webcam Logitech Brio 100 Graphite",
+    category: "webcam",
+    subcategory: "speaker_micro_webcam",
+    price: 1090000,
+    salePrice: 990000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_100_graphite/webcam_logitech_brio_100_graphite.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_100_graphite/webcam_logitech_brio_100_graphite_01.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_100_graphite/webcam_logitech_brio_100_graphite_02.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_100_graphite/webcam_logitech_brio_100_graphite_03.png",
+    ],
+    shortDesc: "Webcam phù hợp học online, họp trực tuyến và làm việc hằng ngày.",
+    brand: "Logitech",
+    specs: {
+      brand: "Logitech",
+    },
+    cardSpecs: [{ label: "Độ phân giải", value: "Full HD" }],
+    detailSpecs: [{ label: "Độ phân giải", value: "Full HD" }],
+  },
+
+  {
+    id: "WBC003",
+    slug: "webcam-logitech-brio-500-pink",
+    name: "Webcam Logitech Brio 500 Pink",
+    category: "webcam",
+    subcategory: "speaker_micro_webcam",
+    price: 2990000,
+    salePrice: 2790000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_500_pink/webcam_logitech_brio_500_pink.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_500_pink/webcam_logitech_brio_500_pink_01.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_500_pink/webcam_logitech_brio_500_pink_02.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_500_pink/webcam_logitech_brio_500_pink_03.png",
+      "/product_image/speaker_micro_webcam/webcam_logitech_brio_500_pink/webcam_logitech_brio_500_pink_04.png",
+    ],
+    shortDesc: "Webcam thiết kế đẹp, phù hợp học tập, làm việc và gọi video.",
+    brand: "Logitech",
+    specs: {
+      brand: "Logitech",
+    },
+    cardSpecs: [{ label: "Độ phân giải", value: "Full HD" }],
+    detailSpecs: [{ label: "Độ phân giải", value: "Full HD" }],
+  },
+
+  {
+    id: "WBC004",
+    slug: "webcam-logitech-c930e",
+    name: "Webcam Logitech C930e",
+    category: "webcam",
+    subcategory: "speaker_micro_webcam",
+    price: 2490000,
+    salePrice: 2290000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/webcam_logitech_c930e/webcam_logitech_c930e.png",
+    ],
+    shortDesc: "Webcam phù hợp họp trực tuyến và làm việc văn phòng.",
+    brand: "Logitech",
+    specs: {
+      brand: "Logitech",
+    },
+    cardSpecs: [{ label: "Độ phân giải", value: "Full HD" }],
+    detailSpecs: [{ label: "Độ phân giải", value: "Full HD" }],
+  },
+
+  {
+    id: "WBC005",
+    slug: "webcam-rapoo-c200-hd-720p",
+    name: "Webcam Rapoo C200 HD 720P",
+    category: "webcam",
+    subcategory: "speaker_micro_webcam",
+    price: 590000,
+    salePrice: 490000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/webcam_rapoo_c200_hd_720p/webcam_rapoo_c200_hd_720.jpg",
+      "/product_image/speaker_micro_webcam/webcam_rapoo_c200_hd_720p/webcam_rapoo_c200_hd_720_01.jpg",
+      "/product_image/speaker_micro_webcam/webcam_rapoo_c200_hd_720p/webcam_rapoo_c200_hd_720_02.jpg",
+    ],
+    shortDesc: "Webcam cơ bản, phù hợp học online và gọi video hằng ngày.",
+    brand: "Rapoo",
+    specs: {
+      brand: "Rapoo",
+    },
+    cardSpecs: [{ label: "Độ phân giải", value: "720P" }],
+    detailSpecs: [{ label: "Độ phân giải", value: "720P" }],
+  },
+];

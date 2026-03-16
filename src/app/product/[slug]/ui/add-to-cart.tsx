@@ -6,7 +6,7 @@ import { useCart } from "@/store/cart";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AddToCart({ product }: { product: Product }) {
-  const add = useCart(s => s.add);
+  const add = useCart((s) => s.add);
   const [done, setDone] = useState(false);
 
   return (
@@ -17,9 +17,9 @@ export default function AddToCart({ product }: { product: Product }) {
           setDone(true);
           setTimeout(() => setDone(false), 900);
         }}
-        className="w-full rounded-xl bg-black px-4 py-3 text-sm font-semibold text-white hover:opacity-90"
+        className="w-full rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
       >
-        Thêm vào giỏ
+        Mua Ngay
       </button>
 
       <AnimatePresence>

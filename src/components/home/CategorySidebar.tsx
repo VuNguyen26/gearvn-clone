@@ -19,21 +19,22 @@ import {
 
 const items = [
   { label: "Laptop", icon: Laptop, href: "/category/laptop" },
-  { label: "Laptop Gaming", icon: Laptop, href: "/category/laptop?brand=Gaming" },
-  { label: "PC GVN", icon: PcCase, href: "/category/pc-gaming" },
-  { label: "Main, CPU, VGA", icon: Cpu, href: "/category/gpu" },
-  { label: "Case, Nguồn, Tản", icon: PcCase, href: "/category/pc-gaming" },
-  { label: "Ổ cứng, RAM, Thẻ nhớ", icon: HardDrive, href: "/category/pc-gaming" },
-  { label: "Loa, Micro, Webcam", icon: Mic, href: "/category/pc-gaming" },
+  { label: "Laptop Gaming", icon: Laptop, href: "/category/laptop-gaming" },
+
+  { label: "PC GVN", icon: PcCase, href: "/category/pc-gvn" },
+  { label: "Main, CPU, VGA", icon: Cpu, href: "/category/main-cpu-vga" },
+  { label: "Case, Nguồn, Tản", icon: PcCase, href: "/category/case-nguon-tan" },
+  { label: "Ổ cứng, RAM, Thẻ nhớ", icon: HardDrive, href: "/category/o-cung-ram-the-nho" },
+  { label: "Loa, Micro, Webcam", icon: Mic, href: "/category/loa-micro-webcam" },
   { label: "Màn hình", icon: Monitor, href: "/category/man-hinh" },
-  { label: "Bàn phím", icon: Keyboard, href: "/category/pc-gaming" },
-  { label: "Chuột + Lót chuột", icon: Mouse, href: "/category/pc-gaming" },
-  { label: "Tai nghe", icon: Headphones, href: "/category/pc-gaming" },
-  { label: "Ghế - Bàn", icon: Armchair, href: "/category/pc-gaming" },
-  { label: "Phần mềm, mạng", icon: Network, href: "/category/pc-gaming" },
-  { label: "Handheld, Console", icon: Gamepad2, href: "/category/pc-gaming" },
-  { label: "Phụ kiện (Hub, sạc, cáp..)", icon: Usb, href: "/category/pc-gaming" },
-  { label: "Dịch vụ và thông tin khác", icon: Wrench, href: "/category/pc-gaming" },
+  { label: "Bàn phím", icon: Keyboard, href: "/category/ban-phim" },
+  { label: "Chuột + Lót chuột", icon: Mouse, href: "/category/chuot-lot-chuot" },
+  { label: "Tai nghe", icon: Headphones, href: "/category/tai-nghe" },
+  { label: "Ghế - Bàn", icon: Armchair, href: "/category/ghe-ban" },
+  { label: "Phần mềm, mạng", icon: Network, href: "/category/phan-mem-mang" },
+  { label: "Handheld, Console", icon: Gamepad2, href: "/category/handheld-console" },
+  { label: "Phụ kiện (Hub, sạc, cáp..)", icon: Usb, href: "/category/phu-kien" },
+  { label: "Dịch vụ và thông tin khác", icon: Wrench, href: "/category/dich-vu-thong-tin-khac" },
 ];
 
 export default function CategorySidebar() {

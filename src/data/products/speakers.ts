@@ -1,0 +1,123 @@
+import { Product } from "@/types/product";
+
+export const speakers: Product[] = [
+  {
+    id: "SPK001",
+    slug: "loa-edifier-mr4",
+    name: "Loa Edifier MR4",
+    category: "speaker",
+    subcategory: "speaker_micro_webcam",
+    price: 2990000,
+    salePrice: 2790000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/loa_edifier_mr4/loa_edifier_mr4.jpg",
+      "/product_image/speaker_micro_webcam/loa_edifier_mr4/loa_edifier_mr4_02.jpg",
+      "/product_image/speaker_micro_webcam/loa_edifier_mr4/loa_edifier_mr4_03.jpg",
+      "/product_image/speaker_micro_webcam/loa_edifier_mr4/loa_edifier_mr4_04.jpg",
+    ],
+    shortDesc: "Loa phù hợp nghe nhạc, làm việc và giải trí tại nhà.",
+    brand: "Edifier",
+    specs: {
+      brand: "Edifier",
+    },
+    cardSpecs: [{ label: "Thương hiệu", value: "Edifier" }],
+    detailSpecs: [{ label: "Thương hiệu", value: "Edifier" }],
+  },
+
+  {
+    id: "SPK002",
+    slug: "loa-logitech-g560",
+    name: "Loa Logitech G560",
+    category: "speaker",
+    subcategory: "speaker_micro_webcam",
+    price: 5490000,
+    salePrice: 4990000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/loa_logitech_g560/loa_logitech_g560.png",
+      "/product_image/speaker_micro_webcam/loa_logitech_g560/loa_logitech_g560_01.jpg",
+    ],
+    shortDesc: "Loa gaming phù hợp giải trí, xem phim và chơi game.",
+    brand: "Logitech",
+    specs: {
+      brand: "Logitech",
+    },
+    cardSpecs: [{ label: "Thương hiệu", value: "Logitech" }],
+    detailSpecs: [{ label: "Thương hiệu", value: "Logitech" }],
+  },
+
+  {
+    id: "SPK003",
+    slug: "loa-razer-leviathan-v2",
+    name: "Loa Razer Leviathan V2",
+    category: "speaker",
+    subcategory: "speaker_micro_webcam",
+    price: 6290000,
+    salePrice: 5890000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/loa_razer_leviathan_v2/loa_razer_leviathan_v2.png",
+      "/product_image/speaker_micro_webcam/loa_razer_leviathan_v2/loa_razer_leviathan_v2_01.jpg",
+      "/product_image/speaker_micro_webcam/loa_razer_leviathan_v2/loa_razer_leviathan_v2_02.jpg",
+      "/product_image/speaker_micro_webcam/loa_razer_leviathan_v2/loa_razer_leviathan_v2_03.jpg",
+      "/product_image/speaker_micro_webcam/loa_razer_leviathan_v2/loa_razer_leviathan_v2_04.jpg",
+    ],
+    shortDesc: "Loa soundbar phù hợp cho gaming và giải trí đa phương tiện.",
+    brand: "Razer",
+    specs: {
+      brand: "Razer",
+    },
+    cardSpecs: [{ label: "Thương hiệu", value: "Razer" }],
+    detailSpecs: [{ label: "Thương hiệu", value: "Razer" }],
+  },
+
+  {
+    id: "SPK004",
+    slug: "loa-thonet-vander-black-2-0",
+    name: "Loa Thonet & Vander Black 2.0",
+    category: "speaker",
+    subcategory: "speaker_micro_webcam",
+    price: 2390000,
+    salePrice: 2190000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_black/loa_thonet_vander_black_2.0.png",
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_black/loa_thonet_vander_black_01.png",
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_black/loa_thonet_vander_black_02.png",
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_black/loa_thonet_vander_black_03.png",
+    ],
+    shortDesc: "Loa phù hợp nghe nhạc và sử dụng trong không gian làm việc.",
+    brand: "Thonet & Vander",
+    specs: {
+      brand: "Thonet & Vander",
+    },
+    cardSpecs: [{ label: "Thương hiệu", value: "Thonet & Vander" }],
+    detailSpecs: [{ label: "Thương hiệu", value: "Thonet & Vander" }],
+  },
+
+  {
+    id: "SPK005",
+    slug: "loa-thonet-vander-white-2-0",
+    name: "Loa Thonet & Vander White 2.0",
+    category: "speaker",
+    subcategory: "speaker_micro_webcam",
+    price: 2390000,
+    salePrice: 2190000,
+    stock: 10,
+    images: [
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_white/loa_thonet_vander_white_2.0.png",
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_white/loa_thonet_vander_white_01.png",
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_white/loa_thonet_vander_white_02.png",
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_white/loa_thonet_vander_white_03.png",
+      "/product_image/speaker_micro_webcam/loa_thonet_vander_white/loa_thonet_vander_white_04.png",
+    ],
+    shortDesc: "Loa thiết kế đẹp, phù hợp làm việc và giải trí hằng ngày.",
+    brand: "Thonet & Vander",
+    specs: {
+      brand: "Thonet & Vander",
+    },
+    cardSpecs: [{ label: "Thương hiệu", value: "Thonet & Vander" }],
+    detailSpecs: [{ label: "Thương hiệu", value: "Thonet & Vander" }],
+  },
+];
