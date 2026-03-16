@@ -6,6 +6,16 @@ type CurrentUser = {
   fullName: string;
   email: string;
   phone?: string;
+  gender?: string;
+  day?: string;
+  month?: string;
+  year?: string;
+  defaultAddress?: {
+    city?: string;
+    district?: string;
+    ward?: string;
+    address?: string;
+  };
 };
 
 export default function AccountProfilePage() {
@@ -18,11 +28,17 @@ export default function AccountProfilePage() {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("currentUser") || localStorage.getItem("user");
+      const raw =
+        localStorage.getItem("currentUser") || localStorage.getItem("user");
+
       if (raw) {
         const parsed = JSON.parse(raw) as CurrentUser;
         setUser(parsed);
         setPhone(parsed.phone || "");
+        setGender(parsed.gender || "Nam");
+        setDay(parsed.day || "");
+        setMonth(parsed.month || "");
+        setYear(parsed.year || "");
       }
     } catch {}
   }, []);
@@ -30,14 +46,42 @@ export default function AccountProfilePage() {
   const handleSave = () => {
     if (!user) return;
 
-    const updated = {
+    const updated: CurrentUser = {
       ...user,
-      phone,
+      phone: phone.trim(),
+      gender,
+      day,
+      month,
+      year,
     };
 
     localStorage.setItem("user", JSON.stringify(updated));
     localStorage.setItem("currentUser", JSON.stringify(updated));
     setUser(updated);
+
+    try {
+      const rawCheckout = localStorage.getItem("gearvn_checkout_v1");
+
+      if (rawCheckout) {
+        const checkoutData = JSON.parse(rawCheckout);
+
+        if (checkoutData?.state?.info) {
+          checkoutData.state.info = {
+            ...checkoutData.state.info,
+            fullName: updated.fullName,
+            phone: updated.phone || "",
+            gender: gender === "Nam" ? "Anh" : "Chị",
+          };
+
+          localStorage.setItem(
+            "gearvn_checkout_v1",
+            JSON.stringify(checkoutData)
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Không thể đồng bộ checkout info:", error);
+    }
 
     alert("Lưu thay đổi thành công!");
   };
@@ -86,9 +130,14 @@ export default function AccountProfilePage() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Số điện thoại"
+              aria-label="Số điện thoại"
+              title="Số điện thoại"
               className="h-[44px] w-full max-w-[340px] rounded border border-green-500 px-4 text-[16px]"
             />
-            <button className="text-[16px] text-blue-600 hover:underline">
+            <button
+              type="button"
+              className="text-[16px] text-blue-600 hover:underline"
+            >
               Xác thực
             </button>
           </div>
@@ -108,6 +157,8 @@ export default function AccountProfilePage() {
             <select
               value={day}
               onChange={(e) => setDay(e.target.value)}
+              aria-label="Chọn ngày sinh"
+              title="Chọn ngày sinh"
               className="h-[44px] w-[130px] rounded border border-slate-300 px-4 text-[16px]"
             >
               <option value="">Ngày</option>
@@ -121,6 +172,8 @@ export default function AccountProfilePage() {
             <select
               value={month}
               onChange={(e) => setMonth(e.target.value)}
+              aria-label="Chọn tháng sinh"
+              title="Chọn tháng sinh"
               className="h-[44px] w-[130px] rounded border border-slate-300 px-4 text-[16px]"
             >
               <option value="">Tháng</option>
@@ -134,6 +187,8 @@ export default function AccountProfilePage() {
             <select
               value={year}
               onChange={(e) => setYear(e.target.value)}
+              aria-label="Chọn năm sinh"
+              title="Chọn năm sinh"
               className="h-[44px] w-[130px] rounded border border-slate-300 px-4 text-[16px]"
             >
               <option value="">Năm</option>
@@ -148,6 +203,7 @@ export default function AccountProfilePage() {
 
         <div className="pl-[144px]">
           <button
+            type="button"
             onClick={handleSave}
             className="h-[42px] rounded bg-red-600 px-8 text-[18px] font-semibold text-white hover:bg-red-700"
           >

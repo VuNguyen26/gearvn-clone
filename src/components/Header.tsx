@@ -197,7 +197,15 @@ export default function Header() {
                     onClick={() => setOpenUser((v) => !v)}
                     aria-label="Mở menu tài khoản"
                     title="Mở menu tài khoản"
+                    className="rounded-[6px]"
                   >
+                    <HeaderAction
+                      href="#"
+                      icon={<User className="h-6 w-6" />}
+                      line1="Đăng"
+                      line2="nhập"
+                      variant="boxed"
+                    />
                   </button>
 
                   {openUser && (
@@ -326,13 +334,23 @@ export default function Header() {
               </span>
             </Link>
 
-            <Link
-              href="#"
-              className="rounded-[6px] bg-[#B80014] p-2 hover:bg-[#A60012]"
-              aria-label="Đăng nhập"
-            >
-              <User className="h-6 w-6" />
-            </Link>
+            {user ? (
+              <Link
+                href="/account/orders"
+                className="rounded-[6px] bg-[#B80014] p-2 hover:bg-[#A60012]"
+                aria-label="Tài khoản"
+              >
+                <User className="h-6 w-6" />
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className="rounded-[6px] bg-[#B80014] p-2 hover:bg-[#A60012]"
+                aria-label="Đăng nhập"
+              >
+                <User className="h-6 w-6" />
+              </Link>
+            )}
           </div>
         </div>
       </div>
