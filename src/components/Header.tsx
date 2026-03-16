@@ -1,17 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Menu,
   Search,
-  Headphones,
-  MapPin,
-  ClipboardList,
   ShoppingCart,
   User,
+  Hand,
+  CircleHelp,
+  ClipboardList,
+  Eye,
+  LogOut,
+  MapPin,
   Tag,
   Flame,
   Newspaper,
@@ -25,12 +28,22 @@ import CategorySidebar from "@/components/home/CategorySidebar";
 
 const MAX_W = "max-w-[1200px]";
 
+type HeaderUser = {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+};
+
 export default function Header() {
   const cartCount = useCart((s) => s.count());
   const pathname = usePathname();
 
   const [mounted, setMounted] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+
+  const [user, setUser] = useState<HeaderUser | null>(null);
+  const [openUser, setOpenUser] = useState(false);
+  const userRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -42,9 +55,55 @@ export default function Header() {
 
   const safeCartCount = mounted ? cartCount : 0;
 
+  useEffect(() => {
+    const syncUser = () => {
+      try {
+        const rawCurrentUser = localStorage.getItem("currentUser");
+        const rawUser = localStorage.getItem("user");
+
+        if (rawCurrentUser) {
+          setUser(JSON.parse(rawCurrentUser));
+        } else if (rawUser) {
+          setUser(JSON.parse(rawUser));
+        } else {
+          setUser(null);
+        }
+      } catch {
+        setUser(null);
+      }
+    };
+
+    syncUser();
+    window.addEventListener("storage", syncUser);
+
+    return () => window.removeEventListener("storage", syncUser);
+  }, []);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (!userRef.current) return;
+      if (!userRef.current.contains(e.target as Node)) {
+        setOpenUser(false);
+      }
+    };
+
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("currentUser");
+    setUser(null);
+    setOpenUser(false);
+    window.location.href = "/";
+  };
+
+  const displayName = user?.fullName || "Người dùng";
+  const displayEmail = user?.email || "Chưa có email";
+
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* TOP PROMO */}
       <div className="bg-[#0A86FF]">
         <div className={`mx-auto ${MAX_W} px-3`}>
           <div className="relative h-[44px] w-full">
@@ -60,7 +119,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* MAIN RED HEADER */}
       <div className="bg-[#E30019]">
         <div className={`mx-auto ${MAX_W} flex h-[74px] items-center gap-3 px-3`}>
           <Link href="/" className="flex shrink-0 items-center pr-1">
@@ -111,37 +169,18 @@ export default function Header() {
 
           <div className="hidden shrink-0 items-center gap-2 text-white lg:flex">
             <HeaderAction
-              href="#"
-              icon={<Headphones className="h-6 w-6" />}
-              line1="Hotline"
-              line2="1900.5301"
-            />
-            <HeaderAction
-              href="#"
+              href="/showroom"
               icon={<MapPin className="h-6 w-6" />}
               line1="Hệ thống"
               line2="Showroom"
             />
-            <HeaderAction
-              href="#"
-              icon={<ClipboardList className="h-6 w-6" />}
-              line1="Tra cứu"
-              line2="đơn hàng"
-            />
+
             <HeaderAction
               href="/cart"
               icon={
                 <div className="relative">
                   <ShoppingCart className="h-6 w-6" />
-                  <span
-                    className="
-                      absolute -right-1 -top-1
-                      flex h-[14px] min-w-[14px] items-center justify-center
-                      rounded-full bg-[#FFE600]
-                      px-1 text-[9px] font-extrabold leading-none text-black
-                      ring-2 ring-white
-                    "
-                  >
+                  <span className="absolute -right-1 -top-1 flex h-[14px] min-w-[14px] items-center justify-center rounded-full bg-[#FFE600] px-1 text-[9px] font-extrabold leading-none text-black ring-2 ring-white">
                     {safeCartCount > 99 ? "99+" : safeCartCount}
                   </span>
                 </div>
@@ -149,13 +188,130 @@ export default function Header() {
               line1="Giỏ"
               line2="hàng"
             />
-            <HeaderAction
-              href="#"
-              icon={<User className="h-6 w-6" />}
-              line1="Đăng"
-              line2="nhập"
-              variant="boxed"
-            />
+
+            <div ref={userRef} className="relative">
+              {!user ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setOpenUser((v) => !v)}
+                    aria-label="Mở menu tài khoản"
+                    title="Mở menu tài khoản"
+                  >
+                  </button>
+
+                  {openUser && (
+                    <div className="absolute right-0 top-full z-50 mt-3 w-[400px] overflow-hidden rounded-2xl bg-white shadow-2xl">
+                      <div className="absolute -top-2 right-8 h-4 w-4 rotate-45 bg-white" />
+
+                      <div className="border-b border-slate-200 px-5 py-5">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+                            <Hand className="h-5 w-5" />
+                          </div>
+                          <div className="text-[16px] font-semibold text-slate-800">
+                            Xin chào, vui lòng đăng nhập
+                          </div>
+                        </div>
+
+                        <div className="mt-4 grid grid-cols-2 gap-3">
+                          <Link
+                            href="/login"
+                            onClick={() => setOpenUser(false)}
+                            className="flex h-[40px] items-center justify-center rounded-md bg-[#1f1f1f] text-[15px] font-bold text-white transition hover:bg-black"
+                          >
+                            ĐĂNG NHẬP
+                          </Link>
+
+                          <Link
+                            href="/register"
+                            onClick={() => setOpenUser(false)}
+                            className="flex h-[40px] items-center justify-center rounded-md border-2 border-[#4b4b4b] bg-white text-[15px] font-bold text-[#222] transition hover:bg-slate-50"
+                          >
+                            ĐĂNG KÝ
+                          </Link>
+                        </div>
+                      </div>
+
+                      <div className="px-5 py-4">
+                        <button
+                          type="button"
+                          className="flex items-center gap-3 text-[15px] text-slate-700 transition hover:text-red-600"
+                        >
+                          <CircleHelp className="h-6 w-6" />
+                          <span>Trợ giúp</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <button type="button" onClick={() => setOpenUser((v) => !v)}>
+                    <HeaderAction
+                      href="#"
+                      icon={<User className="h-6 w-6" />}
+                      line1={(displayName || "User").split(" ").slice(-1)[0]}
+                      line2="Tài khoản"
+                      variant="boxed"
+                    />
+                  </button>
+
+                  {openUser && (
+                    <div className="absolute right-0 top-full z-50 mt-3 w-[400px] overflow-hidden rounded-2xl bg-white shadow-2xl">
+                      <div className="absolute -top-2 right-8 h-4 w-4 rotate-45 bg-white" />
+
+                      <div className="border-b border-slate-200 px-5 py-5">
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+                            <Hand className="h-5 w-5" />
+                          </div>
+
+                          <div className="min-w-0">
+                            <div className="text-[17px] font-semibold leading-6 text-slate-800">
+                              Xin chào,
+                            </div>
+                            <div className="break-words text-[17px] font-semibold leading-6 text-slate-800">
+                              {displayName}
+                            </div>
+                            <div className="break-words text-[17px] font-semibold leading-6 text-slate-800">
+                              {displayEmail}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <Link
+                        href="/account/orders"
+                        onClick={() => setOpenUser(false)}
+                        className="flex items-center gap-4 border-b border-slate-200 px-5 py-4 text-[17px] text-slate-800 transition hover:bg-slate-50"
+                      >
+                        <ClipboardList className="h-5 w-5 text-slate-700" />
+                        <span>Đơn hàng của tôi</span>
+                      </Link>
+
+                      <Link
+                        href="/account/viewed"
+                        onClick={() => setOpenUser(false)}
+                        className="flex items-center gap-4 border-b border-slate-200 px-5 py-4 text-[17px] text-slate-800 transition hover:bg-slate-50"
+                      >
+                        <Eye className="h-5 w-5 text-slate-700" />
+                        <span>Đã xem gần đây</span>
+                      </Link>
+
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="flex w-full items-center gap-4 px-5 py-4 text-left text-[17px] text-slate-800 transition hover:bg-slate-50"
+                      >
+                        <LogOut className="h-5 w-5 text-slate-700" />
+                        <span>Đăng xuất</span>
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
 
           <div className="ml-2 flex items-center gap-2 text-white lg:hidden">
@@ -165,15 +321,7 @@ export default function Header() {
               aria-label="Giỏ hàng"
             >
               <ShoppingCart className="h-6 w-6" />
-              <span
-                className="
-                  absolute -right-1 -top-1
-                  flex h-[14px] min-w-[14px] items-center justify-center
-                  rounded-full bg-[#FFE600]
-                  px-1 text-[9px] font-extrabold leading-none text-black
-                  ring-2 ring-white
-                "
-              >
+              <span className="absolute -right-1 -top-1 flex h-[14px] min-w-[14px] items-center justify-center rounded-full bg-[#FFE600] px-1 text-[9px] font-extrabold leading-none text-black ring-2 ring-white">
                 {safeCartCount > 99 ? "99+" : safeCartCount}
               </span>
             </Link>
@@ -244,6 +392,18 @@ function HeaderAction({
   const base =
     "flex items-center gap-2 rounded-[6px] px-2 py-1.5 hover:bg-white/10";
   const boxed = "bg-[#B80014] hover:bg-[#A60012]";
+
+  if (href === "#") {
+    return (
+      <div className={`${base} ${variant === "boxed" ? boxed : ""}`}>
+        <div className="shrink-0">{icon}</div>
+        <div className="leading-[18px]">
+          <div className="text-[13px] font-bold">{line1}</div>
+          <div className="text-[13px] font-bold">{line2}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Link href={href} className={`${base} ${variant === "boxed" ? boxed : ""}`}>
