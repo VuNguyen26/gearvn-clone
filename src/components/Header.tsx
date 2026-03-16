@@ -359,30 +359,36 @@ export default function Header() {
         <div className={`mx-auto ${MAX_W} h-[46px] px-3`}>
           <div className="grid h-[46px] grid-cols-6">
             <SubItem
+              href="/"
               icon={<Tag className="h-[18px] w-[18px]" />}
               text="Mua PC tặng màn 240Hz"
             />
             <SubItem
+              href="/"
               withDivider
               icon={<Flame className="h-[18px] w-[18px]" />}
               text="Hot Deal | Laptop"
             />
             <SubItem
+              href="/news"
               withDivider
               icon={<Newspaper className="h-[18px] w-[18px]" />}
               text="Tin tức"
             />
             <SubItem
+              href="/"
               withDivider
               icon={<Wrench className="h-[18px] w-[18px]" />}
               text="Dịch vụ kỹ thuật tại nhà"
             />
             <SubItem
+              href="/"
               withDivider
               icon={<RefreshCw className="h-[18px] w-[18px]" />}
               text="Thu cũ đổi mới"
             />
             <SubItem
+              href="/"
               withDivider
               icon={<ShieldCheck className="h-[18px] w-[18px]" />}
               text="Tra cứu bảo hành"
@@ -435,17 +441,19 @@ function HeaderAction({
 }
 
 function SubItem({
+  href,
   icon,
   text,
   withDivider,
 }: {
+  href: string;
   icon: React.ReactNode;
   text: string;
   withDivider?: boolean;
 }) {
   return (
     <Link
-      href="#"
+      href={href}
       className={[
         "relative group flex h-[46px] items-center justify-center gap-2 px-3",
         "text-[14px] font-medium text-black hover:text-[#D70018]",
