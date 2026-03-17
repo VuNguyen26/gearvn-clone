@@ -51,6 +51,7 @@ export default function Header() {
 
   useEffect(() => {
     setOpenCategory(false);
+    setOpenUser(false);
   }, [pathname]);
 
   const safeCartCount = mounted ? cartCount : 0;
@@ -103,7 +104,7 @@ export default function Header() {
   const displayEmail = user?.email || "Chưa có email";
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="contents w-full">
       <div className="bg-[#0A86FF]">
         <div className={`mx-auto ${MAX_W} px-3`}>
           <div className="relative h-[44px] w-full">
@@ -111,15 +112,13 @@ export default function Header() {
               src="/gearvn-pc-gvn-t11-topbar.png"
               alt="GEARVN Promo"
               fill
-              priority
-              sizes="(max-width: 1200px) 100vw, 1200px"
               className="object-contain"
             />
           </div>
         </div>
       </div>
 
-      <div className="bg-[#E30019]">
+      <div className="bg-[#E30019] sticky top-0 z-50 ">
         <div className={`mx-auto ${MAX_W} flex h-[74px] items-center gap-3 px-3`}>
           <Link href="/" className="flex shrink-0 items-center pr-1">
             <div className="relative h-[42px] w-[150px]">
@@ -155,7 +154,7 @@ export default function Header() {
               <input
                 aria-label="Bạn cần tìm gì?"
                 placeholder="Bạn cần tìm gì?"
-                className="h-[44px] w-full rounded-[6px] bg-white px-4 pr-12 text-[15px] outline-none placeholder:text-gray-500"
+                className="h-[44px] w-full rounded-[6px] bg-white px-4 pr-12 text-[14px] outline-none placeholder:text-gray-500"
               />
               <button
                 type="button"
@@ -325,7 +324,7 @@ export default function Header() {
           <div className="ml-2 flex items-center gap-2 text-white lg:hidden">
             <Link
               href="/cart"
-              className="relative rounded-[6px] bg-[#B80014] p-2 hover:bg-[#A60012]"
+              className="relative rounded-md bg-[#B80014] p-2 hover:bg-[#A60012]"
               aria-label="Giỏ hàng"
             >
               <ShoppingCart className="h-6 w-6" />
@@ -456,7 +455,7 @@ function SubItem({
       href={href}
       className={[
         "relative group flex h-[46px] items-center justify-center gap-2 px-3",
-        "text-[14px] font-medium text-black hover:text-[#D70018]",
+        "text-[13px] font-semibold text-black hover:text-[#D70018]",
         withDivider ? "pl-5" : "",
       ].join(" ")}
     >

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import CategorySidebar from "@/components/home/CategorySidebar";
 import HeroCarousel from "@/components/home/HeroCarousel";
-import PromoRight from "@/components/home/PromoRight";
 import BottomBanners from "@/components/home/BottomBanners";
+import PromoRight from "@/components/home/PromoRight";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getPaginatedProducts } from "@/lib/products";

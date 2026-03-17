@@ -2,14 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 const tiles = [
-  { src: "/home/tile-1.jpg", alt: "Laptop Gaming", href: "#" },
-  { src: "/home/tile-2.jpg", alt: "Laptop Office", href: "#" },
-  { src: "/home/tile-3.jpg", alt: "PC Deal", href: "#" },
+  { src: "/home/tile-1.png", alt: "Laptop Gaming", href: "#" },
+  { src: "/home/tile-2.png", alt: "Laptop Office", href: "#" },
+  { src: "/home/tile-3.png", alt: "PC Deal", href: "#" },
+  { src: "/home/tile-3.png", alt: "PC Deal", href: "#" },
+
 ];
 
 export default function BottomBanners() {
   return (
-    <div className="grid grid-cols-3 gap-[6px]">
+    <div className="grid grid-cols-4 gap-4 w-full">
       {tiles.map((t) => (
         <Link
           key={t.src}
@@ -18,7 +20,7 @@ export default function BottomBanners() {
           className="block overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm"
         >
           {/* banner dưới kiểu GearVN: dẹt */}
-          <div className="relative w-full aspect-[16/6]">
+          <div className="relative h-full w-auto aspect-[16/6]">
             <Image
               src={t.src}
               alt={t.alt}

@@ -39,7 +39,7 @@ const items = [
 
 export default function CategorySidebar() {
   return (
-    <aside className="w-[220px] rounded-md border border-gray-200 bg-white shadow-sm overflow-visible">
+    <aside className="w-55 rounded-md border border-gray-200 bg-white shadow-sm overflow-visible">
       <ul className="divide-y divide-gray-200">
         {items.map((it) => {
           const Icon = it.icon;
@@ -49,9 +49,9 @@ export default function CategorySidebar() {
               <Link
                 href={it.href}
                 className={[
-                  "group relative flex h-[30px] items-center",
+                  "group relative flex h-7.5 items-center",
                   "gap-1.5 px-2 pr-2.5",
-                  "text-[12.5px] font-medium text-black",
+                  "text-[18px] font-medium text-black",
                   "hover:bg-[#E30019] hover:text-white",
                   "hover:z-10",
                 ].join(" ")}
@@ -65,16 +65,16 @@ export default function CategorySidebar() {
                     "hidden group-hover:block",
                     "z-0",
                     "w-0 h-0",
-                    "border-t-[15px] border-t-transparent",
-                    "border-b-[15px] border-b-transparent",
-                    "border-l-[20px] border-l-[#E30019]",
+                    "border-t-15 border-t-transparent",
+                    "border-b-15 border-b-transparent",
+                    "border-l-20 border-l-[#E30019]",
                   ].join(" ")}
                 />
 
                 {/* Content */}
-                <Icon className="relative z-10 h-[15px] w-[15px] text-black/70 group-hover:text-white" />
+                <Icon className="relative z-10 h-3.75 w-3.75 text-black/70 group-hover:text-white" />
                 <span className="relative z-10 flex-1 truncate">{it.label}</span>
-                <ChevronRight className="relative z-10 h-[13px] w-[13px] shrink-0 text-black/60 group-hover:text-white" />
+                <ChevronRight className="relative z-10 h-3.25 w-3.25 shrink-0 text-black/60 group-hover:text-white" />
               </Link>
             </li>
           );
