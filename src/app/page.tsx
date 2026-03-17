@@ -35,34 +35,17 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   return (
     <div className="min-h-screen bg-[#f2f2f2]">
       <SideFloatBanners />
-
-      <div className={`mx-auto max-w-[1200px] ${PAD}`}>
-        <div
-          className={["grid grid-cols-1", GAP, GRID_COLS, "lg:items-start"].join(
-            " "
-          )}
-        >
-          <div className="hidden lg:block">
-            <div className="overflow-visible">
-              <CategorySidebar />
-            </div>
-          </div>
-
-          <div className={`min-w-0 ${TOP_H}`}>
-            <HeroCarousel />
-          </div>
-
-          <div className={`hidden lg:block self-start ${TOP_H}`}>
-            <PromoRight />
-          </div>
+      <div className="w-full flex flex-col items-center justify-center">
+        <div className="w-10/12 flex"> 
+          <CategorySidebar />
+          <HeroCarousel />
         </div>
-
-        <div className={["hidden lg:grid", MT, GAP, GRID_COLS].join(" ")}>
-          <div />
-          <div className="col-span-2">
+        <div className="w-10/12 flex justify-center">
+          <div className="w-full">
             <BottomBanners />
           </div>
         </div>
+      </div>
 
         <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
@@ -124,7 +107,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </Link>
           </div>
         </section>
-      </div>
     </div>
   );
 }
