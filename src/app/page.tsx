@@ -1,35 +1,40 @@
+import Link from "next/link";
 import CategorySidebar from "@/components/home/CategorySidebar";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import BottomBanners from "@/components/home/BottomBanners";
+import PromoRight from "@/components/home/PromoRight";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
-
 import ProductCard from "@/components/ProductCard";
-import { getProductsByCategory } from "@/lib/products";
+import { getPaginatedProducts } from "@/lib/products";
 
 export const revalidate = 60;
 
-export default function HomePage() {
-  const featured = [
-    ...getProductsByCategory("laptop"),
-    ...getProductsByCategory("pc-gaming"),
-    ...getProductsByCategory("gpu"),
-    ...getProductsByCategory("man-hinh"),
-  ].slice(0, 8);
+type HomePageProps = {
+  searchParams: Promise<{
+    page?: string;
+  }>;
+};
 
-  // khe giống GearVN
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const sp = await searchParams;
+
+  const page = Number(sp.page || "1");
+  const safePage = Number.isFinite(page) && page > 0 ? page : 1;
+
+  const { items, totalPages, currentPage, totalItems } = getPaginatedProducts(
+    safePage,
+    20
+  );
+
   const GAP = "gap-[6px]";
   const PAD = "px-[6px] py-[6px]";
   const MT = "mt-[6px]";
-
-  // chiều cao cụm hero + banner phải (desktop)
   const TOP_H = "lg:h-[360px]";
-  const MAX_W = "max-w-400";
-  // tỷ lệ giống ảnh gốc: cột phải ~300px (345px làm hero bị nhỏ)
   const GRID_COLS = "lg:grid-cols-[250px_minmax(0,1fr)_300px]";
 
   return (
-    <div className="bg-[#f2f2f2]">
-          <SideFloatBanners />
+    <div className="min-h-screen bg-[#f2f2f2]">
+      <SideFloatBanners />
       <div className="w-full flex flex-col items-center justify-center">
         <div className="w-10/12 flex"> 
           <CategorySidebar />
@@ -42,17 +47,66 @@ export default function HomePage() {
         </div>
       </div>
 
-        {/* ===== FEATURED ===== */}
-        {/* <div className="mt-6 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-black">Sản phẩm nổi bật</h2>
-          <span className="text-sm text-gray-600">Render từ server (ISR)</span>
-        </div>
+        <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="text-[22px] font-bold text-black">
+                Tất cả sản phẩm
+              </h2>
+              <p className="text-sm text-gray-600">
+                Tổng cộng: {totalItems} sản phẩm
+              </p>
+            </div>
 
-        <div className={`${MT} grid grid-cols-2 gap-[6px] sm:grid-cols-3 lg:grid-cols-4`}>
-          {featured.map((p) => (
-            <ProductCard key={p.id} p={p} />
-          ))}
-        </div> */}
+            <span className="text-sm text-gray-600">
+              Trang {currentPage}/{totalPages}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {items.map((p) => (
+              <ProductCard key={p.id} p={p} />
+            ))}
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            <Link
+              href={currentPage > 1 ? `/?page=${currentPage - 1}` : "#"}
+              className={`rounded-xl border px-4 py-2 text-sm ${
+                currentPage > 1
+                  ? "hover:bg-gray-50"
+                  : "pointer-events-none opacity-50"
+              }`}
+            >
+              Trang trước
+            </Link>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+              <Link
+                key={pageNum}
+                href={`/?page=${pageNum}`}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold ${
+                  pageNum === currentPage
+                    ? "bg-red-600 text-white"
+                    : "border hover:bg-gray-50"
+                }`}
+              >
+                {pageNum}
+              </Link>
+            ))}
+
+            <Link
+              href={currentPage < totalPages ? `/?page=${currentPage + 1}` : "#"}
+              className={`rounded-xl border px-4 py-2 text-sm ${
+                currentPage < totalPages
+                  ? "hover:bg-gray-50"
+                  : "pointer-events-none opacity-50"
+              }`}
+            >
+              Trang sau
+            </Link>
+          </div>
+        </section>
     </div>
   );
 }

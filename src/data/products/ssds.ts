@@ -1,0 +1,161 @@
+import { Product } from "@/types/product";
+
+export const ssds: Product[] = [
+  {
+    id: "SSD001",
+    slug: "ssd-kingston-nv3-2tb",
+    name: "SSD Kingston NV3 2TB",
+    category: "ssd",
+    subcategory: "ssd_ram_sd",
+    price: 3490000,
+    salePrice: 3290000,
+    stock: 10,
+    images: [
+      "/product_image/ssd_ram_sd/ssd_kingston_nv3/ssd_kingston_nv3_2tb.png",
+      "/product_image/ssd_ram_sd/ssd_kingston_nv3/ssd_kingston_nv3_01.png",
+      "/product_image/ssd_ram_sd/ssd_kingston_nv3/ssd_kingston_nv3_02.png",
+    ],
+    shortDesc: "SSD tốc độ cao, phù hợp nâng cấp máy tính học tập, làm việc và gaming.",
+    brand: "Kingston",
+    specs: {
+      brand: "Kingston",
+      storage: "2TB",
+    },
+    cardSpecs: [{ label: "Dung lượng", value: "2TB" }],
+    detailSpecs: [{ label: "Dung lượng", value: "2TB" }],
+  },
+
+  {
+    id: "SSD002",
+    slug: "ssd-msi-spatium-m480-pro",
+    name: "SSD MSI Spatium M480 Pro",
+    category: "ssd",
+    subcategory: "ssd_ram_sd",
+    price: 2990000,
+    salePrice: 2790000,
+    stock: 10,
+    images: [
+      "/product_image/ssd_ram_sd/ssd_msi_spatium/ssd_msi_statium_m480_pro.jpg",
+    ],
+    shortDesc: "SSD hiệu năng cao, phù hợp cho hệ thống cần tốc độ truy xuất nhanh.",
+    brand: "MSI",
+    specs: {
+      brand: "MSI",
+      storage: "1TB",
+    },
+    cardSpecs: [{ label: "Dung lượng", value: "1TB" }],
+    detailSpecs: [{ label: "Dung lượng", value: "1TB" }],
+  },
+
+  {
+    id: "SSD003",
+    slug: "ssd-samsung-990-pro-4tb",
+    name: "SSD Samsung 990 Pro 4TB",
+    category: "ssd",
+    subcategory: "ssd_ram_sd",
+    price: 8990000,
+    salePrice: 8490000,
+    stock: 10,
+    images: [
+      "/product_image/ssd_ram_sd/ssd_samsung_990_pro/ssd_samsung_990_pro_4tb.png",
+      "/product_image/ssd_ram_sd/ssd_samsung_990_pro/ssd_samsung_990_pro_01.png",
+      "/product_image/ssd_ram_sd/ssd_samsung_990_pro/ssd_samsung_990_pro_02.png",
+    ],
+    shortDesc: "SSD cao cấp cho nhu cầu gaming, đồ họa và làm việc chuyên sâu.",
+    brand: "Samsung",
+    specs: {
+      brand: "Samsung",
+      storage: "4TB",
+    },
+    cardSpecs: [{ label: "Dung lượng", value: "4TB" }],
+    detailSpecs: [{ label: "Dung lượng", value: "4TB" }],
+  },
+
+  {
+    id: "SSD004",
+    slug: "ssd-addlink-s68-gen3-256gb",
+    name: "SSD Addlink S68 Gen3 256GB",
+    category: "ssd",
+    subcategory: "ssd_ram_sd",
+    price: 690000,
+    salePrice: 590000,
+    stock: 10,
+    images: [
+      "/product_image/ssd_ram_sd/ssd_addlink_s68_gen3_256gb.png",
+    ],
+    shortDesc: "SSD phổ thông, phù hợp nâng cấp cho máy tính văn phòng và học tập.",
+    brand: "Addlink",
+    specs: {
+      brand: "Addlink",
+      storage: "256GB",
+    },
+    cardSpecs: [{ label: "Dung lượng", value: "256GB" }],
+    detailSpecs: [{ label: "Dung lượng", value: "256GB" }],
+  },
+
+  {
+    id: "SSD005",
+    slug: "ssd-corsair-mp600-core-1tb",
+    name: "SSD Corsair MP600 Core 1TB",
+    category: "ssd",
+    subcategory: "ssd_ram_sd",
+    price: 1990000,
+    salePrice: 1790000,
+    stock: 10,
+    images: [
+      "/product_image/ssd_ram_sd/ssd_corsair_mp600_core_1tb.png",
+    ],
+    shortDesc: "SSD tốc độ cao cho nhu cầu lưu trữ và tải ứng dụng nhanh.",
+    brand: "Corsair",
+    specs: {
+      brand: "Corsair",
+      storage: "1TB",
+    },
+    cardSpecs: [{ label: "Dung lượng", value: "1TB" }],
+    detailSpecs: [{ label: "Dung lượng", value: "1TB" }],
+  },
+
+  {
+    id: "SSD006",
+    slug: "ssd-pny-cs1031m-500gb",
+    name: "SSD PNY CS1031M 500GB",
+    category: "ssd",
+    subcategory: "ssd_ram_sd",
+    price: 1090000,
+    salePrice: 990000,
+    stock: 10,
+    images: [
+      "/product_image/ssd_ram_sd/ssd_pny_cs1031m_500gb.png",
+    ],
+    shortDesc: "SSD phù hợp cho nhu cầu học tập, văn phòng và nâng cấp cơ bản.",
+    brand: "PNY",
+    specs: {
+      brand: "PNY",
+      storage: "500GB",
+    },
+    cardSpecs: [{ label: "Dung lượng", value: "500GB" }],
+    detailSpecs: [{ label: "Dung lượng", value: "500GB" }],
+  },
+
+  {
+    id: "SSD007",
+    slug: "ssd-samsung-9100-pro-1tb",
+    name: "SSD Samsung 9100 Pro 1TB",
+    category: "ssd",
+    subcategory: "ssd_ram_sd",
+    price: 2790000,
+    salePrice: 2590000,
+    stock: 10,
+    images: [
+      "/product_image/ssd_ram_sd/ssd_samsung_9100_pro_1tb.png",
+    ],
+    shortDesc: "SSD Samsung hiệu năng cao, phù hợp cho hệ thống cần tốc độ ổn định.",
+    brand: "Samsung",
+    specs: {
+      brand: "Samsung",
+      storage: "1TB",
+    },
+    cardSpecs: [{ label: "Dung lượng", value: "1TB" }],
+    detailSpecs: [{ label: "Dung lượng", value: "1TB" }],
+  },
+];

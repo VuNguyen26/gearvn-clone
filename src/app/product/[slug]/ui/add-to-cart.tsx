@@ -1,25 +1,43 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Product } from "@/types/product";
 import { useCart } from "@/store/cart";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AddToCart({ product }: { product: Product }) {
-  const add = useCart(s => s.add);
+  const router = useRouter();
+  const add = useCart((s) => s.add);
   const [done, setDone] = useState(false);
+
+  const handleBuyNow = () => {
+    const rawUser =
+      typeof window !== "undefined"
+        ? localStorage.getItem("currentUser") || localStorage.getItem("user")
+        : null;
+
+    if (!rawUser) {
+      alert("Vui lòng đăng nhập hoặc đăng ký để mua hàng.");
+      router.push("/login");
+      return;
+    }
+
+    add(product, 1);
+    setDone(true);
+    setTimeout(() => setDone(false), 900);
+
+    router.push("/cart");
+  };
 
   return (
     <div className="flex items-center gap-2">
       <button
-        onClick={() => {
-          add(product, 1);
-          setDone(true);
-          setTimeout(() => setDone(false), 900);
-        }}
-        className="w-full rounded-xl bg-black px-4 py-3 text-sm font-semibold text-white hover:opacity-90"
+        type="button"
+        onClick={handleBuyNow}
+        className="w-full rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
       >
-        Thêm vào giỏ
+        Mua Ngay
       </button>
 
       <AnimatePresence>
