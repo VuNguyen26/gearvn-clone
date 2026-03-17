@@ -6,7 +6,7 @@ export default function Footer(){
     const MAX_WIDTH = "max-w-[1400px]";
     return(
         <div className="h-auto bg-white flex justify-center py-4 text-black text-[18px]">
-            <div className="grid grid-cols-5 gap-5 w-400">
+            <div className="grid grid-cols-5 gap-5 w-[1400px]">
                 <div className="">
                     <label className="px-1 font-semibold">VỀ GEARVN</label>
                     <ul className="flex flex-col gap-2">
