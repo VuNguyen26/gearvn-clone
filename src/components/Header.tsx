@@ -20,35 +20,31 @@ import {
 
 import { useCart } from "@/store/cart";
 
-const MAX_W = "max-w-[1200px]";
+const MAX_W = "max-w-400";
 
 export default function Header() {
   const cartCount = useCart((s) => s.count());
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="w-full contents">
       {/* 1) TOP PROMO (IMAGE) */}
-      <div className="bg-[#0A86FF]">
-        <div className={`mx-auto ${MAX_W} px-3`}>
-          <div className="relative h-[44px] w-full">
+      <div className="bg-[#0A86FF] flex justify-center">
+        <div className="px-3 relative h-16 w-10/12 ">
             <Image
               src="/gearvn-pc-gvn-t11-topbar.png"
               alt="GEARVN Promo"
               fill
-              priority
-              sizes="(max-width: 1200px) 100vw, 1200px"
               className="object-contain"
             />
-          </div>
         </div>
       </div>
 
       {/* 2) MAIN RED HEADER */}
-      <div className="bg-[#E30019]">
-        <div className={`mx-auto ${MAX_W} h-[74px] px-3 flex items-center gap-3`}>
+      <div className="sticky top-0 bg-[#E30019] z-50">
+        <div className={`mx-auto ${MAX_W} h-24 px-3 flex items-center gap-3`}>
           {/* Logo */}
           <Link href="/" className="flex items-center pr-1 shrink-0">
-            <div className="relative h-[42px] w-[150px]">
+            <div className="relative h-24 w-56">
               <Image
                 src="/logo_fd11946b31524fbe98765f34f3de0628.svg"
                 alt="GEARVN"
@@ -62,10 +58,10 @@ export default function Header() {
           {/* Danh mục */}
           <button
             type="button"
-            className="h-[44px] w-[115px] shrink-0 rounded-[6px] bg-[#B80014] px-2.5 text-white font-bold flex items-center gap-2 hover:bg-[#A60012]"
+            className="h-14 w-38 shrink-0 rounded-md bg-[#B80014] px-2.5 text-white font-bold flex items-center gap-2 hover:bg-[#A60012] cursor-pointer"
           >
             <Menu className="h-6 w-6" />
-            <span className="text-[13px] leading-none">Danh mục</span>
+            <span className="text-[18px] leading-none">Danh mục</span>
           </button>
 
           {/* Search */}
@@ -74,14 +70,14 @@ export default function Header() {
               <input
                 aria-label="Bạn cần tìm gì?"
                 placeholder="Bạn cần tìm gì?"
-                className="h-[44px] w-full rounded-[6px] bg-white px-4 pr-12 text-[15px] outline-none placeholder:text-gray-500"
+                className="h-14 w-full rounded-md bg-white px-4 pr-12 text-[18px] outline-none placeholder:text-gray-500"
               />
               <button
                 type="button"
                 aria-label="Tìm kiếm"
-                className="absolute right-0 top-0 h-[44px] w-[52px] rounded-r-[6px] bg-white flex items-center justify-center text-black hover:bg-gray-50"
+                className="absolute right-0 top-0 h-14 w-10 rounded-r-md bg-white flex items-center justify-center text-black hover:bg-gray-50 cursor-pointer"
               >
-                <Search className="h-5 w-5" />
+                <Search className="h-14 w-6" />
               </button>
             </div>
           </div>
@@ -90,19 +86,19 @@ export default function Header() {
           <div className="hidden lg:flex shrink-0 items-center gap-2 text-white">
             <HeaderAction
               href="#"
-              icon={<Headphones className="h-6 w-6" />}
+              icon={<Headphones className="h-8 w-8" />}
               line1="Hotline"
               line2="1900.5301"
             />
             <HeaderAction
               href="#"
-              icon={<MapPin className="h-6 w-6" />}
+              icon={<MapPin className="h-8 w-8" />}
               line1="Hệ thống"
               line2="Showroom"
             />
             <HeaderAction
               href="#"
-              icon={<ClipboardList className="h-6 w-6" />}
+              icon={<ClipboardList className="h-8 w-8" />}
               line1="Tra cứu"
               line2="đơn hàng"
             />
@@ -111,14 +107,14 @@ export default function Header() {
               href="/cart"
               icon={
                 <div className="relative">
-                  <ShoppingCart className="h-6 w-6" />
+                  <ShoppingCart className="h-8 w-8" />
                   {/* luôn hiện số, có viền trắng */}
                   <span
                     className="
                       absolute -right-1 -top-1
-                      flex h-[14px] min-w-[14px] items-center justify-center
+                      flex h-4 min-w-4 items-center justify-center
                       rounded-full bg-[#FFE600]
-                      px-1 text-[9px] font-extrabold leading-none text-black
+                      px-1 text-[12px] font-extrabold leading-none text-black
                       ring-2 ring-white
                     "
                   >
@@ -133,7 +129,7 @@ export default function Header() {
             {/* Đăng nhập có bao */}
             <HeaderAction
               href="#"
-              icon={<User className="h-6 w-6" />}
+              icon={<User className="h-8 w-8" />}
               line1="Đăng"
               line2="nhập"
               variant="boxed"
@@ -144,14 +140,14 @@ export default function Header() {
           <div className="ml-2 flex items-center gap-2 text-white lg:hidden">
             <Link
               href="/cart"
-              className="relative rounded-[6px] bg-[#B80014] p-2 hover:bg-[#A60012]"
+              className="relative rounded-md bg-[#B80014] p-2 hover:bg-[#A60012]"
               aria-label="Giỏ hàng"
             >
               <ShoppingCart className="h-6 w-6" />
               <span
                 className="
                   absolute -right-1 -top-1
-                  flex h-[14px] min-w-[14px] items-center justify-center
+                  flex h-3.5 min-w-3.5 items-center justify-center
                   rounded-full bg-[#FFE600]
                   px-1 text-[9px] font-extrabold leading-none text-black
                   ring-2 ring-white
@@ -163,10 +159,10 @@ export default function Header() {
 
             <Link
               href="#"
-              className="rounded-[6px] bg-[#B80014] p-2 hover:bg-[#A60012]"
+              className="rounded-md bg-[#B80014] p-2 hover:bg-[#A60012]"
               aria-label="Đăng nhập"
             >
-              <User className="h-6 w-6" />
+              <User className="h-8 w-8" />
             </Link>
           </div>
         </div>
@@ -174,14 +170,14 @@ export default function Header() {
 
       {/* 3) WHITE SUB MENU BAR - căn giữa đều + chữ dày hơn */}
       <div className="bg-white border-b border-gray-200">
-        <div className={`mx-auto ${MAX_W} h-[46px] px-3`}>
-          <div className="grid h-[46px] grid-cols-6">
-            <SubItem icon={<Tag className="h-[18px] w-[18px]" />} text="Mua PC tặng màn 240Hz" />
-            <SubItem withDivider icon={<Flame className="h-[18px] w-[18px]" />} text="Hot Deal | Laptop" />
-            <SubItem withDivider icon={<Newspaper className="h-[18px] w-[18px]" />} text="Tin tức" />
-            <SubItem withDivider icon={<Wrench className="h-[18px] w-[18px]" />} text="Dịch vụ kỹ thuật tại nhà" />
-            <SubItem withDivider icon={<RefreshCw className="h-[18px] w-[18px]" />} text="Thu cũ đổi mới" />
-            <SubItem withDivider icon={<ShieldCheck className="h-[18px] w-[18px]" />} text="Tra cứu bảo hành" />
+        <div className={`mx-auto ${MAX_W} h-11.5 px-3`}>
+          <div className="grid h-11.5 grid-cols-6">
+            <SubItem icon={<Tag className="h-4.5 w-4.5" />} text="Mua PC tặng màn 240Hz" />
+            <SubItem withDivider icon={<Flame className="h-6 w-6" />} text="Hot Deal | Laptop" />
+            <SubItem withDivider icon={<Newspaper className="h-6 w-6" />} text="Tin tức" />
+            <SubItem withDivider icon={<Wrench className="h-6 w-6" />} text="Dịch vụ kỹ thuật tại nhà" />
+            <SubItem withDivider icon={<RefreshCw className="h-6 w-6" />} text="Thu cũ đổi mới" />
+            <SubItem withDivider icon={<ShieldCheck className="h-6 w-6" />} text="Tra cứu bảo hành" />
           </div>
         </div>
       </div>
@@ -211,9 +207,9 @@ function HeaderAction({
       className={`${base} ${variant === "boxed" ? boxed : ""}`}
     >
       <div className="shrink-0">{icon}</div>
-      <div className="leading-[18px]">
-        <div className="text-[13px] font-bold">{line1}</div>
-        <div className="text-[13px] font-bold">{line2}</div>
+      <div className="leading-4.5]">
+        <div className="text-[18px] font-bold">{line1}</div>
+        <div className="text-[18px] font-bold">{line2}</div>
       </div>
     </Link>
   );
@@ -232,13 +228,13 @@ function SubItem({
     <Link
       href="#"
       className={[
-        "relative group flex h-[46px] items-center justify-center gap-2 px-3",
-        "text-[14px] font-medium text-black hover:text-[#D70018]",
+        "relative group flex h-11.5 items-center justify-center gap-2 px-3",
+        "text-[18px] font-semibold text-black hover:text-[#D70018]",
         withDivider ? "pl-5" : "",
       ].join(" ")}
     >
       {withDivider && (
-        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-[24px] w-px bg-gray-300" />
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-px bg-gray-300" />
       )}
 
       <span className="text-black/80 group-hover:text-[#D70018]">{icon}</span>

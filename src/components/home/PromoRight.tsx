@@ -7,7 +7,7 @@ function PromoCard({ p }: { p: Promo }) {
   const inner = (
     <div className="overflow-hidden rounded-md border border-gray-200 bg-white">
       {/* banner phải kiểu GearVN: dẹt */}
-      <div className="relative w-full aspect-[16/7]">
+      <div className="relative w-full aspect-16/7">
         <Image
           src={p.src}
           alt={p.alt}
@@ -41,7 +41,7 @@ export default function PromoRight() {
   };
 
   return (
-    <div className="grid gap-[6px]">
+    <div className="grid gap-1.5">
       <PromoCard p={top} />
       <PromoCard p={mid} />
     </div>

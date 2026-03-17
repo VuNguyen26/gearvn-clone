@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "GEARVN Clone - Next.js SEO Ecommerce",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-[#f2f2f2] text-gray-900">
         <Header />
         <main className="w-full">{children}</main>
+        <Footer/>
       </body>
     </html>
   );
