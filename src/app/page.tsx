@@ -26,87 +26,83 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     20
   );
 
-  const GAP = "gap-[6px]";
-  const PAD = "px-[6px] py-[6px]";
-  const MT = "mt-[6px]";
-  const TOP_H = "lg:h-[360px]";
-  const GRID_COLS = "lg:grid-cols-[250px_minmax(0,1fr)_300px]";
-
   return (
     <div className="min-h-screen bg-[#f2f2f2]">
       <SideFloatBanners />
-      <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-10/12 flex"> 
-          <CategorySidebar />
-          <HeroCarousel />
-        </div>
-        <div className="w-10/12 flex justify-center">
-          <div className="w-full">
+
+      <div className="flex flex-col items-center">
+        <div className="w-10/12">
+          <div className="flex">
+            <CategorySidebar />
+            <HeroCarousel />
+          </div>
+
+          <div className="mt-[6px]">
             <BottomBanners />
           </div>
-        </div>
-      </div>
 
-        <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h2 className="text-[22px] font-bold text-black">
-                Tất cả sản phẩm
-              </h2>
-              <p className="text-sm text-gray-600">
-                Tổng cộng: {totalItems} sản phẩm
-              </p>
+          <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h2 className="text-[22px] font-bold text-black">
+                  Tất cả sản phẩm
+                </h2>
+                <p className="text-sm text-gray-600">
+                  Tổng cộng: {totalItems} sản phẩm
+                </p>
+              </div>
+
+              <span className="text-sm text-gray-600">
+                Trang {currentPage}/{totalPages}
+              </span>
             </div>
 
-            <span className="text-sm text-gray-600">
-              Trang {currentPage}/{totalPages}
-            </span>
-          </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+              {items.map((p) => (
+                <ProductCard key={p.id} p={p} />
+              ))}
+            </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {items.map((p) => (
-              <ProductCard key={p.id} p={p} />
-            ))}
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-            <Link
-              href={currentPage > 1 ? `/?page=${currentPage - 1}` : "#"}
-              className={`rounded-xl border px-4 py-2 text-sm ${
-                currentPage > 1
-                  ? "hover:bg-gray-50"
-                  : "pointer-events-none opacity-50"
-              }`}
-            >
-              Trang trước
-            </Link>
-
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
               <Link
-                key={pageNum}
-                href={`/?page=${pageNum}`}
-                className={`rounded-xl px-4 py-2 text-sm font-semibold ${
-                  pageNum === currentPage
-                    ? "bg-red-600 text-white"
-                    : "border hover:bg-gray-50"
+                href={currentPage > 1 ? `/?page=${currentPage - 1}` : "#"}
+                className={`rounded-xl border px-4 py-2 text-sm ${
+                  currentPage > 1
+                    ? "hover:bg-gray-50"
+                    : "pointer-events-none opacity-50"
                 }`}
               >
-                {pageNum}
+                Trang trước
               </Link>
-            ))}
 
-            <Link
-              href={currentPage < totalPages ? `/?page=${currentPage + 1}` : "#"}
-              className={`rounded-xl border px-4 py-2 text-sm ${
-                currentPage < totalPages
-                  ? "hover:bg-gray-50"
-                  : "pointer-events-none opacity-50"
-              }`}
-            >
-              Trang sau
-            </Link>
-          </div>
-        </section>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <Link
+                  key={pageNum}
+                  href={`/?page=${pageNum}`}
+                  className={`rounded-xl px-4 py-2 text-sm font-semibold ${
+                    pageNum === currentPage
+                      ? "bg-red-600 text-white"
+                      : "border hover:bg-gray-50"
+                  }`}
+                >
+                  {pageNum}
+                </Link>
+              ))}
+
+              <Link
+                href={currentPage < totalPages ? `/?page=${currentPage + 1}` : "#"}
+                className={`rounded-xl border px-4 py-2 text-sm ${
+                  currentPage < totalPages
+                    ? "hover:bg-gray-50"
+                    : "pointer-events-none opacity-50"
+                }`}
+              >
+                Trang sau
+              </Link>
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   );
 }
