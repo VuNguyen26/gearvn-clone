@@ -2,8 +2,8 @@ import Link from "next/link";
 import CategorySidebar from "@/components/home/CategorySidebar";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import BottomBanners from "@/components/home/BottomBanners";
-import PromoRight from "@/components/home/PromoRight";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
+
 import ProductCard from "@/components/ProductCard";
 import { getPaginatedProducts } from "@/lib/products";
 
@@ -25,30 +25,25 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     safePage,
     20
   );
-
-  const GAP = "gap-[6px]";
-  const PAD = "px-[6px] py-[6px]";
-  const MT = "mt-[6px]";
-  const TOP_H = "lg:h-[360px]";
-  const GRID_COLS = "lg:grid-cols-[250px_minmax(0,1fr)_300px]";
-
+  // chiều cao cụm hero + banner phải (desktop)
+  const MAX_W = "w-300";
+  // tỷ lệ giống ảnh gốc: cột phải ~300px (345px làm hero bị nhỏ)
   return (
-    <div className="min-h-screen bg-[#f2f2f2]">
-      <SideFloatBanners />
-      <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-10/12 flex"> 
+    <div className=" bg-[#f2f2f2]">
+      <div className="w-full flex flex-col items-center justify-center mt-2">
+        <div className={`${MAX_W} flex`}> 
           <CategorySidebar />
           <HeroCarousel />
         </div>
-        <div className="w-10/12 flex justify-center">
+        <div className={`${MAX_W} flex justify-center`}>
           <div className="w-full">
             <BottomBanners />
           </div>
         </div>
       </div>
 
-        <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <section className={`mt-6 rounded-2xl bg-white p-4 shadow-sm ${MAX_W} mx-auto`}>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 ">
             <div>
               <h2 className="text-[22px] font-bold text-black">
                 Tất cả sản phẩm
