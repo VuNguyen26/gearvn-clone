@@ -2,30 +2,27 @@ import Image from "next/image";
 import Link from "next/link";
 
 const tiles = [
-  { src: "/home/tile-1.png", alt: "Laptop Gaming", href: "#" },
-  { src: "/home/tile-2.png", alt: "Laptop Office", href: "#" },
-  { src: "/home/tile-3.png", alt: "PC Deal", href: "#" },
-  { src: "/home/tile-3.png", alt: "PC Deal", href: "#" },
+  { src: "/home/title-1.png", alt: "Laptop Gaming", href: "#" },
+  { src: "/home/title-2.png", alt: "Laptop Office", href: "#" },
+  { src: "/home/title-3.png", alt: "PC Deal", href: "#" },
+  { src: "/home/title-4.png", alt: "PC Deal", href: "#" },
 
 ];
-
 export default function BottomBanners() {
   return (
-    <div className="grid grid-cols-4 gap-4 w-full">
+    <div className="grid grid-cols-4 gap-2 mt-2">
       {tiles.map((t) => (
         <Link
           key={t.src}
           href={t.href}
           aria-label={t.alt}
-          className="block overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm"
+          className="rounded-md overflow-hidden border border-gray-200 bg-white" 
         >
-          {/* banner dưới kiểu GearVN: dẹt */}
-          <div className="relative h-full w-auto aspect-[16/6]">
+          <div className="relative h-36">
             <Image
               src={t.src}
               alt={t.alt}
               fill
-              sizes="(min-width: 1024px) 310px, (min-width: 768px) 50vw, 100vw"
               className="object-cover"
             />
           </div>

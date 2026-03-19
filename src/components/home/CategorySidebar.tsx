@@ -1,51 +1,25 @@
+'use client';
 import Link from "next/link";
-import {
-  Laptop,
-  PcCase,
-  Cpu,
-  Monitor,
-  HardDrive,
-  Mic,
-  Keyboard,
-  Mouse,
-  Headphones,
-  Armchair,
-  Network,
-  Gamepad2,
-  Usb,
-  Wrench,
-  ChevronRight,
-} from "lucide-react";
-
-const items = [
-  { label: "Laptop", icon: Laptop, href: "/category/laptop" },
-  { label: "Laptop Gaming", icon: Laptop, href: "/category/laptop-gaming" },
-
-  { label: "PC GVN", icon: PcCase, href: "/category/pc-gvn" },
-  { label: "Main, CPU, VGA", icon: Cpu, href: "/category/main-cpu-vga" },
-  { label: "Case, Nguồn, Tản", icon: PcCase, href: "/category/case-nguon-tan" },
-  { label: "Ổ cứng, RAM, Thẻ nhớ", icon: HardDrive, href: "/category/o-cung-ram-the-nho" },
-  { label: "Loa, Micro, Webcam", icon: Mic, href: "/category/loa-micro-webcam" },
-  { label: "Màn hình", icon: Monitor, href: "/category/man-hinh" },
-  { label: "Bàn phím", icon: Keyboard, href: "/category/ban-phim" },
-  { label: "Chuột + Lót chuột", icon: Mouse, href: "/category/chuot-lot-chuot" },
-  { label: "Tai nghe", icon: Headphones, href: "/category/tai-nghe" },
-  { label: "Ghế - Bàn", icon: Armchair, href: "/category/ghe-ban" },
-  { label: "Phần mềm, mạng", icon: Network, href: "/category/phan-mem-mang" },
-  { label: "Handheld, Console", icon: Gamepad2, href: "/category/handheld-console" },
-  { label: "Phụ kiện (Hub, sạc, cáp..)", icon: Usb, href: "/category/phu-kien" },
-  { label: "Dịch vụ và thông tin khác", icon: Wrench, href: "/category/dich-vu-thong-tin-khac" },
-];
+import { ChevronRight } from "lucide-react";
+import { MENU_DATA } from "@/data/home/megamenu";
+import { useState } from "react";
+import MegaMenu from "./MegaMenu";
 
 export default function CategorySidebar() {
+  const [activeMenu, setActiveMenu] = useState<string | null>(null)
   return (
-    <aside className="w-55 rounded-md border border-gray-200 bg-white shadow-sm overflow-visible">
+    <aside className="relative w-55 mr-2 rounded-md border border-gray-200 bg-white shadow-sm overflow-visible">
       <ul className="divide-y divide-gray-200">
-        {items.map((it) => {
+        {MENU_DATA.map((it) => {
           const Icon = it.icon;
 
           return (
-            <li key={it.label} className="relative">
+            <li 
+              key={it.label} 
+              className="static"
+              onMouseEnter={() => setActiveMenu(it.id)}
+              onMouseLeave={() => setActiveMenu(null)}
+              >
               <Link
                 href={it.href}
                 className={[
@@ -63,23 +37,26 @@ export default function CategorySidebar() {
                     "pointer-events-none absolute top-1/2 -translate-y-1/2",
                     "right-0 translate-x-full",
                     "hidden group-hover:block",
-                    "z-0",
+                    "z-50",
                     "w-0 h-0",
                     "border-t-15 border-t-transparent",
                     "border-b-15 border-b-transparent",
                     "border-l-20 border-l-[#E30019]",
                   ].join(" ")}
                 />
-
                 {/* Content */}
                 <Icon className="relative z-10 h-3.75 w-3.75 text-black/70 group-hover:text-white" />
                 <span className="relative z-10 flex-1 truncate">{it.label}</span>
                 <ChevronRight className="relative z-10 h-3.25 w-3.25 shrink-0 text-black/60 group-hover:text-white" />
               </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </aside>
-  );
+            {/* Mega Menu - Khi hiện sẽ che HeroCarousel bên cạnh */}
+              {activeMenu === it.id && it.content && (
+                <MegaMenu content={it.content} />
+              )}
+          </li>
+        );
+      })}
+    </ul>
+  </aside>
+);
 }

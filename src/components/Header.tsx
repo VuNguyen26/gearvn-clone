@@ -26,7 +26,7 @@ import {
 import { useCart } from "@/store/cart";
 import CategorySidebar from "@/components/home/CategorySidebar";
 
-const MAX_W = "max-w-[1200px]";
+const MAX_W = "w-300";
 
 type HeaderUser = {
   fullName?: string;
@@ -118,7 +118,7 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="bg-[#E30019] sticky top-0 z-50 ">
+      <div className="bg-[#E30019] sticky top-0 z-100 ">
         <div className={`mx-auto ${MAX_W} flex h-[74px] items-center gap-3 px-3`}>
           <Link href="/" className="flex shrink-0 items-center pr-1">
             <div className="relative h-[42px] w-[150px]">
@@ -375,13 +375,13 @@ export default function Header() {
               text="Tin tức"
             />
             <SubItem
-              href="/"
+              href=""
               withDivider
               icon={<Wrench className="h-[18px] w-[18px]" />}
               text="Dịch vụ kỹ thuật tại nhà"
             />
             <SubItem
-              href="/"
+              href="/trade-in"
               withDivider
               icon={<RefreshCw className="h-[18px] w-[18px]" />}
               text="Thu cũ đổi mới"

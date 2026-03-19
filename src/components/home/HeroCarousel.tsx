@@ -37,15 +37,9 @@ export default function HeroCarousel() {
   }, [slides.length]);
 
   return (
-    <div className="grid grid-cols-3 grid-rows-3 gap-4 w-full">
+    <div className="grid grid-cols-3 grid-rows-3 gap-2 w-full">
       <div className="col-span-2 row-span-2  rounded-md">
-    <div
-      className={[
-        // mobile/tablet
-        "h-50 sm:h-60",
-        // ✅ desktop: thấp lại cho đúng tỉ lệ (đổi 320 -> 300 nếu muốn thấp nữa)
-        "lg:h-80",
-        "overflow-hidden rounded-md border border-gray-200 bg-white",
+        <div className={["h-full", "overflow-hidden rounded-md border border-gray-200 bg-white",
       ].join(" ")}
     >
       <div className="relative h-full w-full">
@@ -65,7 +59,6 @@ export default function HeroCarousel() {
                 alt={s.alt}
                 fill
                 priority={i === 0}
-                sizes="(min-width: 1024px) 690px, 100vw"
                 className="object-cover"
               />
             </div>
@@ -80,7 +73,6 @@ export default function HeroCarousel() {
             </div>
           );
         })}
-
         {/* indicator */}
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
           {slides.map((_, i) => (
@@ -108,10 +100,8 @@ export default function HeroCarousel() {
 
 function PromoCard({ p }: { p: Promo }) {
   return(
-    <div className="overflow-hidden rounded-md border border-gray-200 bg-white">
-      {/* banner phải kiểu GearVN: dẹt */}
-      <div className="relative w-82.5 h-37.5">
-      <Link href={p.href || "#"} aria-label={p.alt} className="block">
+    <Link href={p.href || "#"} aria-label={p.alt} className="block overflow-hidden rounded-md border border-gray-200 bg-white">
+      <div className="relative w-80 h-40">
         <Image
           src={p.src}
           alt={p.alt}
@@ -119,8 +109,7 @@ function PromoCard({ p }: { p: Promo }) {
           sizes="(min-width: 1024px) 224px, (min-width: 768px) 240px, 100vw"
           className="object-cover"
         />
-      </Link>
       </div>
-    </div>
+    </Link>
   );
 }
