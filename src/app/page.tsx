@@ -26,27 +26,33 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     20
   );
 
-  const GAP = "gap-[6px]";
-  const PAD = "px-[6px] py-[6px]";
-  const MT = "mt-[6px]";
-  const TOP_H = "lg:h-[360px]";
-  const GRID_COLS = "lg:grid-cols-[250px_minmax(0,1fr)_300px]";
-
   return (
-    <div className="min-h-screen bg-[#f2f2f2]">
+    <div className="min-h-screen bg-[#f2f2f2] overflow-x-hidden">
       <SideFloatBanners />
-      <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-10/12 flex"> 
+
+      <div className="mx-auto w-full max-w-[1200px] px-3">
+        {/* Khối đầu trang */}
+        <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-[250px_minmax(0,1fr)_280px]">
           <CategorySidebar />
-          <HeroCarousel />
+
+          <div className="min-w-0">
+            <HeroCarousel />
+          </div>
+
+          <div className="hidden xl:block">
+            <PromoRight />
+          </div>
         </div>
-        <div className="w-10/12 flex justify-center">
-          <div className="w-full">
+
+        {/* Banner dưới */}
+        <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-[250px_minmax(0,1fr)_280px]">
+          <div className="hidden xl:block" />
+          <div className="xl:col-span-2">
             <BottomBanners />
           </div>
         </div>
-      </div>
 
+        {/* Danh sách sản phẩm */}
         <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <div>
@@ -63,7 +69,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {items.map((p) => (
               <ProductCard key={p.id} p={p} />
             ))}
@@ -81,19 +87,21 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               Trang trước
             </Link>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-              <Link
-                key={pageNum}
-                href={`/?page=${pageNum}`}
-                className={`rounded-xl px-4 py-2 text-sm font-semibold ${
-                  pageNum === currentPage
-                    ? "bg-red-600 text-white"
-                    : "border hover:bg-gray-50"
-                }`}
-              >
-                {pageNum}
-              </Link>
-            ))}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+              (pageNum) => (
+                <Link
+                  key={pageNum}
+                  href={`/?page=${pageNum}`}
+                  className={`rounded-xl px-4 py-2 text-sm font-semibold ${
+                    pageNum === currentPage
+                      ? "bg-red-600 text-white"
+                      : "border hover:bg-gray-50"
+                  }`}
+                >
+                  {pageNum}
+                </Link>
+              )
+            )}
 
             <Link
               href={currentPage < totalPages ? `/?page=${currentPage + 1}` : "#"}
@@ -107,6 +115,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </Link>
           </div>
         </section>
+      </div>
     </div>
   );
 }

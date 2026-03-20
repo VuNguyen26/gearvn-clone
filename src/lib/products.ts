@@ -16,10 +16,9 @@ export function getProductsByCategory(category: string) {
 const menuCategoryMap: Record<string, string[]> = {
   laptop: ["laptop", "laptops"],
 
-  // tạm không làm
-  "laptop-gaming": [],
+  "laptop-gaming": ["laptop-gaming", "gaming-laptop", "gaming-laptops"],
 
-  "pc-gvn": ["pc", "pcs"],
+  "pc-gvn": ["pc", "pcs", "pc-gvn"],
 
   "main-cpu-vga": [
     "mainboard",
@@ -28,19 +27,36 @@ const menuCategoryMap: Record<string, string[]> = {
     "cpus",
     "vga",
     "vgas",
+    "main-cpu-vga",
     "main_cpu_vga",
   ],
 
-  // hiện tại trong ảnh chưa thấy file data cho nhóm này
-  "case-nguon-tan": [],
+  "case-nguon-tan": [
+    "case",
+    "cases",
+    "psu",
+    "power-supply",
+    "power-supplies",
+    "cooler",
+    "coolers",
+    "fan",
+    "fans",
+    "case-nguon-tan",
+  ],
 
   "o-cung-ram-the-nho": [
     "ssd",
     "ssds",
+    "hdd",
+    "hdds",
     "ram",
+    "rams",
     "sdcard",
     "sdcards",
-    "sdcard",
+    "memory-card",
+    "memory-cards",
+    "storage",
+    "o-cung-ram-the-nho",
     "ssd_ram_sd",
   ],
 
@@ -53,24 +69,34 @@ const menuCategoryMap: Record<string, string[]> = {
     "microphones",
     "webcam",
     "webcams",
+    "loa-micro-webcam",
     "speaker_micro_webcam",
   ],
 
-  "man-hinh": ["monitor", "monitors"],
+  "man-hinh": ["monitor", "monitors", "man-hinh"],
 
-  "ban-phim": ["keyboard", "keyboards"],
+  "ban-phim": ["keyboard", "keyboards", "ban-phim"],
 
   "chuot-lot-chuot": [
     "mouse",
     "mouses",
     "mousepad",
     "mousepads",
+    "chuot-lot-chuot",
     "mouses_mousepads",
   ],
 
-  "tai-nghe": ["headphone", "headphones"],
+  "tai-nghe": ["headphone", "headphones", "tai-nghe"],
 
-  "ghe-ban": ["chair", "chairs", "table", "tables", "tables_chairs"],
+  "ghe-ban": ["chair", "chairs", "table", "tables", "ghe-ban", "tables_chairs"],
+
+  "phan-mem-mang": ["software", "network", "phan-mem-mang"],
+
+  "handheld-console": ["handheld", "console", "handheld-console"],
+
+  "phu-kien": ["accessory", "accessories", "phu-kien"],
+
+  "dich-vu-thong-tin-khac": ["service", "services", "info", "dich-vu-thong-tin-khac"],
 };
 
 function normalizeValue(value?: string) {
@@ -82,13 +108,12 @@ function normalizeValue(value?: string) {
 }
 
 export function getProductsByMenuSlug(slug: string): Product[] {
-  const matchedValues = menuCategoryMap[slug];
+  const normalizedSlug = normalizeValue(slug);
 
-  if (!matchedValues || matchedValues.length === 0) {
-    return [];
-  }
-
-  const normalizedMatched = matchedValues.map(normalizeValue);
+  const matchedValues = [
+    normalizedSlug,
+    ...(menuCategoryMap[normalizedSlug] || []),
+  ].map(normalizeValue);
 
   return products.filter((p) => {
     const values = [
@@ -96,7 +121,7 @@ export function getProductsByMenuSlug(slug: string): Product[] {
       normalizeValue(p.subcategory),
     ].filter(Boolean);
 
-    return values.some((value) => normalizedMatched.includes(value));
+    return values.some((value) => matchedValues.includes(value));
   });
 }
 
@@ -167,7 +192,37 @@ export function filterProducts(items: Product[], query: ListQuery) {
 
   if (query.q) {
     const k = query.q.toLowerCase().trim();
-    arr = arr.filter((p) => p.name.toLowerCase().includes(k));
+
+    arr = arr.filter((p) => {
+      const pPrice = p.salePrice ?? p.price;
+
+      // 1. Xử lý các keyword đặc biệt về GIÁ từ Mega Menu
+      if (k === "dưới 15 triệu") {
+        return pPrice < 15000000;
+      }
+      if (k === "từ 15 đến 20 triệu") {
+        return pPrice >= 15000000 && pPrice <= 20000000;
+      }
+      if (k === "trên 20 triệu") {
+        return pPrice > 20000000;
+      }
+
+      // 2. Xử lý tìm kiếm chữ thông thường
+      const specValues = p.specs ? Object.values(p.specs).join(" ") : "";
+
+      const searchable = [
+        p.name,
+        p.slug,
+        p.category,
+        p.subcategory,
+        specValues, // Đưa toàn bộ cấu hình vào đây để search
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return searchable.includes(k);
+    });
   }
 
   if (query.brand) {

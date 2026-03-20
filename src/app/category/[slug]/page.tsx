@@ -5,7 +5,7 @@ import CategoryProductsClient from "./CategoryProductsClient";
 
 export const revalidate = 60;
 
-const MAX_W = "max-w-[1500px]";
+const MAX_W = "max-w-[1200px]";
 
 const categoryTitle: Record<string, string> = {
   laptop: "Laptop",
@@ -34,6 +34,7 @@ type SearchParams = {
   max?: string;
   sort?: string;
   q?: string;
+  keyword?: string;
 };
 
 type PageProps = {
@@ -75,13 +76,15 @@ export default async function CategoryPage({
 
   const base = getProductsByMenuSlug(slug);
 
-  const items = filterProducts(base, {
-    q: sp.q,
-    brand: sp.brand,
-    min: toNumberOrUndef(sp.min),
-    max: toNumberOrUndef(sp.max),
-    sort: parseSort(sp.sort) || undefined,
-  });
+const keyword = sp.q || sp.keyword || "";
+
+const items = filterProducts(base, {
+  q: keyword,
+  brand: sp.brand,
+  min: toNumberOrUndef(sp.min),
+  max: toNumberOrUndef(sp.max),
+  sort: parseSort(sp.sort) || undefined,
+});
 
   const title = categoryTitle[slug];
 
@@ -101,7 +104,7 @@ export default async function CategoryPage({
             <input
               id="q"
               name="q"
-              defaultValue={sp.q ?? ""}
+              defaultValue={sp.q ?? sp.keyword ?? ""}
               placeholder="Tìm sản phẩm..."
               aria-label="Tìm sản phẩm"
               className="rounded-xl border px-3 py-2 text-sm"

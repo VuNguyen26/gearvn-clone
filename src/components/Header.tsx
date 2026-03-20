@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+// BƯỚC 1: Gọi thêm useSearchParams
+import { usePathname, useSearchParams } from "next/navigation"; 
 import {
   Menu,
   Search,
@@ -36,7 +37,10 @@ type HeaderUser = {
 
 export default function Header() {
   const cartCount = useCart((s) => s.count());
+  
   const pathname = usePathname();
+  // BƯỚC 2: Khởi tạo searchParams
+  const searchParams = useSearchParams(); 
 
   const [mounted, setMounted] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
@@ -49,10 +53,11 @@ export default function Header() {
     setMounted(true);
   }, []);
 
+  // BƯỚC 3: Cập nhật useEffect này -> Theo dõi cả searchParams
   useEffect(() => {
     setOpenCategory(false);
     setOpenUser(false);
-  }, [pathname]);
+  }, [pathname, searchParams]); // <--- Thêm searchParams vào đây
 
   const safeCartCount = mounted ? cartCount : 0;
 
@@ -92,6 +97,17 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
+  useEffect(() => {
+    if (openCategory) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [openCategory]);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("currentUser");
@@ -118,7 +134,15 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="bg-[#E30019] sticky top-0 z-50 ">
+      <div className="bg-[#E30019] sticky top-0 z-50">
+        
+        {openCategory && (
+          <div
+            className="fixed left-0 top-0 h-[100vh] w-[100vw] bg-black/60 z-[-1] backdrop-blur-sm transition-opacity"
+            onClick={() => setOpenCategory(false)}
+          />
+        )}
+
         <div className={`mx-auto ${MAX_W} flex h-[74px] items-center gap-3 px-3`}>
           <Link href="/" className="flex shrink-0 items-center pr-1">
             <div className="relative h-[42px] w-[150px]">
@@ -136,20 +160,20 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setOpenCategory((prev) => !prev)}
-              className="flex h-[44px] w-[115px] shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white hover:bg-[#A60012]"
+              className="flex h-[44px] w-[115px] shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white hover:bg-[#A60012] transition-colors"
             >
               <Menu className="h-6 w-6" />
               <span className="text-[13px] leading-none">Danh mục</span>
             </button>
 
             {openCategory && (
-              <div className="absolute left-0 top-[52px] z-[999]">
+              <div className="absolute left-0 top-[52px] z-[999] shadow-2xl">
                 <CategorySidebar />
               </div>
             )}
           </div>
 
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 relative z-10">
             <div className="relative">
               <input
                 aria-label="Bạn cần tìm gì?"
@@ -166,7 +190,7 @@ export default function Header() {
             </div>
           </div>
 
-          <div className="hidden shrink-0 items-center gap-2 text-white lg:flex">
+          <div className="hidden shrink-0 items-center gap-2 text-white lg:flex relative z-10">
             <HeaderAction
               href="/showroom"
               icon={<MapPin className="h-6 w-6" />}
@@ -354,44 +378,15 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="border-b border-gray-200 bg-white">
+      <div className="border-b border-gray-200 bg-white relative z-0">
         <div className={`mx-auto ${MAX_W} h-[46px] px-3`}>
           <div className="grid h-[46px] grid-cols-6">
-            <SubItem
-              href="/"
-              icon={<Tag className="h-[18px] w-[18px]" />}
-              text="Mua PC tặng màn 240Hz"
-            />
-            <SubItem
-              href="/"
-              withDivider
-              icon={<Flame className="h-[18px] w-[18px]" />}
-              text="Hot Deal | Laptop"
-            />
-            <SubItem
-              href="/news"
-              withDivider
-              icon={<Newspaper className="h-[18px] w-[18px]" />}
-              text="Tin tức"
-            />
-            <SubItem
-              href="/"
-              withDivider
-              icon={<Wrench className="h-[18px] w-[18px]" />}
-              text="Dịch vụ kỹ thuật tại nhà"
-            />
-            <SubItem
-              href="/"
-              withDivider
-              icon={<RefreshCw className="h-[18px] w-[18px]" />}
-              text="Thu cũ đổi mới"
-            />
-            <SubItem
-              href="/"
-              withDivider
-              icon={<ShieldCheck className="h-[18px] w-[18px]" />}
-              text="Tra cứu bảo hành"
-            />
+            <SubItem href="/" icon={<Tag className="h-[18px] w-[18px]" />} text="Mua PC tặng màn 240Hz" />
+            <SubItem href="/" withDivider icon={<Flame className="h-[18px] w-[18px]" />} text="Hot Deal | Laptop" />
+            <SubItem href="/news" withDivider icon={<Newspaper className="h-[18px] w-[18px]" />} text="Tin tức" />
+            <SubItem href="/on-site-technical-support" withDivider icon={<Wrench className="h-[18px] w-[18px]" />} text="Dịch vụ kỹ thuật tại nhà" />
+            <SubItem href="/" withDivider icon={<RefreshCw className="h-[18px] w-[18px]" />} text="Thu cũ đổi mới" />
+            <SubItem href="/" withDivider icon={<ShieldCheck className="h-[18px] w-[18px]" />} text="Tra cứu bảo hành" />
           </div>
         </div>
       </div>
@@ -399,6 +394,7 @@ export default function Header() {
   );
 }
 
+// ... Giữ nguyên HeaderAction và SubItem bên dưới
 function HeaderAction({
   href,
   icon,
