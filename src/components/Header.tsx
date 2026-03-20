@@ -358,9 +358,9 @@ export default function Header() {
         <div className={`mx-auto ${MAX_W} h-[46px] px-3`}>
           <div className="grid h-[46px] grid-cols-6">
             <SubItem
-              href="/"
+              href="/introduce"
               icon={<Tag className="h-[18px] w-[18px]" />}
-              text="Mua PC tặng màn 240Hz"
+              text="Giới thiệu"
             />
             <SubItem
               href="/"
