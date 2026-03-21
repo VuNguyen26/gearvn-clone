@@ -1,3 +1,5 @@
+import Image from "next/image";
+import banner from "./banner.png";
 import {
   User,
   MapPin,
@@ -188,7 +190,9 @@ export default function PrivacyPolicyPage() {
             rằng thông tin cung cấp cho chúng tôi sẽ được bảo mật, GEARVN cam kết không chia sẻ,
             bán hoặc cho thuê thông tin cá nhân của bạn cho bất kỳ người nào khác.
           </p>
-          <p className="mt-4">GEARVN cam kết chỉ sử dụng các thông tin của bạn vào các trường hợp sau:</p>
+          <p className="mt-4">
+            GEARVN cam kết chỉ sử dụng các thông tin của bạn vào các trường hợp sau:
+          </p>
           <ul className="mt-4 list-disc pl-6">
             <li>Nâng cao chất lượng dịch vụ dành cho khách hàng</li>
             <li>Giải quyết các tranh chấp, khiếu nại khi cơ quan pháp luật có yêu cầu</li>
@@ -207,6 +211,30 @@ export default function PrivacyPolicyPage() {
 
   return (
     <main className="bg-[#f3f4f6] text-black">
+      <section className="w-full bg-[#eb2f2f]">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-8 px-4 py-10 lg:grid-cols-2 lg:px-8 lg:py-14">
+          <div>
+            <h1 className="max-w-[560px] text-4xl font-extrabold leading-tight text-white md:text-5xl">
+              Chính sách bảo mật
+              <br />
+              thông tin khách hàng
+            </h1>
+          </div>
+
+          <div className="flex justify-center lg:justify-end">
+            <div className="relative h-[220px] w-full max-w-[520px] md:h-[280px]">
+              <Image
+                src={banner}
+                alt="Chính sách bảo mật"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-[1400px] px-4 py-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
           <aside className="h-fit rounded-xl bg-[#f1f1f1] p-6 shadow-sm lg:sticky lg:top-24">
