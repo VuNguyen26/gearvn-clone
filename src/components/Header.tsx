@@ -27,7 +27,7 @@ import {
 import { useCart } from "@/store/cart";
 import CategorySidebar from "@/components/home/CategorySidebar";
 
-const MAX_W = "max-w-[1200px]";
+const MAX_W = "w-300";
 
 type HeaderUser = {
   fullName?: string;

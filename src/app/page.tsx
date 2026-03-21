@@ -2,8 +2,8 @@ import Link from "next/link";
 import CategorySidebar from "@/components/home/CategorySidebar";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import BottomBanners from "@/components/home/BottomBanners";
-import PromoRight from "@/components/home/PromoRight";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
+
 import ProductCard from "@/components/ProductCard";
 import { getPaginatedProducts } from "@/lib/products";
 
@@ -27,11 +27,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   );
 
   return (
-    <div className="min-h-screen bg-[#f2f2f2] overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden bg-[#f2f2f2]">
       <SideFloatBanners />
 
       <div className="mx-auto w-full max-w-[1200px] px-3">
-        {/* Khối đầu trang */}
         <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-[250px_minmax(0,1fr)_280px]">
           <CategorySidebar />
 
@@ -39,12 +38,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             <HeroCarousel />
           </div>
 
-          <div className="hidden xl:block">
-            <PromoRight />
-          </div>
         </div>
 
-        {/* Banner dưới */}
         <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-[250px_minmax(0,1fr)_280px]">
           <div className="hidden xl:block" />
           <div className="xl:col-span-2">
@@ -52,7 +47,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </div>
         </div>
 
-        {/* Danh sách sản phẩm */}
         <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <div>
@@ -63,10 +57,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 Tổng cộng: {totalItems} sản phẩm
               </p>
             </div>
-
-            <span className="text-sm text-gray-600">
-              Trang {currentPage}/{totalPages}
-            </span>
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

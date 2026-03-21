@@ -1,7 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
-import Link from "next/link"; // <-- Thêm import Link từ Next.js
 import {
   Laptop,
   PcCase,
@@ -19,8 +19,15 @@ import {
   Wrench,
   ChevronRight,
 } from "lucide-react";
+
+import MegaMenu from "./MegaMenu";
 import MegaMenuContent from "@/components/menu/MegaMenuContent";
+import { MENU_DATA } from "@/data/home/megamenu";
 import { CATEGORY_MENU, type MenuCategory } from "@/data/category-menu";
+
+type CategorySidebarProps = {
+  className?: string;
+};
 
 const sidebarItems = [
   { id: "laptop", label: "Laptop", icon: Laptop },
@@ -52,19 +59,29 @@ const fallbackCategory = (id: string, label: string): MenuCategory => ({
   ],
 });
 
-type CategorySidebarProps = {
-  className?: string;
-};
-
 export default function CategorySidebar({
   className = "",
 }: CategorySidebarProps) {
   const [activeId, setActiveId] = useState(sidebarItems[0].id);
   const [isMegaOpen, setIsMegaOpen] = useState(false);
 
+  const mergedItems = useMemo(() => {
+    return sidebarItems.map((localItem) => {
+      const remoteItem = MENU_DATA.find(
+        (item) => item.id === localItem.id || item.label === localItem.label
+      );
+
+      return {
+        ...localItem,
+        href: remoteItem?.href || `/category/${localItem.id}`,
+        content: remoteItem?.content || null,
+      };
+    });
+  }, []);
+
   const activeSidebarItem = useMemo(() => {
-    return sidebarItems.find((item) => item.id === activeId) || sidebarItems[0];
-  }, [activeId]);
+    return mergedItems.find((item) => item.id === activeId) || mergedItems[0];
+  }, [activeId, mergedItems]);
 
   const activeCategory = useMemo(() => {
     return (
@@ -78,17 +95,16 @@ export default function CategorySidebar({
       className={`relative w-[250px] shrink-0 ${className}`}
       onMouseLeave={() => setIsMegaOpen(false)}
     >
-      <aside className="overflow-visible rounded-md border border-gray-200 bg-white shadow-sm">
+      <aside className="mr-2 overflow-visible rounded-md border border-gray-200 bg-white shadow-sm">
         <ul className="divide-y divide-gray-200">
-          {sidebarItems.map((it) => {
+          {mergedItems.map((it) => {
             const Icon = it.icon;
             const isActive = isMegaOpen && activeId === it.id;
 
             return (
               <li key={it.id} className="relative">
-                {/* Đổi từ <button> sang <Link> để có thể click chuyển trang */}
                 <Link
-                  href={`/category/${it.id}`}
+                  href={it.href}
                   onMouseEnter={() => {
                     setActiveId(it.id);
                     setIsMegaOpen(true);
@@ -142,9 +158,17 @@ export default function CategorySidebar({
       </aside>
 
       {isMegaOpen && (
-        <div className="absolute left-full top-0 z-[120] min-h-full w-[940px] max-w-[calc(100vw-320px)] rounded-r-md border border-l-0 border-gray-200 bg-[#f5f5f5] shadow-xl">
-          <MegaMenuContent category={activeCategory} />
-        </div>
+        <>
+          {activeSidebarItem.content ? (
+            <div className="absolute left-full top-0 z-[120]">
+              <MegaMenu content={activeSidebarItem.content} />
+            </div>
+          ) : (
+            <div className="absolute left-full top-0 z-[120] min-h-full w-[940px] max-w-[calc(100vw-320px)] rounded-r-md border border-l-0 border-gray-200 bg-[#f5f5f5] shadow-xl">
+              <MegaMenuContent category={activeCategory} />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
