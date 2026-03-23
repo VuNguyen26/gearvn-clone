@@ -1,13 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import CategorySidebar from "@/components/home/CategorySidebar";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import BottomBanners from "@/components/home/BottomBanners";
-import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 import ProductCard from "@/components/ProductCard";
 import { getPaginatedProducts } from "@/lib/products";
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "Trang chủ",
+  description:
+    "Mua sắm laptop, PC, màn hình, bàn phím, chuột, tai nghe và linh kiện công nghệ với giao diện hiện đại, tối ưu SEO và hiệu năng.",
+};
 
 type HomePageProps = {
   searchParams: Promise<{
@@ -25,77 +31,96 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     safePage,
     20
   );
-  // chiều cao cụm hero + banner phải (desktop)
+
   const MAX_W = "w-300";
-  // tỷ lệ giống ảnh gốc: cột phải ~300px (345px làm hero bị nhỏ)
+
   return (
-    <div className=" bg-[#f2f2f2]">
-      <div className="w-full flex flex-col items-center justify-center mt-2">
-        <div className={`${MAX_W} flex`}> 
+    <div className="bg-[#f2f2f2]">
+      <section className="mx-auto mt-4 w-300 rounded-2xl bg-white p-4 shadow-sm">
+        <h1 className="text-2xl font-bold text-black md:text-3xl">
+          Thiết bị công nghệ chính hãng, giá tốt
+        </h1>
+        <p className="mt-2 text-sm leading-6 text-gray-600 md:text-base">
+          Khám phá laptop, PC, màn hình, bàn phím, chuột, tai nghe và nhiều phụ
+          kiện công nghệ phù hợp cho học tập, làm việc và giải trí. Trang chủ
+          được tối ưu hiển thị nội dung rõ ràng để hỗ trợ SEO và trải nghiệm
+          người dùng.
+        </p>
+      </section>
+
+      <div className="mt-2 flex w-full flex-col items-center justify-center">
+        <div className={`${MAX_W} flex`}>
           <CategorySidebar />
           <HeroCarousel />
         </div>
+
         <div className={`${MAX_W} flex justify-center`}>
           <div className="w-full">
             <BottomBanners />
           </div>
         </div>
       </div>
-        <section className={`mt-6 rounded-2xl bg-white p-4 shadow-sm ${MAX_W} mx-auto`}>
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 ">
-            <div>
-              <h2 className="text-[22px] font-bold text-black">
-                Tất cả sản phẩm
-              </h2>
-              <p className="text-sm text-gray-600">
-                Tổng cộng: {totalItems} sản phẩm
-              </p>
-            </div>
+
+      <section
+        className={`mt-6 rounded-2xl bg-white p-4 shadow-sm ${MAX_W} mx-auto`}
+      >
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 className="text-[22px] font-bold text-black">
+              Tất cả sản phẩm
+            </h2>
+            <p className="text-sm text-gray-600">
+              Tổng cộng: {totalItems} sản phẩm
+            </p>
           </div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-              {items.map((p) => (
-                <ProductCard key={p.id} p={p} />
-              ))}
-            </div>
+        </div>
 
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {items.map((p) => (
+            <ProductCard key={p.id} p={p} />
+          ))}
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+          <Link
+            href={currentPage > 1 ? `/?page=${currentPage - 1}` : "#"}
+            className={`rounded-xl border px-4 py-2 text-sm ${
+              currentPage > 1
+                ? "hover:bg-gray-50"
+                : "pointer-events-none opacity-50"
+            }`}
+          >
+            Trang trước
+          </Link>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+            (pageNum) => (
               <Link
-                href={currentPage > 1 ? `/?page=${currentPage - 1}` : "#"}
-                className={`rounded-xl border px-4 py-2 text-sm ${
-                  currentPage > 1
-                    ? "hover:bg-gray-50"
-                    : "pointer-events-none opacity-50"
+                key={pageNum}
+                href={`/?page=${pageNum}`}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold ${
+                  pageNum === currentPage
+                    ? "bg-red-600 text-white"
+                    : "border hover:bg-gray-50"
                 }`}
               >
-                Trang trước
+                {pageNum}
               </Link>
+            )
+          )}
 
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                <Link
-                  key={pageNum}
-                  href={`/?page=${pageNum}`}
-                  className={`rounded-xl px-4 py-2 text-sm font-semibold ${
-                    pageNum === currentPage
-                      ? "bg-red-600 text-white"
-                      : "border hover:bg-gray-50"
-                  }`}
-                >
-                  {pageNum}
-                </Link>
-              ))}
-
-              <Link
-                href={currentPage < totalPages ? `/?page=${currentPage + 1}` : "#"}
-                className={`rounded-xl border px-4 py-2 text-sm ${
-                  currentPage < totalPages
-                    ? "hover:bg-gray-50"
-                    : "pointer-events-none opacity-50"
-                }`}
-              >
-                Trang sau
-              </Link>
-            </div>
-          </section>
+          <Link
+            href={currentPage < totalPages ? `/?page=${currentPage + 1}` : "#"}
+            className={`rounded-xl border px-4 py-2 text-sm ${
+              currentPage < totalPages
+                ? "hover:bg-gray-50"
+                : "pointer-events-none opacity-50"
+            }`}
+          >
+            Trang sau
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

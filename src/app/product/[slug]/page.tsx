@@ -8,6 +8,8 @@ import AddToCart from "./ui/add-to-cart";
 
 export const revalidate = 60;
 
+const SITE_URL = "https://your-domain.com";
+
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -19,21 +21,38 @@ export async function generateMetadata({
   const p = getProductBySlug(slug);
 
   if (!p) {
-    return { title: "Sản phẩm không tồn tại" };
+    return {
+      title: "Sản phẩm không tồn tại",
+      description: "Không tìm thấy sản phẩm.",
+    };
   }
 
+  const description = p.shortDesc ?? p.name;
+  const image = p.images?.[0] ?? "/gearvn-pc-gvn-t11-topbar.png";
+
   return {
-    title: `${p.name} | GEARVN Clone`,
-    description: p.shortDesc ?? p.name,
+    title: p.name,
+    description,
     alternates: {
-      canonical: `/product/${p.slug}`,
+      canonical: `${SITE_URL}/product/${p.slug}`,
     },
     openGraph: {
       title: p.name,
-      description: p.shortDesc ?? p.name,
-      images: [p.images[0]],
+      description,
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: p.name,
+        },
+      ],
       type: "website",
-      url: `/product/${p.slug}`,
+      url: `${SITE_URL}/product/${p.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   };
 }
@@ -51,9 +70,39 @@ export default async function ProductPage({ params }: PageProps) {
       ? Math.round(((p.price - p.salePrice) / p.price) * 100)
       : 0;
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: p.name,
+    image: p.images?.length
+      ? p.images
+      : [`${SITE_URL}/gearvn-pc-gvn-t11-topbar.png`],
+    description: p.shortDesc ?? p.name,
+    brand: {
+      "@type": "Brand",
+      name: p.specs?.brand ?? "GEARVN Clone",
+    },
+    category: p.category,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "VND",
+      price: String(price),
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/product/${p.slug}`,
+    },
+  };
+
   return (
     <div className="mx-auto max-w-[1200px] space-y-4 bg-[#f5f5f5] px-3 py-4">
-      <nav className="text-sm text-gray-600">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+
+      <nav
+        aria-label="Breadcrumb"
+        className="text-sm text-gray-600"
+      >
         <Link href="/" className="hover:underline">
           Trang chủ
         </Link>{" "}

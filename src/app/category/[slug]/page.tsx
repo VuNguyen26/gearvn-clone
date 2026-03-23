@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { filterProducts, getProductsByMenuSlug } from "@/lib/products";
@@ -6,6 +7,7 @@ import CategoryProductsClient from "./CategoryProductsClient";
 export const revalidate = 60;
 
 const MAX_W = "max-w-[1500px]";
+const SITE_URL = "https://your-domain.com";
 
 const categoryTitle: Record<string, string> = {
   laptop: "Laptop",
@@ -52,13 +54,33 @@ function toNumberOrUndef(v?: string) {
   return Number.isFinite(n) ? n : undefined;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const title = categoryTitle[slug] ?? "Danh mục";
+  const title = categoryTitle[slug] ?? "Danh mục sản phẩm";
+  const description = `Khám phá danh mục ${title} với nhiều sản phẩm công nghệ chất lượng, hỗ trợ lọc và sắp xếp thuận tiện, giao diện hiện đại và tối ưu SEO.`;
 
   return {
-    title: `${title} | GEARVN Clone`,
-    description: `Danh sách ${title} - lọc và sắp xếp sản phẩm.`,
+    title,
+    description,
+    alternates: {
+      canonical: `${SITE_URL}/category/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/category/${slug}`,
+      type: "website",
+      images: [
+        {
+          url: "/gearvn-pc-gvn-t11-topbar.png",
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
   };
 }
 
@@ -88,13 +110,30 @@ export default async function CategoryPage({
   return (
     <div className={`mx-auto ${MAX_W} px-3 py-4`}>
       <div className="space-y-4">
+        <nav
+          aria-label="Breadcrumb"
+          className="rounded-xl bg-white px-4 py-3 text-sm text-gray-500 shadow-sm"
+        >
+          <ol className="flex flex-wrap items-center gap-2">
+            <li>
+              <Link href="/" className="hover:text-black">
+                Trang chủ
+              </Link>
+            </li>
+            <li>/</li>
+            <li className="text-gray-700">{title}</li>
+          </ol>
+        </nav>
+
         <div className="rounded-2xl bg-white p-4 shadow-sm">
-          <h1 className="text-xl font-bold">{title}</h1>
-          <p className="mt-1 text-sm text-gray-600">
-            Danh sách sản phẩm theo danh mục
+          <h1 className="text-xl font-bold md:text-2xl">{title}</h1>
+          <p className="mt-2 text-sm leading-6 text-gray-600">
+            Danh mục {title} gồm nhiều sản phẩm công nghệ phù hợp cho học tập,
+            làm việc, giải trí và nâng cấp góc máy. Người dùng có thể tìm kiếm,
+            lọc theo thương hiệu, khoảng giá và sắp xếp nhanh ngay trên trang.
           </p>
 
-          <form className="mt-3 grid gap-2 sm:grid-cols-4" method="GET">
+          <form className="mt-4 grid gap-2 sm:grid-cols-4" method="GET">
             <label className="sr-only" htmlFor="q">
               Tìm sản phẩm
             </label>
@@ -167,7 +206,13 @@ export default async function CategoryPage({
           </form>
         </div>
 
-        <CategoryProductsClient items={items} />
+        <section
+          aria-label={`Danh sách sản phẩm ${title}`}
+          className="space-y-3"
+        >
+          <h2 className="sr-only">Danh sách sản phẩm {title}</h2>
+          <CategoryProductsClient items={items} />
+        </section>
       </div>
     </div>
   );

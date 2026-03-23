@@ -16,6 +16,4 @@ export const VGA_DATA: VGA[] = [
     }
 ];
 
-export const MAINBOARD_CPU_DATA: Mainboard_CPU[] = [
-    {}
-];
+export const MAINBOARD_CPU_DATA: Mainboard_CPU[] = [];

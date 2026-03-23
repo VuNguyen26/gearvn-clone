@@ -1,7 +1,11 @@
-import { products } from "@/data/products/index";
+import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
 
 export function getAllProducts() {
+  return products;
+}
+
+export function getAllProductsFlat() {
   return products;
 }
 

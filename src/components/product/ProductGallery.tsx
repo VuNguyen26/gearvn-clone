@@ -18,7 +18,7 @@ export default function ProductGallery({
   }, [images]);
 
   const [selectedImage, setSelectedImage] = useState(
-    images[0] || galleryImages[0]
+    galleryImages[0] || images[0] || ""
   );
 
   return (
