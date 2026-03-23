@@ -8,7 +8,7 @@ import AddToCart from "./ui/add-to-cart";
 
 export const revalidate = 60;
 
-const SITE_URL = "https://your-domain.com";
+const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 type PageProps = {
   params: Promise<{ slug: string }>;

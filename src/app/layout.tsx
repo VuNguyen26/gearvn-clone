@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 const SITE_NAME = "GEARVN Clone";
-const SITE_URL = "https://your-domain.com";
+const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

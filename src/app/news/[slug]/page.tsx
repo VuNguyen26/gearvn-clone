@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { newsArticles } from "@/data/news";
 import NewsDetailSidebar from "@/components/news/NewsDetailSidebar";
 
-const SITE_URL = "https://your-domain.com";
+const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 type Props = {
   params: Promise<{

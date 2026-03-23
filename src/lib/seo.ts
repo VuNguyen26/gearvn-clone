@@ -1,6 +1,6 @@
 // src/lib/seo.ts
 export const SITE_NAME = "GearVN Clone";
-export const SITE_URL = "https://your-domain.com";
+export const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 export function absoluteUrl(path = "") {
   if (!path) return SITE_URL;

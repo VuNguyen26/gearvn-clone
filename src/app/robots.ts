@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://your-domain.com";
+const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 export default function robots(): MetadataRoute.Robots {
   return {

@@ -7,7 +7,7 @@ import CategoryProductsClient from "./CategoryProductsClient";
 export const revalidate = 60;
 
 const MAX_W = "max-w-[1500px]";
-const SITE_URL = "https://your-domain.com";
+const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 const categoryTitle: Record<string, string> = {
   laptop: "Laptop",

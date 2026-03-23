@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { newsArticles } from "@/data/news";
 import { getAllProductsFlat } from "@/lib/products";
 
-const SITE_URL = "https://your-domain.com";
+const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 const categorySlugs = [
   "laptop",

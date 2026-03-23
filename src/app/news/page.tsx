@@ -6,7 +6,7 @@ import FeaturedNewsGrid from "@/components/news/FeaturedNewsGrid";
 import NewsList from "@/components/news/NewsList";
 import NewsSidebar from "@/components/news/NewsSidebar";
 
-const SITE_URL = "https://your-domain.com";
+const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 export const metadata: Metadata = {
   title: "Tin tức",
