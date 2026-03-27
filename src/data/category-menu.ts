@@ -22,18 +22,18 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Giá bán",
         items: ["Dưới 15 triệu", "Từ 15 đến 20 triệu", "Trên 20 triệu"],
       },
-      {
-        title: "CPU Intel - AMD",
-        items: ["Intel Core i3", "Intel Core i5", "Intel Core i7", "AMD Ryzen"],
-      },
-      {
-        title: "Nhu cầu sử dụng",
-        items: ["Đồ họa - Studio", "Học sinh - Sinh viên", "Mỏng nhẹ cao cấp"],
-      },
-      {
-        title: "Linh phụ kiện Laptop",
-        items: ["Ram laptop", "SSD laptop", "Ổ cứng di động"],
-      },
+      // {
+      //   title: "CPU Intel - AMD",
+      //   items: ["Intel Core i3", "Intel Core i5", "Intel Core i7", "AMD Ryzen"],
+      // },
+      // {
+      //   title: "Nhu cầu sử dụng",
+      //   items: ["Đồ họa - Studio", "Học sinh - Sinh viên", "Mỏng nhẹ cao cấp"],
+      // },
+      // {
+      //   title: "Linh phụ kiện Laptop",
+      //   items: ["Ram laptop", "SSD laptop", "Ổ cứng di động"],
+      // },
       {
         title: "Laptop ASUS",
         items: ["ASUS OLED Series", "Vivobook Series", "Zenbook Series"],
@@ -61,24 +61,98 @@ export const CATEGORY_MENU: MenuCategory[] = [
     label: "Laptop Gaming",
     sections: [
       {
-        title: "Theo hãng",
-        items: ["ASUS ROG", "MSI Gaming", "Acer Nitro", "Lenovo Legion", "Dell G Series"],
+        title: "THƯƠNG HIỆU",
+        items: [
+          "ACER / PREDATOR",
+          "ASUS / ROG",
+          "MSI",
+          "LENOVO",
+          "DELL",
+          "GIGABYTE / AORUS",
+          "HP",
+        ],
       },
       {
-        title: "Theo GPU",
-        items: ["RTX 4050", "RTX 4060", "RTX 4070", "RTX 4080"],
+        title: "GIÁ BÁN",
+        items: [
+          "Dưới 20 triệu",
+          "Từ 20 đến 25 triệu",
+          "Từ 25 đến 30 triệu",
+          "Trên 30 triệu",
+          "Gaming RTX 50 Series",
+        ],
       },
       {
-        title: "Theo CPU",
-        items: ["Intel Core i5", "Intel Core i7", "AMD Ryzen 7", "AMD Ryzen 9"],
+        title: "ACER | PREDATOR",
+        items: [
+          "Nitro V Series",
+          "Nitro 5 Series",
+          "Predator Helios",
+          "Predator Triton",
+          "ACER RTX 50 Series",
+        ],
       },
       {
-        title: "Theo giá",
-        items: ["Dưới 20 triệu", "20 đến 30 triệu", "30 đến 40 triệu", "Trên 40 triệu"],
+        title: "ASUS | ROG GAMING",
+        items: [
+          "ROG Strix",
+          "ROG Zephyrus",
+          "ROG Flow",
+          "TUF Gaming",
+          "ASUS RTX 50 Series",
+        ],
       },
       {
-        title: "Màn hình",
-        items: ["144Hz", "165Hz", "240Hz", "2K"],
+        title: "MSI GAMING",
+        items: [
+          "Titan GT Series",
+          "Stealth GS Series",
+          "Raider GE Series",
+          "Vector GP Series",
+          "Sword / Katana GF66 Series",
+          "Cyborg / Thin GF Series",
+          "MSI RTX 50 Series",
+        ],
+      },
+      {
+        title: "LENOVO GAMING",
+        items: [
+          "Legion Gaming",
+          "LOQ Series",
+          "RTX 50 Series",
+        ],
+      },
+      {
+        title: "GIGABYTE GAMING",
+        items: [
+          "Gaming Gigabyte",
+          "AORUS Gaming",
+          "GIGABYTE RTX 50 Series",
+        ],
+      },
+      {
+        title: "HP GAMING",
+        items: [
+          "HP Victus",
+          "HP Omen",
+          "HP RTX 50 Series",
+        ],
+      },
+      {
+        title: "CẤU HÌNH",
+        items: [
+          "RTX 50 Series",
+          "CPU Core Ultra",
+          "CPU AMD",
+        ],
+      },
+      {
+        title: "LINH PHỤ KIỆN LAPTOP",
+        items: [
+          "Ram laptop",
+          "SSD laptop",
+          "Ổ cứng di động",
+        ],
       },
     ],
   },
@@ -97,30 +171,30 @@ export const CATEGORY_MENU: MenuCategory[] = [
           "PC Trên 200 triệu",
         ],
       },
-      {
-        title: "PC RTX 50 Series",
-        items: ["PC RTX 5090", "PC RTX 5080", "PC RTX 5070Ti", "PC RTX 5070", "PC RTX 5060Ti"],
-      },
-      {
-        title: "PC theo cấu hình VGA",
-        items: ["PC RTX 5060", "PC RTX 5050", "PC RTX 3060", "PC RTX 3050"],
-      },
-      {
-        title: "PC theo CPU AMD",
-        items: ["PC AMD R3", "PC AMD R5", "PC AMD R7", "PC AMD R9"],
-      },
-      {
-        title: "PC theo CPU Intel",
-        items: ["PC Core i3", "PC Core i5", "PC Core i7", "PC Core i9", "PC Ultra 5", "PC Ultra 7"],
-      },
-      {
-        title: "PC Văn phòng",
-        items: ["Homework Athlon", "Homework R3", "Homework R5", "Homework i5"],
-      },
-      {
-        title: "Phần mềm bản quyền",
-        items: ["Windows bản quyền", "Office 365 bản quyền"],
-      },
+      // {
+      //   title: "PC RTX 50 Series",
+      //   items: ["PC RTX 5090", "PC RTX 5080", "PC RTX 5070Ti", "PC RTX 5070", "PC RTX 5060Ti"],
+      // },
+      // {
+      //   title: "PC theo cấu hình VGA",
+      //   items: ["PC RTX 5060", "PC RTX 5050", "PC RTX 3060", "PC RTX 3050"],
+      // },
+      // {
+      //   title: "PC theo CPU AMD",
+      //   items: ["PC AMD R3", "PC AMD R5", "PC AMD R7", "PC AMD R9"],
+      // },
+      // {
+      //   title: "PC theo CPU Intel",
+      //   items: ["PC Core i3", "PC Core i5", "PC Core i7", "PC Core i9", "PC Ultra 5", "PC Ultra 7"],
+      // },
+      // {
+      //   title: "PC Văn phòng",
+      //   items: ["Homework Athlon", "Homework R3", "Homework R5", "Homework i5"],
+      // },
+      // {
+      //   title: "Phần mềm bản quyền",
+      //   items: ["Windows bản quyền", "Office 365 bản quyền"],
+      // },
     ],
   },
   {
@@ -143,14 +217,14 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "VGA - Card màn hình",
         items: ["NVIDIA Quadro", "AMD Radeon"],
       },
-      {
-        title: "Bo mạch chủ Intel",
-        items: ["Z890", "Z790", "B760", "H610", "X299X"],
-      },
-      {
-        title: "Bo mạch chủ AMD",
-        items: ["AMD X870", "AMD X670", "AMD X570", "AMD B650", "AMD B550", "AMD A320", "AMD TRX40"],
-      },
+      // {
+      //   title: "Bo mạch chủ Intel",
+      //   items: ["Z890", "Z790", "B760", "H610", "X299X"],
+      // },
+      // {
+      //   title: "Bo mạch chủ AMD",
+      //   items: ["AMD X870", "AMD X670", "AMD X570", "AMD B650", "AMD B550", "AMD A320", "AMD TRX40"],
+      // },
       {
         title: "CPU - Bộ vi xử lý Intel",
         items: ["Intel Core Ultra", "CPU Intel 9", "CPU Intel 7", "CPU Intel 5", "CPU Intel 3"],
@@ -181,21 +255,21 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Nguồn - Theo công suất",
         items: ["Từ 400W - 500W", "Từ 500W - 600W", "Từ 700W - 800W", "Trên 1000W"],
       },
-      {
-        title: "Loại tản nhiệt",
-        items: [
-          "Tản nhiệt AIO 240mm",
-          "Tản nhiệt AIO 280mm",
-          "Tản nhiệt AIO 360mm",
-          "Tản nhiệt AIO 420mm",
-          "Tản nhiệt khí",
-          "Fan RGB",
-        ],
-      },
-      {
-        title: "Phụ kiện PC",
-        items: ["Dây LED", "Dây rise - Dựng VGA", "Giá đỡ VGA", "Keo tản nhiệt"],
-      },
+      // {
+      //   title: "Loại tản nhiệt",
+      //   items: [
+      //     "Tản nhiệt AIO 240mm",
+      //     "Tản nhiệt AIO 280mm",
+      //     "Tản nhiệt AIO 360mm",
+      //     "Tản nhiệt AIO 420mm",
+      //     "Tản nhiệt khí",
+      //     "Fan RGB",
+      //   ],
+      // },
+      // {
+      //   title: "Phụ kiện PC",
+      //   items: ["Dây LED", "Dây rise - Dựng VGA", "Giá đỡ VGA", "Keo tản nhiệt"],
+      // },
     ],
   },
   {
@@ -208,20 +282,20 @@ export const CATEGORY_MENU: MenuCategory[] = [
       },
       {
         title: "Loại RAM",
-        items: ["DDR4", "DDR5", "Xem tất cả"],
+        items: [ "Xem tất cả"],
       },
       {
         title: "Hãng RAM",
         items: ["Corsair", "Kingston", "G.Skill", "PNY"],
       },
-      {
-        title: "Dung lượng HDD",
-        items: ["HDD 1 TB", "HDD 2 TB", "HDD 4 TB - 6 TB", "HDD trên 8 TB"],
-      },
-      {
-        title: "Hãng HDD",
-        items: ["WesterDigital", "Seagate", "Toshiba"],
-      },
+      // {
+      //   title: "Dung lượng HDD",
+      //   items: ["HDD 1 TB", "HDD 2 TB", "HDD 4 TB - 6 TB", "HDD trên 8 TB"],
+      // },
+      // {
+      //   title: "Hãng HDD",
+      //   items: ["WesterDigital", "Seagate", "Toshiba"],
+      // },
       {
         title: "Dung lượng SSD",
         items: ["120GB - 128GB", "250GB - 256GB", "480GB - 512GB", "960GB - 1TB", "2TB", "Trên 2TB"],
@@ -236,7 +310,7 @@ export const CATEGORY_MENU: MenuCategory[] = [
       },
       {
         title: "Ổ cứng di động",
-        items: ["SSD di động", "HDD di động"],
+        items: ["SSD di động"],
       },
     ],
   },
@@ -248,14 +322,14 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Thương hiệu loa",
         items: ["Edifier", "Razer", "Logitech", "SoundMax"],
       },
-      {
-        title: "Kiểu loa",
-        items: ["Loa vi tính", "Loa Bluetooth", "Loa Soundbar", "Loa mini", "Sub phụ"],
-      },
-      {
-        title: "Webcam",
-        items: ["Độ phân giải 4K", "Độ phân giải Full HD 1080p", "Độ phân giải 720p"],
-      },
+      // {
+      //   title: "Kiểu loa",
+      //   items: ["Loa vi tính", "Loa Bluetooth", "Loa Soundbar", "Loa mini", "Sub phụ"],
+      // },
+      // {
+      //   title: "Webcam",
+      //   items: ["Độ phân giải 4K", "Độ phân giải Full HD 1080p", "Độ phân giải 720p"],
+      // },
       {
         title: "Microphone",
         items: ["Micro HyperX"],
@@ -282,26 +356,26 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Tần số quét",
         items: ["60Hz", "75Hz", "100Hz", "144Hz", "240Hz"],
       },
-      {
-        title: "Màn hình cong",
-        items: ['24" Curved', '27" Curved', '32" Curved', 'Trên 32" Curved'],
-      },
+      // {
+      //   title: "Màn hình cong",
+      //   items: ['24" Curved', '27" Curved', '32" Curved', 'Trên 32" Curved'],
+      // },
       {
         title: "Kích thước",
         items: ['Màn hình 22"', 'Màn hình 24"', 'Màn hình 27"', 'Màn hình 29"', 'Màn hình 32"', 'Màn hình Trên 32"'],
       },
-      {
-        title: "Màn hình đồ họa",
-        items: ['Màn hình đồ họa 24"', 'Màn hình đồ họa 27"', 'Màn hình đồ họa 32"'],
-      },
-      {
-        title: "Phụ kiện màn hình",
-        items: ["Giá treo màn hình", "Cáp HDMI, DP, LAN"],
-      },
-      {
-        title: "Màn hình di động",
-        items: ["Full HD 1080p", "2K 1440p", "Có cảm ứng"],
-      },
+      // {
+      //   title: "Màn hình đồ họa",
+      //   items: ['Màn hình đồ họa 24"', 'Màn hình đồ họa 27"', 'Màn hình đồ họa 32"'],
+      // },
+      // {
+      //   title: "Phụ kiện màn hình",
+      //   items: ["Giá treo màn hình", "Cáp HDMI, DP, LAN"],
+      // },
+      // {
+      //   title: "Màn hình di động",
+      //   items: ["Full HD 1080p", "2K 1440p", "Có cảm ứng"],
+      // },
     ],
   },
   {
@@ -320,14 +394,14 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Kết nối",
         items: ["Bluetooth", "Wireless"],
       },
-      {
-        title: "Phụ kiện bàn phím cơ",
-        items: ["Keycaps", "Dwarf Factory", "Kê tay"],
-      },
-      {
-        title: "Bàn phím Rapid Trigger",
-        items: ["Wooting style", "Hall Effect"],
-      },
+      // {
+      //   title: "Phụ kiện bàn phím cơ",
+      //   items: ["Keycaps", "Dwarf Factory", "Kê tay"],
+      // },
+      // {
+      //   title: "Bàn phím Rapid Trigger",
+      //   items: ["Wooting style", "Hall Effect"],
+      // },
     ],
   },
   {
@@ -346,18 +420,18 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Loại Chuột",
         items: ["Chuột chơi game", "Chuột văn phòng"],
       },
-      {
-        title: "Logitech",
-        items: ["Logitech Gaming", "Logitech Văn phòng"],
-      },
+      // {
+      //   title: "Logitech",
+      //   items: ["Logitech Gaming", "Logitech Văn phòng"],
+      // },
       {
         title: "Thương hiệu lót chuột",
         items: ["GEARVN", "ASUS", "Steelseries", "Dare-U", "Razer", "SKYLOONG"],
       },
-      {
-        title: "Các loại lót chuột",
-        items: ["Mềm", "Cứng", "Dày", "Mỏng", "Viền có led"],
-      },
+      // {
+      //   title: "Các loại lót chuột",
+      //   items: ["Mềm", "Cứng", "Dày", "Mỏng", "Viền có led"],
+      // },
       {
         title: "Lót chuột theo size",
         items: ["Nhỏ", "Vừa", "Lớn"],
@@ -394,10 +468,10 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Thương hiệu ghế Gaming",
         items: ["Corsair", "Warrior", "E-DRA", "DXRacer", "Cougar", "AKRacing", "Razer"],
       },
-      {
-        title: "Thương hiệu ghế CTH",
-        items: ["Warrior", "Sihoo", "E-Dra"],
-      },
+      // {
+      //   title: "Thương hiệu ghế CTH",
+      //   items: ["Warrior", "Sihoo", "E-Dra"],
+      // },
       {
         title: "Kiểu ghế",
         items: ["Ghế Công thái học", "Ghế Gaming"],
@@ -414,6 +488,39 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Giá tiền",
         items: ["Dưới 5 triệu", "Từ 5 đến 10 triệu", "Trên 10 triệu"],
       },
+    ],
+  },
+    {
+    id: "handheld-console",
+    label: "Handheld Console",
+    sections: [
+      {
+        title: "Thương hiệu",
+        items: ["Lenovo", "MSI", "Logitech", "DareU", "Machenike", "Rapoo"],
+      },
+      {
+        title: "Nhóm sản phẩm",
+        items: ["Máy chơi game cầm tay", "Tay cầm chơi game", "Vô lăng chơi game"],
+      },
+      {
+        title: "Giá bán",
+        items: ["Dưới 1 triệu", "Từ 1 đến 5 triệu", "Từ 5 đến 15 triệu", "Trên 15 triệu"],
+      },
+    ],
+  },
+  {
+    id: "phu-kien",
+    label: "Phụ kiện",
+    sections: [
+      {
+        title: "Thương hiệu",
+        items: ["Ugreen", "Belkin", "C-Tech"],
+      },
+      {
+        title: "Nhóm sản phẩm",
+        items: ["Cáp sạc", "Hub chuyển đổi", "Củ sạc"],
+      },
+     
     ],
   },
 ];

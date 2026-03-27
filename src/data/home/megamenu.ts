@@ -1,4 +1,19 @@
-import {Laptop,PcCase,Cpu,Monitor,HardDrive,Mic,Keyboard,Mouse,Headphones,Armchair,Network,Gamepad2,Usb,Wrench,ChevronRight, Columns,} from "lucide-react";
+import {
+  Laptop,
+  PcCase,
+  Cpu,
+  Monitor,
+  HardDrive,
+  Mic,
+  Keyboard,
+  Mouse,
+  Headphones,
+  Armchair,
+  Network,
+  Gamepad2,
+  Usb,
+  Wrench,
+} from "lucide-react";
 import { MenuItem } from "@/types/megamenu";
 
 export const MENU_DATA: MenuItem[] = [

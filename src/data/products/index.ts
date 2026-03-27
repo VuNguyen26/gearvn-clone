@@ -1,5 +1,6 @@
 import { Product } from "@/types/product";
 import { laptops } from "./laptops";
+import { laptopgamings } from "./laptopgamings";
 import { mainboards } from "./mainboards";
 import { cpus } from "./cpus";
 import { vgas } from "./vgas";
@@ -17,9 +18,12 @@ import { tables } from "./tables";
 import { keyboards } from "./keyboards";
 import { pcs } from "./pcs";
 import { headphones } from "./headphones";
+import { handheldConsoles } from "./handheld_consoles";
+import { accessories } from "./accessories";
 
 export const products: Product[] = [
   ...laptops,
+  ...laptopgamings,
   ...mainboards,
   ...cpus,
   ...vgas,
@@ -37,6 +41,8 @@ export const products: Product[] = [
   ...keyboards,
   ...pcs,
   ...headphones,
+  ...handheldConsoles,
+  ...accessories,
 ];
 
 export default products;

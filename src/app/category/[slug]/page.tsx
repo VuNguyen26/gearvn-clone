@@ -7,7 +7,7 @@ export const revalidate = 60;
 
 const MAX_W = "max-w-[1200px]";
 
-const categoryTitle: Record<string, string> = {
+const categoryTitleMap: Record<string, string> = {
   laptop: "Laptop",
   "laptop-gaming": "Laptop Gaming",
   "pc-gvn": "PC GVN",
@@ -21,45 +21,95 @@ const categoryTitle: Record<string, string> = {
   "tai-nghe": "Tai nghe",
   "ghe-ban": "Ghế - Bàn",
   "phan-mem-mang": "Phần mềm, mạng",
-  "handheld-console": "Handheld, Console",
-  "phu-kien": "Phụ kiện (Hub, sạc, cáp..)",
+  "handheld-console": "Handheld Console",
+  "phu-kien": "Phụ kiện",
   "dich-vu-thong-tin-khac": "Dịch vụ và thông tin khác",
+};
+
+const slugAliasMap: Record<string, string> = {
+  laptopgaming: "laptop-gaming",
+  "laptop-gamings": "laptop-gaming",
+  laptopgamings: "laptop-gaming",
+  "pc-gaming": "pc-gvn",
+  pcgaming: "pc-gvn",
+  monitor: "man-hinh",
+  monitors: "man-hinh",
+  mouse: "chuot-lot-chuot",
+  mouses: "chuot-lot-chuot",
+  mousepads: "chuot-lot-chuot",
+  keyboard: "ban-phim",
+  keyboards: "ban-phim",
+  headphone: "tai-nghe",
+  headphones: "tai-nghe",
+  accessory: "phu-kien",
+  accessories: "phu-kien",
 };
 
 type SortKey = "" | "price_asc" | "price_desc";
 
 type SearchParams = {
-  brand?: string;
-  min?: string;
-  max?: string;
-  sort?: string;
-  q?: string;
-  keyword?: string;
+  brand?: string | string[];
+  min?: string | string[];
+  max?: string | string[];
+  sort?: string | string[];
+  q?: string | string[];
+  keyword?: string | string[];
+};
+
+type ResolvedPageProps = {
+  params: {
+    slug: string;
+  };
+  searchParams?: SearchParams;
 };
 
 type PageProps = {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<SearchParams>;
+  params: Promise<ResolvedPageProps["params"]> | ResolvedPageProps["params"];
+  searchParams?:
+    | Promise<ResolvedPageProps["searchParams"]>
+    | ResolvedPageProps["searchParams"];
 };
 
-function parseSort(v?: string): SortKey {
-  if (v === "price_asc" || v === "price_desc") return v;
+function normalizeSlug(value?: string) {
+  const raw = String(value ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/_/g, "-")
+    .replace(/\s+/g, "-");
+
+  return slugAliasMap[raw] ?? raw;
+}
+
+function getCategoryTitle(slug: string) {
+  return categoryTitleMap[normalizeSlug(slug)];
+}
+
+function parseSort(value?: string): SortKey {
+  if (value === "price_asc" || value === "price_desc") {
+    return value;
+  }
   return "";
 }
 
-function toNumberOrUndef(v?: string) {
-  if (!v) return undefined;
-  const n = Number(v);
+function toNumberOrUndef(value?: string) {
+  if (!value) return undefined;
+  const n = Number(value);
   return Number.isFinite(n) ? n : undefined;
 }
 
+function firstValue(value?: string | string[]) {
+  if (Array.isArray(value)) return value[0];
+  return value;
+}
+
 export async function generateMetadata({ params }: PageProps) {
-  const { slug } = await params;
-  const title = categoryTitle[slug] ?? "Danh mục";
+  const resolvedParams = await params;
+  const slug = normalizeSlug(resolvedParams.slug);
+  const title = getCategoryTitle(slug) ?? "Danh mục";
 
   return {
     title: `${title} | GEARVN Clone`,
-    description: `Danh sách ${title} - lọc và sắp xếp sản phẩm.`,
+    description: `Danh sách sản phẩm ${title}.`,
   };
 }
 
@@ -67,26 +117,28 @@ export default async function CategoryPage({
   params,
   searchParams,
 }: PageProps) {
-  const { slug } = await params;
-  const sp = await searchParams;
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
 
-  if (!categoryTitle[slug]) {
-    return notFound();
+  const slug = normalizeSlug(resolvedParams.slug);
+  const sp = resolvedSearchParams ?? {};
+
+  const title = getCategoryTitle(slug);
+  if (!title) {
+    notFound();
   }
 
-  const base = getProductsByMenuSlug(slug);
+  const baseProducts = getProductsByMenuSlug(slug);
 
-const keyword = sp.q || sp.keyword || "";
+  const keyword = firstValue(sp.q) || firstValue(sp.keyword) || "";
 
-const items = filterProducts(base, {
-  q: keyword,
-  brand: sp.brand,
-  min: toNumberOrUndef(sp.min),
-  max: toNumberOrUndef(sp.max),
-  sort: parseSort(sp.sort) || undefined,
-});
-
-  const title = categoryTitle[slug];
+  const items = filterProducts(baseProducts, {
+    q: keyword,
+    brand: firstValue(sp.brand),
+    min: toNumberOrUndef(firstValue(sp.min)),
+    max: toNumberOrUndef(firstValue(sp.max)),
+    sort: parseSort(firstValue(sp.sort)) || undefined,
+  });
 
   return (
     <div className={`mx-auto ${MAX_W} px-3 py-4`}>
@@ -104,7 +156,7 @@ const items = filterProducts(base, {
             <input
               id="q"
               name="q"
-              defaultValue={sp.q ?? sp.keyword ?? ""}
+              defaultValue={firstValue(sp.q) ?? firstValue(sp.keyword) ?? ""}
               placeholder="Tìm sản phẩm..."
               aria-label="Tìm sản phẩm"
               className="rounded-xl border px-3 py-2 text-sm"
@@ -116,8 +168,8 @@ const items = filterProducts(base, {
             <input
               id="brand"
               name="brand"
-              defaultValue={sp.brand ?? ""}
-              placeholder="Brand"
+              defaultValue={firstValue(sp.brand) ?? ""}
+              placeholder="Thương hiệu"
               aria-label="Thương hiệu"
               className="rounded-xl border px-3 py-2 text-sm"
             />
@@ -131,8 +183,8 @@ const items = filterProducts(base, {
               type="number"
               inputMode="numeric"
               min={0}
-              defaultValue={sp.min ?? ""}
-              placeholder="Giá min"
+              defaultValue={firstValue(sp.min) ?? ""}
+              placeholder="Giá tối thiểu"
               aria-label="Giá tối thiểu"
               className="rounded-xl border px-3 py-2 text-sm"
             />
@@ -143,7 +195,7 @@ const items = filterProducts(base, {
             <select
               id="sort"
               name="sort"
-              defaultValue={parseSort(sp.sort)}
+              defaultValue={parseSort(firstValue(sp.sort))}
               aria-label="Sắp xếp"
               className="rounded-xl border px-3 py-2 text-sm"
             >
