@@ -375,7 +375,7 @@ export default function Header() {
               text="Mua PC tặng màn 240Hz"
             />
             <SubItem
-              href="/"
+              href="/pages/laptop-gaming"
               withDivider
               icon={<Flame className="h-[18px] w-[18px]" />}
               text="Hot Deal | Laptop"
