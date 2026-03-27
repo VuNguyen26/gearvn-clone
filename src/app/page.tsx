@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import CategorySidebar from "@/components/home/CategorySidebar";
 import HeroCarousel from "@/components/home/HeroCarousel";
-import BottomBanners from "@/components/home/BottomBanners";
+import { TopPromoRow, BottomWideRow } from "@/components/home/BottomBanners";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getPaginatedProducts } from "@/lib/products";
@@ -34,9 +34,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#f2f2f2]">
-      <SideFloatBanners />
+      <div className="hidden 2xl:block">
+        <SideFloatBanners />
+      </div>
 
-      <div className="mx-auto w-full max-w-[1200px] px-3">
+      <div className="mx-auto w-full max-w-[1320px] px-3">
         <section className="mt-4 rounded-2xl bg-white p-4 shadow-sm">
           <h1 className="text-2xl font-bold text-black md:text-3xl">
             Thiết bị công nghệ chính hãng, giá tốt
@@ -49,20 +51,20 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </p>
         </section>
 
-        <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-[250px_minmax(0,1fr)_280px]">
+        <div className="mt-3 grid grid-cols-1 gap-2 xl:grid-cols-[250px_minmax(0,1fr)]">
           <CategorySidebar />
 
-          <div className="min-w-0">
+          <div className="min-w-0 space-y-3">
             <HeroCarousel />
+            <TopPromoRow />
           </div>
         </div>
 
-        <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-[250px_minmax(0,1fr)_280px]">
-          <div className="hidden xl:block" />
-          <div className="xl:col-span-2">
-            <BottomBanners />
-          </div>
+        <div className="mt-3">
+          <BottomWideRow />
         </div>
+
+        
 
         <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">

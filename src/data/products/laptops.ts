@@ -63,7 +63,7 @@ export const laptops: Product[] = [
     salePrice: 18890000,
     stock: 10,
     images: [
-      "/product_image/laptops/laptop_acer_aspire_16_ai/laptop_acer_aspire_16_ai_a16-71m.png",
+      "/product_image/laptops/laptop_acer_aspire_16_ai/laptop_acer_aspire_16_ai_a16_71m.png",
       "/product_image/laptops/laptop_acer_aspire_16_ai/laptop_acer_aspire_16_ai_01.png",
       "/product_image/laptops/laptop_acer_aspire_16_ai/laptop_acer_aspire_16_ai_02.png",
       "/product_image/laptops/laptop_acer_aspire_16_ai/laptop_acer_aspire_16_ai_03.png",

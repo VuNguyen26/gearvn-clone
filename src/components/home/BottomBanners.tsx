@@ -1,32 +1,74 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const tiles = [
-  { src: "/home/title-1.png", alt: "Laptop Gaming", href: "#" },
-  { src: "/home/title-2.png", alt: "Laptop Office", href: "#" },
-  { src: "/home/title-3.png", alt: "PC Deal", href: "#" },
-  { src: "/home/title-4.png", alt: "PC Deal", href: "#" },
+type Banner = {
+  src: string;
+  alt: string;
+  href?: string;
+};
 
+const topRow: Banner[] = [
+  { src: "/home/banner-laptop-gaming.png", alt: "Laptop Gaming", href: "#" },
+  { src: "/home/banner-laptop-office.png", alt: "Laptop Office", href: "#" },
+  { src: "/home/banner-pc-i5-5060.png", alt: "PC i5 5060", href: "#" },
 ];
-export default function BottomBanners() {
+
+const bottomRow: Banner[] = [
+  { src: "/home/banner-deal-hong-dieu.png", alt: "Deal hồng điều", href: "#" },
+  { src: "/home/banner-monitor.png", alt: "Monitor", href: "#" },
+  { src: "/home/banner-gaming-mouse.png", alt: "Gaming Mouse", href: "#" },
+  { src: "/home/banner-pc-rx6500xt.png", alt: "PC RX 6500XT", href: "#" },
+];
+
+function BannerCard({
+  item,
+  heightClass = "h-[176px] xl:h-[194px]",
+}: {
+  item: Banner;
+  heightClass?: string;
+}) {
   return (
-    <div className="grid grid-cols-4 gap-2 mt-2">
-      {tiles.map((t) => (
-        <Link
-          key={t.src}
-          href={t.href}
-          aria-label={t.alt}
-          className="rounded-md overflow-hidden border border-gray-200 bg-white" 
-        >
-          <div className="relative h-36">
-            <Image
-              src={t.src}
-              alt={t.alt}
-              fill
-              className="object-cover"
-            />
-          </div>
-        </Link>
+    <Link
+      href={item.href || "#"}
+      aria-label={item.alt}
+      className="block overflow-hidden rounded-lg bg-white"
+    >
+      <div className={`relative w-full overflow-hidden rounded-lg ${heightClass}`}>
+        <Image
+          src={item.src}
+          alt={item.alt}
+          fill
+          sizes="(min-width:1280px) 25vw, (min-width:768px) 50vw, 100vw"
+          className="object-cover"
+        />
+      </div>
+    </Link>
+  );
+}
+
+export function TopPromoRow() {
+  return (
+    <div className="grid grid-cols-1 gap-3 xl:grid-cols-3">
+      {topRow.map((item) => (
+        <BannerCard
+          key={item.src}
+          item={item}
+          heightClass="h-[176px] xl:h-[194px]"
+        />
+      ))}
+    </div>
+  );
+}
+
+export function BottomWideRow() {
+  return (
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      {bottomRow.map((item) => (
+        <BannerCard
+          key={item.src}
+          item={item}
+          heightClass="h-[176px] xl:h-[194px]"
+        />
       ))}
     </div>
   );

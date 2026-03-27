@@ -4,26 +4,69 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-export type Slide = { src: string; alt: string; href?: string };
-type Promo = { src: string; alt: string; href?: string };
+export type Slide = {
+  src: string;
+  alt: string;
+  href?: string;
+};
+
+type Promo = {
+  src: string;
+  alt: string;
+  href?: string;
+};
 
 export default function HeroCarousel() {
-  const banners : Promo[] = [
-    {src: "/home/gearvn-build-pc-sub-banner-t1-26.png",alt: "Right 1",href: "#"},
-    {src: "/home/gearvn-ban-phim-sub-banner-t1-26.png",alt: "Right 2",href: "#"},
-    {src: "/home/gearvn-ban-phim-sub-banner-t1-26.png",alt: "Right 2",href: "#"},
-    {src: "/home/gearvn-ban-phim-sub-banner-t1-26.png",alt: "Right 2",href: "#"},
-    {src: "/home/gearvn-ban-phim-sub-banner-t1-26.png",alt: "Right 2",href: "#"},
+  const rightBanners: Promo[] = [
+    {
+      src: "/home/gearvn-build-pc-sub-banner-t1-26.png",
+      alt: "Build PC",
+      href: "#",
+    },
+    {
+      src: "/home/gearvn-ban-phim-sub-banner-t1-26.png",
+      alt: "Bàn phím",
+      href: "#",
+    },
   ];
+
   const slides: Slide[] = useMemo(
     () => [
-      { src: "/home/gearvn-thu-cu-doi-moi-t10-slider.jpeg", alt: "Hero 1", href: "#" },
-      { src: "/home/gearvn-pc-gvn-t11-slider.jpg", alt: "Hero 2", href: "#" },
-      { src: "/home/gearvn-man-hinh-t10-slider.jpg", alt: "Hero 4", href: "#" },
-      { src: "/home/gearvn-laptop-acer-predator-triton-14a-slider-t12.jpg", alt: "Hero 5", href: "#" },
-      { src: "/home/gearvn-laptop-nvidia-rtx-50-series-slider.jpg", alt: "Hero 6", href: "#" },
-      { src: "/home/gearvn-laptop-gigabyte-slider-t12.jpg", alt: "Hero 7", href: "#" },
-      { src: "/home/gearvn-pc-gvn-nvidia-sliders.jpg", alt: "Hero 8", href: "#" },
+      {
+        src: "/home/gearvn-thu-cu-doi-moi-t10-slider.jpeg",
+        alt: "Hero 1",
+        href: "#",
+      },
+      {
+        src: "/home/gearvn-pc-gvn-t11-slider.jpg",
+        alt: "Hero 2",
+        href: "#",
+      },
+      {
+        src: "/home/gearvn-man-hinh-t10-slider.jpg",
+        alt: "Hero 3",
+        href: "#",
+      },
+      {
+        src: "/home/gearvn-laptop-acer-predator-triton-14a-slider-t12.jpg",
+        alt: "Hero 4",
+        href: "#",
+      },
+      {
+        src: "/home/gearvn-laptop-nvidia-rtx-50-series-slider.jpg",
+        alt: "Hero 5",
+        href: "#",
+      },
+      {
+        src: "/home/gearvn-laptop-gigabyte-slider-t12.jpg",
+        alt: "Hero 6",
+        href: "#",
+      },
+      {
+        src: "/home/gearvn-pc-gvn-nvidia-sliders.jpg",
+        alt: "Hero 7",
+        href: "#",
+      },
     ],
     []
   );
@@ -32,84 +75,70 @@ export default function HeroCarousel() {
 
   useEffect(() => {
     if (slides.length <= 1) return;
-    const t = setInterval(() => setIdx((p) => (p + 1) % slides.length), 4500);
-    return () => clearInterval(t);
+
+    const timer = setInterval(() => {
+      setIdx((prev) => (prev + 1) % slides.length);
+    }, 4500);
+
+    return () => clearInterval(timer);
   }, [slides.length]);
 
+  const current = slides[idx];
+
   return (
-    <div className="grid grid-cols-3 grid-rows-3 gap-2 w-full">
-      <div className="col-span-2 row-span-2  rounded-md">
-        <div className={["h-full", "overflow-hidden rounded-md border border-gray-200 bg-white",
-      ].join(" ")}
-    >
-      <div className="relative h-full w-full">
-        {slides.map((s, i) => {
-          const active = i === idx;
-          const layer = (
-            <div
-              className={[
-                "absolute inset-0",
-                "transition-opacity duration-700 ease-out",
-                active ? "opacity-100" : "opacity-0",
-                active ? "pointer-events-auto" : "pointer-events-none",
-              ].join(" ")}
-            >
-              <Image
-                src={s.src}
-                alt={s.alt}
-                fill
-                priority={i === 0}
-                className="object-cover"
-              />
-            </div>
-          );
-          return s.href ? (
-            <Link key={s.src} href={s.href} aria-label={s.alt} className="absolute inset-0">
-              {layer}
-            </Link>
-          ) : (
-            <div key={s.src} className="absolute inset-0">
-              {layer}
-            </div>
-          );
-        })}
-        {/* indicator */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setIdx(i)}
-              aria-label={`Slide ${i + 1}`}
-              className={[
-                "h-1 w-8 rounded-sx transition-colors",
-                i === idx ? "bg-[#D70018]" : "bg-black/30 hover:bg-black/40",
-              ].join(" ")}
+    <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+      <div className="lg:col-span-2">
+        <div className="relative min-h-[220px] overflow-hidden rounded-lg border border-gray-200 bg-white sm:min-h-[280px] lg:min-h-[320px] xl:min-h-[360px]">
+          <Link
+            href={current.href || "#"}
+            aria-label={current.alt}
+            className="absolute inset-0 block"
+          >
+            <Image
+              src={current.src}
+              alt={current.alt}
+              fill
+              priority
+              className="object-cover"
             />
-          ))}
+          </Link>
+
+          <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIdx(i)}
+                aria-label={`Slide ${i + 1}`}
+                className={`h-1.5 w-8 rounded-full transition-colors ${
+                  i === idx ? "bg-[#D70018]" : "bg-black/25 hover:bg-black/40"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-    </div>
-    {banners.map((banner, index) => (
-      <div key={index} className="bg-blue-500 flex items-center justify-center text-white rounded-lg"><PromoCard p = {banner}/></div>
-    ))}
-    </div>
-  );
-}
 
-function PromoCard({ p }: { p: Promo }) {
-  return(
-    <Link href={p.href || "#"} aria-label={p.alt} className="block overflow-hidden rounded-md border border-gray-200 bg-white">
-      <div className="relative w-80 h-40">
-        <Image
-          src={p.src}
-          alt={p.alt}
-          fill
-          sizes="(min-width: 1024px) 224px, (min-width: 768px) 240px, 100vw"
-          className="object-cover"
-        />
+      <div className="grid grid-cols-1 gap-3">
+        {rightBanners.map((banner) => (
+          <Link
+            key={banner.src}
+            href={banner.href || "#"}
+            aria-label={banner.alt}
+            className="block overflow-hidden rounded-lg border border-gray-200 bg-white"
+          >
+            <div className="relative h-[154px] w-full xl:h-[173px]">
+              <Image
+                src={banner.src}
+                alt={banner.alt}
+                fill
+                className="object-cover"
+                sizes="(min-width: 1280px) 340px, (min-width: 1024px) 33vw, 100vw"
+              />
+            </div>
+          </Link>
+        ))}
       </div>
-    </Link>
+    </div>
   );
 }
