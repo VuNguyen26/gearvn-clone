@@ -6,6 +6,19 @@ export type ProductSpec = {
   screen?: string;
   refreshRate?: string;
   brand?: string;
+  series?: string;
+  usage?: string;
+  purpose?: string;
+  need?: string;
+  segment?: string;
+  color?: string;
+  connectivity?: string;
+  power?: string;
+  warranty?: string;
+  material?: string;
+  size?: string;
+  weight?: string;
+  [key: string]: string | undefined;
 };
 
 export type SpecItem = {
@@ -17,20 +30,27 @@ export type Product = {
   id: string;
   slug: string;
   name: string;
+
   category: string;
   subcategory?: string;
+
   price: number;
   salePrice?: number;
   stock: number;
   images: string[];
 
   shortDesc: string;
-  brand?: string;
 
-  // Giữ lại để tương thích với code cũ, nhất là laptop
+  brand?: string;
+  cpu?: string;
+  usage?: string;
+  need?: string;
+  purpose?: string;
+  series?: string;
+  segment?: string;
+
   specs?: ProductSpec;
 
-  // Dùng cho giao diện mới, linh hoạt cho mọi loại sản phẩm
   cardSpecs?: SpecItem[];
   detailSpecs?: SpecItem[];
 };

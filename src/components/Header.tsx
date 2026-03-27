@@ -1,12 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   Menu,
-  Search,
   ShoppingCart,
   User,
   Hand,
@@ -25,8 +24,9 @@ import {
 
 import { useCart } from "@/store/cart";
 import CategorySidebar from "@/components/home/CategorySidebar";
+import SearchBar from "@/components/SearchBar";
 
-const MAX_W = "w-300";
+const MAX_W = "w-full max-w-[1200px]";
 
 type HeaderUser = {
   fullName?: string;
@@ -37,10 +37,11 @@ type HeaderUser = {
 export default function Header() {
   const cartCount = useCart((s) => s.count());
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const searchKey = searchParams.toString();
 
   const [mounted, setMounted] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
-
   const [user, setUser] = useState<HeaderUser | null>(null);
   const [openUser, setOpenUser] = useState(false);
   const userRef = useRef<HTMLDivElement | null>(null);
@@ -52,7 +53,7 @@ export default function Header() {
   useEffect(() => {
     setOpenCategory(false);
     setOpenUser(false);
-  }, [pathname]);
+  }, [pathname, searchKey]);
 
   const safeCartCount = mounted ? cartCount : 0;
 
@@ -118,8 +119,10 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="bg-[#E30019] sticky top-0 z-100 ">
-        <div className={`mx-auto ${MAX_W} flex h-[74px] items-center gap-3 px-3`}>
+      <div className="sticky top-0 z-50 bg-[#E30019]">
+        <div
+          className={`mx-auto ${MAX_W} flex h-[74px] items-center gap-3 px-3`}
+        >
           <Link href="/" className="flex shrink-0 items-center pr-1">
             <div className="relative h-[42px] w-[150px]">
               <Image
@@ -132,41 +135,45 @@ export default function Header() {
             </div>
           </Link>
 
-          <div className="relative shrink-0">
+          <div className="relative z-[61] shrink-0">
             <button
               type="button"
               onClick={() => setOpenCategory((prev) => !prev)}
-              className="flex h-[44px] w-[115px] shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white hover:bg-[#A60012]"
+              className="flex h-[44px] w-[115px] shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white transition-colors hover:bg-[#A60012]"
             >
               <Menu className="h-6 w-6" />
               <span className="text-[13px] leading-none">Danh mục</span>
             </button>
 
-            {openCategory && (
-              <div className="absolute left-0 top-[52px] z-[999]">
-                <CategorySidebar />
-              </div>
-            )}
-          </div>
+            <div
+              className={[
+                "fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-150",
+                openCategory
+                  ? "pointer-events-auto z-40 opacity-100"
+                  : "pointer-events-none opacity-0",
+              ].join(" ")}
+              onClick={() => setOpenCategory(false)}
+            />
 
-          <div className="min-w-0 flex-1">
-            <div className="relative">
-              <input
-                aria-label="Bạn cần tìm gì?"
-                placeholder="Bạn cần tìm gì?"
-                className="h-[44px] w-full rounded-[6px] bg-white px-4 pr-12 text-[14px] outline-none placeholder:text-gray-500"
-              />
-              <button
-                type="button"
-                aria-label="Tìm kiếm"
-                className="absolute right-0 top-0 flex h-[44px] w-[52px] items-center justify-center rounded-r-[6px] bg-white text-black hover:bg-gray-50"
-              >
-                <Search className="h-5 w-5" />
-              </button>
+            <div
+              className={[
+                "absolute left-0 top-full mt-2 z-[60] transition-all duration-150 ease-out",
+                openCategory
+                  ? "visible translate-y-0 opacity-100"
+                  : "invisible pointer-events-none -translate-y-1 opacity-0",
+              ].join(" ")}
+            >
+              <div className="shadow-2xl">
+                <CategorySidebar onNavigate={() => setOpenCategory(false)} />
+              </div>
             </div>
           </div>
 
-          <div className="hidden shrink-0 items-center gap-2 text-white lg:flex">
+          <div className="relative z-10 min-w-0 flex-1">
+            <SearchBar />
+          </div>
+
+          <div className="relative z-10 hidden shrink-0 items-center gap-2 text-white lg:flex">
             <HeaderAction
               href="/showroom"
               icon={<MapPin className="h-6 w-6" />}
@@ -354,13 +361,13 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="border-b border-gray-200 bg-white">
+      <div className="relative z-0 border-b border-gray-200 bg-white">
         <div className={`mx-auto ${MAX_W} h-[46px] px-3`}>
           <div className="grid h-[46px] grid-cols-6">
             <SubItem
-              href="/introduce"
+              href="/"
               icon={<Tag className="h-[18px] w-[18px]" />}
-              text="Giới thiệu"
+              text="Mua PC tặng màn 240Hz"
             />
             <SubItem
               href="/"
@@ -375,13 +382,13 @@ export default function Header() {
               text="Tin tức"
             />
             <SubItem
-              href=""
+              href="/on-site-technical-support"
               withDivider
               icon={<Wrench className="h-[18px] w-[18px]" />}
               text="Dịch vụ kỹ thuật tại nhà"
             />
             <SubItem
-              href="/trade-in"
+              href="/"
               withDivider
               icon={<RefreshCw className="h-[18px] w-[18px]" />}
               text="Thu cũ đổi mới"
@@ -407,7 +414,7 @@ function HeaderAction({
   variant = "plain",
 }: {
   href: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   line1: string;
   line2: string;
   variant?: "plain" | "boxed";
@@ -429,7 +436,10 @@ function HeaderAction({
   }
 
   return (
-    <Link href={href} className={`${base} ${variant === "boxed" ? boxed : ""}`}>
+    <Link
+      href={href}
+      className={`${base} ${variant === "boxed" ? boxed : ""}`}
+    >
       <div className="shrink-0">{icon}</div>
       <div className="leading-[18px]">
         <div className="text-[13px] font-bold">{line1}</div>
@@ -446,7 +456,7 @@ function SubItem({
   withDivider,
 }: {
   href: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   text: string;
   withDivider?: boolean;
 }) {
@@ -454,7 +464,7 @@ function SubItem({
     <Link
       href={href}
       className={[
-        "relative group flex h-[46px] items-center justify-center gap-2 px-3",
+        "group relative flex h-[46px] items-center justify-center gap-2 px-3",
         "text-[13px] font-semibold text-black hover:text-[#D70018]",
         withDivider ? "pl-5" : "",
       ].join(" ")}
