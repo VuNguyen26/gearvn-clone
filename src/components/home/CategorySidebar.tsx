@@ -119,7 +119,7 @@ export default function CategorySidebar({
 }: CategorySidebarProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const searchKey = searchParams.toString();
+  const searchKey = searchParams?.toString() ?? "";
 
   const [activeId, setActiveId] = useState<string>(
     normalizeCategoryId(sidebarItems[0]?.id ?? "")

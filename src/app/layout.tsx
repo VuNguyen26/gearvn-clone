@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
@@ -71,6 +72,10 @@ export const metadata: Metadata = {
   },
 };
 
+function HeaderFallback() {
+  return <div className="h-[120px] w-full" />;
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -79,11 +84,15 @@ export default function RootLayout({
   return (
     <html lang="vi" className={cn("font-sans", inter.variable)}>
       <body className="min-h-screen bg-[#f2f2f2] text-gray-900">
-        <Header />
+        <Suspense fallback={<HeaderFallback />}>
+          <Header />
+        </Suspense>
+
         <main className="relative w-full">
           {children}
           <SideFloatBanners />
         </main>
+
         <Footer />
       </body>
     </html>

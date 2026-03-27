@@ -41,15 +41,17 @@ export default function ProductGallery({
 
             return (
               <button
-                key={`${name}-${idx}`}
-                type="button"
-                onClick={() => setSelectedImage(img)}
-                className={`relative flex h-[78px] w-[78px] items-center justify-center overflow-hidden rounded-xl border bg-white p-1 transition ${
-                  active
-                    ? "border-red-500 ring-1 ring-red-500"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
+  key={`${name}-${idx}`}
+  type="button"
+  onClick={() => setSelectedImage(img)}
+  aria-label={`Chọn ảnh ${idx + 1} của ${name}`}
+  title={`Chọn ảnh ${idx + 1} của ${name}`}
+  className={`relative flex h-[78px] w-[78px] items-center justify-center overflow-hidden rounded-xl border bg-white p-1 transition ${
+    active
+      ? "border-red-500 ring-1 ring-red-500"
+      : "border-gray-200 hover:border-gray-300"
+  }`}
+>
                 <Image
                   src={img}
                   alt={`Ảnh chi tiết ${idx + 1} của ${name}`}

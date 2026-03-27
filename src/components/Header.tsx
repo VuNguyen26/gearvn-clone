@@ -38,7 +38,7 @@ export default function Header() {
   const cartCount = useCart((s) => s.count());
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const searchKey = searchParams.toString();
+  const searchKey = searchParams?.toString() ?? "";
 
   const [mounted, setMounted] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
@@ -261,7 +261,12 @@ export default function Header() {
                 </>
               ) : (
                 <>
-                  <button type="button" onClick={() => setOpenUser((v) => !v)}>
+                  <button
+  type="button"
+  onClick={() => setOpenUser((v) => !v)}
+  aria-label="Mở menu tài khoản"
+  title="Mở menu tài khoản"
+>
                     <HeaderAction
                       href="#"
                       icon={<User className="h-6 w-6" />}

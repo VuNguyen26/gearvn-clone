@@ -20,7 +20,7 @@ export default function SearchBar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setKeyword(searchParams.get("q") ?? "");
+    setKeyword(searchParams?.get("q") ?? "");
   }, [searchParams]);
 
   useEffect(() => {
