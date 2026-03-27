@@ -1,3 +1,8 @@
+// src/types/product.ts
+
+export type SpecPrimitive = string | number | boolean;
+export type SpecValue = SpecPrimitive | SpecPrimitive[];
+
 export type ProductSpec = {
   cpu?: string;
   ram?: string;
@@ -6,19 +11,25 @@ export type ProductSpec = {
   screen?: string;
   refreshRate?: string;
   brand?: string;
+
   series?: string;
   usage?: string;
   purpose?: string;
   need?: string;
   segment?: string;
+
   color?: string;
-  connectivity?: string;
-  power?: string;
-  warranty?: string;
   material?: string;
   size?: string;
   weight?: string;
-  [key: string]: string | undefined;
+  warranty?: string;
+
+  connection?: string;
+  connectivity?: string;
+  ports?: string;
+  power?: string;
+
+  [key: string]: SpecValue | undefined;
 };
 
 export type SpecItem = {
@@ -40,7 +51,8 @@ export type Product = {
   images: string[];
 
   shortDesc: string;
-
+  description?: string;
+  // Giữ lại để tương thích với dữ liệu cũ
   brand?: string;
   cpu?: string;
   usage?: string;
@@ -49,8 +61,10 @@ export type Product = {
   series?: string;
   segment?: string;
 
+  // Thông số linh hoạt cho mọi loại sản phẩm
   specs?: ProductSpec;
 
+  // Dùng cho card hoặc trang chi tiết nếu muốn custom riêng
   cardSpecs?: SpecItem[];
   detailSpecs?: SpecItem[];
 };

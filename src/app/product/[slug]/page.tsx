@@ -3,13 +3,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/products";
 import { vnd } from "@/lib/money";
+import { getDisplaySpecs } from "@/lib/getDisplaySpecs";
 import ProductGallery from "@/components/product/ProductGallery";
+import ProductSpecsTable from "@/components/product/ProductSpecsTable";
 import AddToCart from "./ui/add-to-cart";
 
 export const revalidate = 60;
 
 type PageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{
+    slug: string;
+  }>;
 };
 
 export async function generateMetadata({
@@ -19,7 +23,10 @@ export async function generateMetadata({
   const p = getProductBySlug(slug);
 
   if (!p) {
-    return { title: "Sản phẩm không tồn tại" };
+    return {
+      title: "Sản phẩm không tồn tại",
+      description: "Không tìm thấy sản phẩm",
+    };
   }
 
   return {
@@ -31,7 +38,7 @@ export async function generateMetadata({
     openGraph: {
       title: p.name,
       description: p.shortDesc ?? p.name,
-      images: [p.images[0]],
+      images: p.images?.length ? [p.images[0]] : [],
       type: "website",
       url: `/product/${p.slug}`,
     },
@@ -42,7 +49,9 @@ export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
   const p = getProductBySlug(slug);
 
-  if (!p) return notFound();
+  if (!p) {
+    notFound();
+  }
 
   const price = p.salePrice ?? p.price;
 
@@ -50,6 +59,9 @@ export default async function ProductPage({ params }: PageProps) {
     p.salePrice && p.price > 0
       ? Math.round(((p.price - p.salePrice) / p.price) * 100)
       : 0;
+
+  const displaySpecs = getDisplaySpecs(p);
+  const highlightSpecs = displaySpecs.slice(0, 6);
 
   return (
     <div className="mx-auto max-w-[1200px] space-y-4 bg-[#f5f5f5] px-3 py-4">
@@ -98,65 +110,34 @@ export default async function ProductPage({ params }: PageProps) {
               <AddToCart product={p} />
             </div>
 
-            <div className="mt-6 overflow-hidden rounded-2xl border border-gray-200">
-              <div className="bg-red-600 px-4 py-3 text-base font-bold text-white">
-                ĐIỂM NỔI BẬT
+            {highlightSpecs.length > 0 && (
+              <div className="mt-6 overflow-hidden rounded-2xl border border-gray-200">
+                <div className="bg-red-600 px-4 py-3 text-base font-bold text-white">
+                  ĐIỂM NỔI BẬT
+                </div>
+
+                <dl className="text-sm text-gray-700">
+                  {highlightSpecs.map((item, index) => (
+                    <div
+                      key={`${item.label}-${index}`}
+                      className="flex gap-2 border-b border-gray-100 px-4 py-3 last:border-b-0"
+                    >
+                      <dt className="w-32 shrink-0 text-gray-500">
+                        {item.label}
+                      </dt>
+                      <dd className="whitespace-pre-line font-medium">
+                        {item.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
-
-              <dl className="text-sm text-gray-700">
-                {p.specs?.cpu && (
-                  <div className="flex gap-2 border-b border-gray-100 px-4 py-3">
-                    <dt className="w-28 shrink-0 text-gray-500">CPU</dt>
-                    <dd className="font-medium">{p.specs.cpu}</dd>
-                  </div>
-                )}
-
-                {p.specs?.gpu && (
-                  <div className="flex gap-2 border-b border-gray-100 px-4 py-3">
-                    <dt className="w-28 shrink-0 text-gray-500">VGA</dt>
-                    <dd className="font-medium">{p.specs.gpu}</dd>
-                  </div>
-                )}
-
-                {p.specs?.ram && (
-                  <div className="flex gap-2 border-b border-gray-100 px-4 py-3">
-                    <dt className="w-28 shrink-0 text-gray-500">RAM</dt>
-                    <dd className="font-medium">{p.specs.ram}</dd>
-                  </div>
-                )}
-
-                {p.specs?.storage && (
-                  <div className="flex gap-2 border-b border-gray-100 px-4 py-3">
-                    <dt className="w-28 shrink-0 text-gray-500">SSD</dt>
-                    <dd className="font-medium">{p.specs.storage}</dd>
-                  </div>
-                )}
-
-                {p.specs?.screen && (
-                  <div className="flex gap-2 border-b border-gray-100 px-4 py-3">
-                    <dt className="w-28 shrink-0 text-gray-500">Màn hình</dt>
-                    <dd className="font-medium">{p.specs.screen}</dd>
-                  </div>
-                )}
-
-                {p.specs?.refreshRate && (
-                  <div className="flex gap-2 border-b border-gray-100 px-4 py-3">
-                    <dt className="w-28 shrink-0 text-gray-500">Tần số quét</dt>
-                    <dd className="font-medium">{p.specs.refreshRate}</dd>
-                  </div>
-                )}
-
-                {p.specs?.brand && (
-                  <div className="flex gap-2 px-4 py-3">
-                    <dt className="w-28 shrink-0 text-gray-500">Hãng</dt>
-                    <dd className="font-medium">{p.specs.brand}</dd>
-                  </div>
-                )}
-              </dl>
-            </div>
+            )}
           </div>
         </div>
       </div>
+
+      <ProductSpecsTable specs={displaySpecs} />
     </div>
   );
 }
