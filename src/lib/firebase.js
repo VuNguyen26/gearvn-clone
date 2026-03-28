@@ -17,5 +17,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+// Khởi tạo Firebase (Tránh lỗi khởi tạo 2 lần khi Next.js reload)
+const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+
+// Xuất các dịch vụ bạn sẽ dùng
+export const db = getFirestore(app);
+export const storage = getStorage(app);

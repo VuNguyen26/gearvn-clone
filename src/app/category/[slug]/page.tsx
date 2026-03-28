@@ -6,7 +6,7 @@ import CategoryProductsClient from "./CategoryProductsClient";
 
 export const revalidate = 60;
 
-const MAX_W = "max-w-[1500px]";
+const MAX_W = "max-w-[1200px]";
 const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
 const categoryTitleMap: Record<string, string> = {

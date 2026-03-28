@@ -7,8 +7,6 @@ import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getPaginatedProducts } from "@/lib/products";
 
-export const revalidate = 60;
-
 export const metadata: Metadata = {
   title: "Trang chủ",
   description:
@@ -63,8 +61,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <div className="mt-3">
           <BottomWideRow />
         </div>
-
-        
 
         <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">

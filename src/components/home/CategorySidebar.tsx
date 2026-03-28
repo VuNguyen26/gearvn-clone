@@ -233,7 +233,7 @@ export default function CategorySidebar({
                   onClick={closeAll}
                   className={[
                     "group relative flex h-[40px] w-full items-center gap-2 px-3",
-                    "text-left text-[15px] font-medium leading-none transition-colors duration-150",
+                    "text-left text-[15px] font-medium leading-none transition-colors duration-50",
                     isActive
                       ? "bg-[#E30019] text-white"
                       : "bg-white text-black hover:bg-[#E30019] hover:text-white",

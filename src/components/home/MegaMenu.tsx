@@ -138,7 +138,7 @@ export default function MegaMenu({ content }: MegaMenuProps) {
   return (
     <div
       className={[
-        "min-h-[500px] w-[940px] max-w-[calc(100vw-320px)]",
+        "min-h-[575px] w-[1039px] max-w-[calc(100vw-320px)] ml-2",
         "rounded-r-md border border-l-0 border-gray-200 bg-white",
         "p-6 text-black shadow-xl",
       ].join(" ")}
