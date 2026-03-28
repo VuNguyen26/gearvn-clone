@@ -127,7 +127,7 @@ export default function HeroCarousel() {
             aria-label={banner.alt}
             className="block overflow-hidden rounded-lg border border-gray-200 bg-white"
           >
-            <div className="relative h-[154px] w-full xl:h-[173px]">
+            <div className="relative h-[150px] w-full xl:h-[150px]">
               <Image
                 src={banner.src}
                 alt={banner.alt}

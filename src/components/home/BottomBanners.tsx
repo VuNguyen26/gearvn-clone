@@ -22,7 +22,7 @@ const bottomRow: Banner[] = [
 
 function BannerCard({
   item,
-  heightClass = "h-[176px] xl:h-[194px]",
+  heightClass = "h-[150px] xl:h-[150px]",
 }: {
   item: Banner;
   heightClass?: string;
@@ -53,7 +53,7 @@ export function TopPromoRow() {
         <BannerCard
           key={item.src}
           item={item}
-          heightClass="h-[176px] xl:h-[194px]"
+          heightClass="h-[150px] xl:h-[150px]"
         />
       ))}
     </div>
@@ -67,7 +67,7 @@ export function BottomWideRow() {
         <BannerCard
           key={item.src}
           item={item}
-          heightClass="h-[176px] xl:h-[194px]"
+          heightClass="h-[150px] xl:h-[150px]"
         />
       ))}
     </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "@/components/ProductCard";
+import Image from "next/image";
 import {
   bestSellerSlugs,
   hotDealTabs,
@@ -30,11 +31,12 @@ function mapProductsBySlugs(products: Product[], slugs: string[]) {
 
 function HeroBanner() {
   return (
-    <div className="w-full bg-black">
-      <img
+    <div className="w-full bg-black relative h-[851px]">
+      <Image
         src="/images/hotdeals.png"
         alt="Hot Deals Banner"
-        className="mx-auto block h-auto max-h-[460px] w-full object-cover"
+        fill
+        className="object-cover"
       />
     </div>
   );
@@ -42,10 +44,10 @@ function HeroBanner() {
 
 function TopTabs() {
   return (
-    <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-center gap-3 px-4 py-5">
+    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-3 px-4 py-2  sticky top-18 z-15 bg-black">
       <div className="rounded-2xl border border-zinc-600 bg-gradient-to-b from-zinc-500 to-zinc-800 px-5 py-3 text-center text-white shadow-lg">
         <div className="text-lg font-black leading-none md:text-xl">VOUCHER</div>
-        <div className="mt-1 text-4xl font-black leading-none md:text-5xl">500K</div>
+        <div className="mt-1 text-2xl font-black leading-none sm:text-3xl">500K</div>
         <div className="mt-1 text-[11px] uppercase tracking-wide text-zinc-200 md:text-xs">
           Khi nâng cấp RAM / SSD
         </div>

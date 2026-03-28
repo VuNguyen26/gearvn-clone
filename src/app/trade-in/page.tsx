@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { MyTable } from "@/components/trade-in/MyTable";
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 const MAX_W = "w-300";
 export default function TradeInPage() {
   return (
     <div className={`${MAX_W} mx-auto`}>
+        <div className="hidden xl:block">
+                <SideFloatBanners />
+              </div>
       <div className="my-2 text-[13px]">
         <Link href="/" className="text-blue-500">Trang chủ</Link>
         <span className="mx-2">/</span>

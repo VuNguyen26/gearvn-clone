@@ -2,12 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import {MapPin, ShoppingCart} from "lucide-react";
 import ImageGallery from "@/components/introduce/ImageGallery";
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 const MAX_W = "w-300";
 export default function IntroducePage() {
     return (
         <div className={`${MAX_W} mx-auto mt-4 rounded-2xl h-96 bg-white shadow-sm h-auto`}>
             <div className="w-full h-auto rounded-t-2xl p-4 flex">
+                <div className="hidden xl:block">
+                        <SideFloatBanners />
+                      </div>
                 <div>
                     <h1 className="font-bold text-black text-4xl ml-4">Giới thiệu về chúng tôi</h1>
                     <p className="my-4">

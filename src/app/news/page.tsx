@@ -5,6 +5,7 @@ import NewsBanner from "@/components/news/NewsBanner";
 import FeaturedNewsGrid from "@/components/news/FeaturedNewsGrid";
 import NewsList from "@/components/news/NewsList";
 import NewsSidebar from "@/components/news/NewsSidebar";
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
@@ -59,6 +60,9 @@ export default function NewsPage() {
         </nav>
 
         <section className="rounded-md bg-white p-4 shadow-sm">
+          <div className="hidden xl:block">
+                  <SideFloatBanners />
+                </div>
           <header>
             <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
               Tin tức công nghệ mới nhất

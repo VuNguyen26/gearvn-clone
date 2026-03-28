@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { MapPin, Phone, ChevronRight } from "lucide-react";
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 type Store = {
   name: string;
@@ -54,6 +55,9 @@ const hanoiStores: Store[] = [
 function StoreCard({ store }: { store: Store }) {
   return (
     <div className="rounded-lg border bg-white p-4 shadow-sm">
+      <div className="hidden xl:block">
+              <SideFloatBanners />
+            </div>
       <div className="flex items-start gap-2">
         <MapPin className="mt-1 h-4 w-4 text-red-500" />
         <h3 className="text-[16px] font-bold text-blue-600">{store.name}</h3>

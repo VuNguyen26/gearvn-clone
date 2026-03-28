@@ -90,7 +90,7 @@ export default function RootLayout({
 
         <main className="relative w-full">
           {children}
-          <SideFloatBanners />
+          {/* <SideFloatBanners /> */}
         </main>
 
         <Footer />

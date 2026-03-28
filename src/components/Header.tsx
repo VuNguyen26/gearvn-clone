@@ -368,14 +368,14 @@ export default function Header() {
 
       <div className="relative z-0 border-b border-gray-200 bg-white">
         <div className={`mx-auto ${MAX_W} h-[46px] px-3`}>
-          <div className="grid h-[46px] grid-cols-6">
+          <div className="grid h-[46px] grid-cols-5">
             <SubItem
               href="/introduce"
               icon={<Tag className="h-[18px] w-[18px]" />}
               text="Giới thiệu"
             />
             <SubItem
-              href="/pages/laptop-gaming"
+              href="/laptop-gaming-Hot-Deals"
               withDivider
               icon={<Flame className="h-[18px] w-[18px]" />}
               text="Hot Deal | Laptop"
@@ -397,12 +397,6 @@ export default function Header() {
               withDivider
               icon={<RefreshCw className="h-[18px] w-[18px]" />}
               text="Thu cũ đổi mới"
-            />
-            <SubItem
-              href="/"
-              withDivider
-              icon={<ShieldCheck className="h-[18px] w-[18px]" />}
-              text="Tra cứu bảo hành"
             />
           </div>
         </div>

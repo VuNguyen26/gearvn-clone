@@ -32,11 +32,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#f2f2f2]">
-      <div className="hidden 2xl:block">
+      <div className="hidden xl:block">
         <SideFloatBanners />
       </div>
 
-      <div className="mx-auto w-full max-w-[1320px] px-3">
+      <div className="mx-auto w-full max-w-[1200px] px-3">
         <section className="mt-4 rounded-2xl bg-white p-4 shadow-sm">
           <h1 className="text-2xl font-bold text-black md:text-3xl">
             Thiết bị công nghệ chính hãng, giá tốt
@@ -62,7 +62,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <BottomWideRow />
         </div>
 
-        <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm">
+        <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm ">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <div>
               <h2 className="text-[22px] font-bold text-black">

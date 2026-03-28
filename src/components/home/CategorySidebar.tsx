@@ -212,7 +212,7 @@ export default function CategorySidebar({
 
   return (
     <div
-      className={`relative w-[250px] shrink-0 ${className}`}
+      className={`relative w-[250px] h-[572px] shrink-0 ${className}`}
       onMouseEnter={handleWrapperEnter}
       onMouseLeave={handleWrapperLeave}
     >

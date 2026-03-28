@@ -6,6 +6,7 @@ import { Trash2 } from "lucide-react";
 import CheckoutStepper from "@/components/checkout/CheckoutStepper";
 import { useCart } from "@/store/cart";
 import { vnd } from "@/lib/money";
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 export default function CartPage() {
   const items = useCart((s) => s.items);
@@ -16,6 +17,9 @@ export default function CartPage() {
 
   return (
     <main className="min-h-screen bg-[#f3f3f3] py-6">
+      <div className="hidden xl:block">
+              <SideFloatBanners />
+            </div>
       <div className="mx-auto px-4">
         <div className="mx-auto max-w-[680px]">
           <Link href="/" className="mb-4 inline-block text-sm text-sky-600 hover:underline">

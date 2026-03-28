@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import ServiceSidebar from "@/components/services/ServiceSidebar";
+// import ServiceSidebar from "@/components/services/ServiceSidebar";
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 const googleFormLink =
   "https://docs.google.com/forms/d/e/1FAIpQLSdPLGe0SVcpCzyd0su-vLLhsxCa17WDH82F7MDW9YKp62hXeg/viewform?usp=publish-editor";
@@ -10,6 +11,9 @@ export default function OnSiteTechnicalSupportPage() {
   return (
     <main className="min-h-screen bg-gray-100 py-6">
       <div className="mx-auto max-w-[1280px] px-4">
+        <div className="hidden xl:block">
+                <SideFloatBanners />
+              </div>
         {/* breadcrumb */}
         <div className="mb-4 flex items-center gap-2 text-[13px] text-gray-500">
           <Link href="/" className="text-blue-600 hover:underline">
@@ -20,8 +24,8 @@ export default function OnSiteTechnicalSupportPage() {
         </div>
 
         <div className="rounded-lg bg-white p-4 md:p-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
-            <ServiceSidebar activeHref="/on-site-technical-support" />
+          <div >
+            {/* <ServiceSidebar activeHref="/on-site-technical-support" /> */}
 
             <section>
               <h1 className="text-[28px] font-bold leading-tight text-gray-800 md:text-[42px]">
