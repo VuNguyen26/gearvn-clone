@@ -212,12 +212,12 @@ export default function CategorySidebar({
 
   return (
     <div
-      className={`relative w-[250px] h-[572px] shrink-0 ${className}`}
+      className={`relative w-[180px] h-auto shrink-0 ${className} mr-4`}
       onMouseEnter={handleWrapperEnter}
       onMouseLeave={handleWrapperLeave}
     >
-      <aside className="overflow-visible rounded-md border border-gray-200 bg-white shadow-sm">
-        <ul className="divide-y divide-gray-200">
+      <aside className="overflow-visible h-[560px] rounded-md border border-gray-200 bg-white shadow-sm">
+        <ul className="divide-y divide-gray-200 flex flex-col">
           {mergedItems.map((item) => {
             const Icon = item.icon;
             const isActive = isMegaOpen && activeId === item.id;
@@ -232,7 +232,7 @@ export default function CategorySidebar({
                   href={item.href}
                   onClick={closeAll}
                   className={[
-                    "group relative flex h-[40px] w-full items-center gap-2 px-3",
+                    "group relative h-9.5 flex w-full items-center gap-2 px-3",
                     "text-left text-[15px] font-medium leading-none transition-colors duration-50",
                     isActive
                       ? "bg-[#E30019] text-white"

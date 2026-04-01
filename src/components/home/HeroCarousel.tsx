@@ -88,7 +88,7 @@ export default function HeroCarousel() {
   return (
     <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
       <div className="lg:col-span-2">
-        <div className="relative min-h-[220px] overflow-hidden rounded-lg border border-gray-200 bg-white sm:min-h-[280px] lg:min-h-[320px] xl:min-h-[360px]">
+        <div className="relative h-[367px] overflow-hidden rounded-lg border border-gray-200 bg-white">
           <Link
             href={current.href || "#"}
             aria-label={current.alt}
@@ -121,22 +121,22 @@ export default function HeroCarousel() {
 
       <div className="grid grid-cols-1 gap-3">
         {rightBanners.map((banner) => (
-          <Link
+          <div 
             key={banner.src}
+            className="relative h-[175px] w-full rounded-lg overflow-hidden">
+          <Link
             href={banner.href || "#"}
             aria-label={banner.alt}
-            className="block overflow-hidden rounded-lg border border-gray-200 bg-white"
+            className=""
           >
-            <div className="relative h-[150px] w-full xl:h-[150px]">
               <Image
                 src={banner.src}
                 alt={banner.alt}
                 fill
                 className="object-cover"
-                sizes="(min-width: 1280px) 340px, (min-width: 1024px) 33vw, 100vw"
               />
-            </div>
-          </Link>
+            </Link>
+          </div>
         ))}
       </div>
     </div>

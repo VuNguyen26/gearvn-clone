@@ -22,7 +22,7 @@ const bottomRow: Banner[] = [
 
 function BannerCard({
   item,
-  heightClass = "h-[150px] xl:h-[150px]",
+  heightClass = "h-[175px]",
 }: {
   item: Banner;
   heightClass?: string;
@@ -38,7 +38,6 @@ function BannerCard({
           src={item.src}
           alt={item.alt}
           fill
-          sizes="(min-width:1280px) 25vw, (min-width:768px) 50vw, 100vw"
           className="object-cover"
         />
       </div>
@@ -48,12 +47,11 @@ function BannerCard({
 
 export function TopPromoRow() {
   return (
-    <div className="grid grid-cols-1 gap-3 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-3 xl:grid-cols-3 mt-3">
       {topRow.map((item) => (
         <BannerCard
           key={item.src}
           item={item}
-          heightClass="h-[150px] xl:h-[150px]"
         />
       ))}
     </div>

@@ -22,18 +22,18 @@ export const CATEGORY_MENU: MenuCategory[] = [
         title: "Giá bán",
         items: ["Dưới 15 triệu", "Từ 15 đến 20 triệu", "Trên 20 triệu"],
       },
-      // {
-      //   title: "CPU Intel - AMD",
-      //   items: ["Intel Core i3", "Intel Core i5", "Intel Core i7", "AMD Ryzen"],
-      // },
-      // {
-      //   title: "Nhu cầu sử dụng",
-      //   items: ["Đồ họa - Studio", "Học sinh - Sinh viên", "Mỏng nhẹ cao cấp"],
-      // },
-      // {
-      //   title: "Linh phụ kiện Laptop",
-      //   items: ["Ram laptop", "SSD laptop", "Ổ cứng di động"],
-      // },
+      {
+        title: "CPU Intel - AMD",
+        items: ["Intel Core i3", "Intel Core i5", "Intel Core i7", "AMD Ryzen"],
+      },
+      {
+        title: "Nhu cầu sử dụng",
+        items: ["Đồ họa - Studio", "Học sinh - Sinh viên", "Mỏng nhẹ cao cấp"],
+      },
+      {
+        title: "Linh phụ kiện Laptop",
+        items: ["Ram laptop", "SSD laptop", "Ổ cứng di động"],
+      },
       {
         title: "Laptop ASUS",
         items: ["ASUS OLED Series", "Vivobook Series", "Zenbook Series"],

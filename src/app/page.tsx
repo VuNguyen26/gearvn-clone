@@ -49,16 +49,16 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </p>
         </section>
 
-        <div className="mt-3 grid grid-cols-1 gap-2 xl:grid-cols-[250px_minmax(0,1fr)]">
+        <div className="mt-3 flex">
           <CategorySidebar />
 
-          <div className="min-w-0 space-y-3">
+          <div className="w-[1030px] h-[575px]">
             <HeroCarousel />
             <TopPromoRow />
           </div>
         </div>
 
-        <div className="mt-3">
+        <div className="">
           <BottomWideRow />
         </div>
 
