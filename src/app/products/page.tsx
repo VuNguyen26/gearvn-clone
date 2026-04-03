@@ -1,3 +1,4 @@
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getFilteredPaginatedProducts } from "@/lib/products";
 
@@ -32,6 +33,9 @@ export default async function ProductsPage({ searchParams }: Props) {
 
   return (
     <div className="max-w-[1200px] mx-auto py-4">
+      <div className="hidden xl:block">
+        <SideFloatBanners />
+      </div>
       <h1 className="text-xl font-bold mb-4">
         Tìm thấy {totalItems} sản phẩm
       </h1>

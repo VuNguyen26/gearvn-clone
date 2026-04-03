@@ -23,6 +23,7 @@ import {
   Gamepad2,
   Usb,
   ChevronRight,
+  Wrench,
 } from "lucide-react";
 
 import MegaMenu from "./MegaMenu";
@@ -43,19 +44,20 @@ type SidebarItem = {
 
 const sidebarItems: SidebarItem[] = [
   { id: "laptop", label: "Laptop", icon: Laptop },
-  { id: "laptop-gaming", label: "Laptop Gaming", icon: Laptop },
-  { id: "pc-gvn", label: "PC GVN", icon: PcCase },
-  { id: "main-cpu-vga", label: "Main, CPU, VGA", icon: Cpu },
-  { id: "case-nguon-tan", label: "Case, Nguồn, Tản", icon: PcCase },
-  { id: "o-cung-ram-the-nho", label: "Ổ cứng, RAM, Thẻ nhớ", icon: HardDrive },
-  { id: "loa-micro-webcam", label: "Loa, Micro, Webcam", icon: Mic },
-  { id: "man-hinh", label: "Màn hình", icon: Monitor },
-  { id: "ban-phim", label: "Bàn phím", icon: Keyboard },
-  { id: "chuot-lot-chuot", label: "Chuột + Lót chuột", icon: Mouse },
-  { id: "tai-nghe", label: "Tai nghe", icon: Headphones },
-  { id: "ghe-ban", label: "Ghế - Bàn", icon: Armchair },
-  { id: "handheld-console", label: "Handheld Console", icon: Gamepad2 },
+  { id: "laptopgaming", label: "Laptop Gaming", icon: Laptop },
+  { id: "pc", label: "PC GVN", icon: PcCase },
+  { id: "main_cpu_vga", label: "Main, CPU, VGA", icon: Cpu },
+  { id: "case", label: "Case, Nguồn, Tản", icon: PcCase },
+  { id: "ssd_ram_sd", label: "Ổ cứng, RAM, Thẻ nhớ", icon: HardDrive },
+  { id: "speaker_micro_webcam", label: "Loa, Micro, Webcam", icon: Mic },
+  { id: "monitors", label: "Màn hình", icon: Monitor },
+  { id: "keyboards", label: "Bàn phím", icon: Keyboard },
+  { id: "mouse_mousepad", label: "Chuột + Lót chuột", icon: Mouse },
+  { id: "headphones", label: "Tai nghe", icon: Headphones },
+  { id: "tables_chairs", label: "Ghế - Bàn", icon: Armchair },
+  { id: "handheld_console", label: "Handheld Console", icon: Gamepad2 },
   { id: "phu-kien", label: "Phụ kiện", icon: Usb },
+  { id: "dich-vu-thong-tin-khac", label: "Dịch vụ và thông tin khác", icon: Wrench },
 ];
 
 const slugAliasMap: Record<string, string> = {

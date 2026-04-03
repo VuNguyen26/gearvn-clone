@@ -21,5 +21,5 @@ export type MenuItem = {
   icon: ElementType;
   href?: string;
   id: string;
-  content?: MenuContent;
+  content?: MenuContent | null;
 };

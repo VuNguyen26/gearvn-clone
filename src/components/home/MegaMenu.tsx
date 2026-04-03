@@ -44,7 +44,6 @@ const getDirectHref = (item: MegaMenuChildItem) => {
   if (!href || href === "#" || href === "/#" || href.startsWith("#")) {
     return undefined;
   }
-
   return href;
 };
 
@@ -138,7 +137,7 @@ export default function MegaMenu({ content }: MegaMenuProps) {
   return (
     <div
       className={[
-        "h-140 w-247.5 max-w-[calc(100vw-320px)] ml-4",
+        "h-140 w-247.5  max-w-[calc(100vw-320px)] ml-4",
         "rounded-r-md border border-l-0 border-gray-200 bg-white",
         "p-6 text-black shadow-xl",
       ].join(" ")}
@@ -155,7 +154,7 @@ export default function MegaMenu({ content }: MegaMenuProps) {
                 {col.items.map((item, itemIndex) => {
                   const label = getItemLabel(item);
                   const href = resolveHref(col.title, item);
-
+console.log(`Cột: ${col.title} | Item: ${label} | Href: ${href}`);
                   return (
                     <li key={`${label}-${itemIndex}`}>
                       <Link
@@ -163,6 +162,7 @@ export default function MegaMenu({ content }: MegaMenuProps) {
                         className="text-[13px] text-gray-700 transition-colors duration-150 hover:text-[#E30019]"
                       >
                         {label}
+                        
                       </Link>
                     </li>
                   );

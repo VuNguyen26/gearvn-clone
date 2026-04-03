@@ -10,8 +10,8 @@ export default function IntroducePage() {
         <div className={`${MAX_W} mx-auto mt-4 rounded-2xl h-96 bg-white shadow-sm h-auto`}>
             <div className="w-full h-auto rounded-t-2xl p-4 flex">
                 <div className="hidden xl:block">
-                        <SideFloatBanners />
-                      </div>
+                    <SideFloatBanners />
+                </div>
                 <div>
                     <h1 className="font-bold text-black text-4xl ml-4">Giới thiệu về chúng tôi</h1>
                     <p className="my-4">

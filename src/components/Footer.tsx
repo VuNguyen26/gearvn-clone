@@ -13,7 +13,7 @@ export default function Footer(){
     const MAX_WIDTH = "sm:max-w-[1200px]";
     const MIN_WIDTH = "w-[400px]";
     return(
-        <div className=" bg-white flex justify-center py-4 text-black text-sm sm:text-[18px] mt-6 w-80 w-full">
+        <div className=" bg-white flex justify-center py-4 text-black text-sm sm:text-[16px] mt-6 w-80 w-full">
             <div className={`sm:grid sm:grid-cols-5 sm:gap-5 ${MAX_WIDTH} w-full`}>
                 <div className="border-b border-gray-300 sm:border-none sm:pb-0">
                     <div onClick={() => setIsOpen(!isOpen)} 
@@ -27,7 +27,7 @@ export default function Footer(){
                         sm:grid-rows-[1fr] sm:opacity-100 sm:mb-0
                     `}>
                         <ul className="overflow-hidden flex flex-col gap-2 px-1">
-                            <Link href="#"><li className="hover:underline hover:cursor-pointer hover:text-red-500 px-1">Giới thiệu</li></Link>
+                            <Link href="introduce"><li className="hover:underline hover:cursor-pointer hover:text-red-500 px-1">Giới thiệu</li></Link>
                         </ul>
                     </div>
                 </div>
@@ -51,9 +51,8 @@ export default function Footer(){
                     </div>
                     <div className={`grid transition-all duration-300 ease-in-out ${isOpenInfo ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'} sm:grid-rows-[1fr] sm:opacity-100 sm:mt-2`}>
                         <ul className="overflow-hidden flex flex-col gap-2 px-1">
-                            <Link href="#"><li className="hover:underline hover:cursor-pointer hover:text-red-500 px-1">Hệ thống cửa hàng</li></Link>
-                            <Link href="#"><li className="hover:underline hover:cursor-pointer hover:text-red-500 px-1">Hướng dẫn mua hàng</li></Link>
-                            <Link href="#"><li className="hover:underline hover:cursor-pointer hover:text-red-500 px-1">Build PC</li></Link>
+                            <Link href="showroom"><li className="hover:underline hover:cursor-pointer hover:text-red-500 px-1">Hệ thống cửa hàng</li></Link>
+                            <Link href="/"><li className="hover:underline hover:cursor-pointer hover:text-red-500 px-1">Hướng dẫn mua hàng</li></Link>
                         </ul>
                     </div>
                 </div>

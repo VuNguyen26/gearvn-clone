@@ -523,4 +523,18 @@ export const CATEGORY_MENU: MenuCategory[] = [
      
     ],
   },
+  {
+    id: "dich-vu",
+    label: "Dịch vụ",
+    sections: [ 
+      {
+        title: "Dịch vụ",
+        items: ["Dịch vụ kkĩ thuật tại nhà"],
+      },
+      {
+        title: "Chính sách",
+        items: ["Chính sách bảo hành", "Chính sách đổi trả"],
+      }
+    ]
+  }
 ];
