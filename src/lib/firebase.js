@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,12 +16,9 @@ const firebaseConfig = {
   measurementId: "G-1S6QR3X85C"
 };
 
-// Initialize Firebase
-const analytics = getAnalytics(app);
 
 // Khởi tạo Firebase (Tránh lỗi khởi tạo 2 lần khi Next.js reload)
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
 // Xuất các dịch vụ bạn sẽ dùng
 export const db = getFirestore(app);
-export const storage = getStorage(app);

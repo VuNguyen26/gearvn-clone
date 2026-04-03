@@ -1,8 +1,8 @@
 import Link from "next/link";
-import type { MenuContent, MegaMenuChildItem } from "@/types/megamenu";
+import type { MenuContent, MegaMenuChildItem, MenuItem } from "@/types/megamenu";
 
 type MegaMenuProps = {
-  content: MenuContent;
+  activeSidebarItem: MenuItem;
 };
 
 const PRODUCTS_PATH = "/products";
@@ -47,7 +47,7 @@ const getDirectHref = (item: MegaMenuChildItem) => {
   return href;
 };
 
-const resolveHref = (columnTitle: string, item: MegaMenuChildItem) => {
+const resolveHref = (category: string | undefined, columnTitle: string, item: MegaMenuChildItem) => {
   const directHref = getDirectHref(item);
   if (directHref) return directHref;
 
@@ -92,28 +92,28 @@ const resolveHref = (columnTitle: string, item: MegaMenuChildItem) => {
 
   if (title === "thuong hieu" && brandMap[value]) {
     return buildHref(PRODUCTS_PATH, {
-      category: "laptop",
+      category,
       brand: brandMap[value],
     });
   }
 
   if (title === "gia ban" && priceMap[value]) {
     return buildHref(PRODUCTS_PATH, {
-      category: "laptop",
+      category,
       price: priceMap[value],
     });
   }
 
   if (title === "cpu intel-amd" && cpuMap[value]) {
     return buildHref(PRODUCTS_PATH, {
-      category: "laptop",
+      category,
       cpu: cpuMap[value],
     });
   }
 
   if (title === "nhu cau su dung" && usageMap[value]) {
     return buildHref(PRODUCTS_PATH, {
-      category: "laptop",
+      category,
       usage: usageMap[value],
     });
   }
@@ -122,18 +122,24 @@ const resolveHref = (columnTitle: string, item: MegaMenuChildItem) => {
     const brandFromTitle = title.replace("laptop ", "").trim();
 
     return buildHref(PRODUCTS_PATH, {
-      category: "laptop",
+      category,
       brand: brandFromTitle,
       series: slugify(label),
     });
   }
 
   return buildHref(PRODUCTS_PATH, {
-    category: "laptop",
+    category,
   });
 };
 
-export default function MegaMenu({ content }: MegaMenuProps) {
+export default function MegaMenu({ activeSidebarItem }: MegaMenuProps) {
+  const content = activeSidebarItem?.content;
+  const category = activeSidebarItem?.id;
+
+  if (!content || content.columns.length === 0) {
+    return null;
+  }
   return (
     <div
       className={[
@@ -153,7 +159,7 @@ export default function MegaMenu({ content }: MegaMenuProps) {
               <ul className="flex flex-col gap-1">
                 {col.items.map((item, itemIndex) => {
                   const label = getItemLabel(item);
-                  const href = resolveHref(col.title, item);
+                  const href = resolveHref(category, col.title, item);
 console.log(`Cột: ${col.title} | Item: ${label} | Href: ${href}`);
                   return (
                     <li key={`${label}-${itemIndex}`}>

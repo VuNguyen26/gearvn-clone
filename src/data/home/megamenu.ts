@@ -51,7 +51,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Laptop Gaming", 
         icon: Laptop, 
         href: "/category/laptop-gaming",
-        id: "laptopgaming",
+        id: "laptop-gaming",
         content: {
             columns: [
             {
@@ -110,7 +110,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "PC GVN", 
         icon: PcCase, 
         href: "/category/pc-gvn",
-        id: "pc",
+        id: "pc-gvn",
         content: {
             columns: [
             {
@@ -195,7 +195,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Main, CPU, VGA", 
         icon: Cpu, 
         href: "/category/main-cpu-vga",
-        id: "main_cpu_vga",
+        id: "main-cpu-vga",
         content: {
             columns: [
             {
@@ -243,7 +243,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Case, Nguồn, Tản", 
         icon: PcCase, 
         href: "/category/case-nguon-tan",
-        id: "case",
+        id: "case-nguon-tan",
         content: {
             columns: [
             {
@@ -285,7 +285,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Ổ cứng, RAM, Thẻ nhớ", 
         icon: HardDrive, 
         href: "/category/o-cung-ram-the-nho",
-         id: "ssd_ram_sd",
+         id: "storage-ram",
         content: {
             columns: [
             {
@@ -339,7 +339,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Loa, Micro, Webcam",
         icon: Mic,
         href: "/category/loa-micro-webcam",
-        id: "speaker_micro_webcam",
+        id: "audio-webcam",
         content: {
             columns: [
             {
@@ -375,7 +375,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Màn hình", 
         icon: Monitor, 
         href: "/category/man-hinh",
-        id: "monitors",
+        id: "monitor",
         content: {
             columns: [
             {
@@ -425,7 +425,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Bàn phím", 
         icon: Keyboard, 
         href: "/category/ban-phim",
-        id: "keyboards",
+        id: "keyboard",
         content: {
             columns: [
             {
@@ -465,7 +465,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Chuột + Lót chuột", 
         icon: Mouse, 
         href: "/category/chuot-lot-chuot",
-        id: "mouse_mousepad",
+        id: "mouse-mousepad",
         content: {
             columns: [
             {
@@ -543,7 +543,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Ghế - Bàn", 
         icon: Armchair,
         href: "/category/ghe-ban",
-        id: "tables_chairs",
+        id: "ghe-ban",
         content: {
             columns: [
             {
@@ -614,7 +614,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Handheld, Console", 
         icon: Gamepad2, 
         href: "/category/handheld-console",
-        id: "handheld_console",
+        id: "handheld-console",
         content: {
             columns: [
             {
@@ -645,7 +645,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Phụ kiện (Hub, sạc, cáp..)", 
         icon: Usb, 
         href: "/category/phu-kien",
-        id: "phu_kien",
+        id: "accessories",
         content: {
             columns: [
             {
