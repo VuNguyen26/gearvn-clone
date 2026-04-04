@@ -4,17 +4,38 @@ import { db } from "@/lib/firebase";
 import { Product } from "@/types/product";
 
 export const laptopgamings = async (): Promise<Product[]> => {
-  const q = query(
-    collection(db, "products"),
-    where("category", "==", "laptop-gaming") // ⚠️ phải match DB
-  );
+  const CACHE_KEY = "laptop_gaming_products_session";
 
-  const snapshot = await getDocs(q);
+  // 1. Kiểm tra SessionStorage trước (Tiết kiệm lượt Read Firebase)
+  const cachedData = sessionStorage.getItem(CACHE_KEY);
+  
+  if (cachedData) {
+    console.log("🎮 Lấy dữ liệu Laptop Gaming từ Session Storage");
+    return JSON.parse(cachedData) as Product[];
+  }
 
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Product[];
+  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
+  console.warn("📡 Đang tải danh sách Laptop Gaming từ Firebase...");
+  try {
+    const q = query(
+      collection(db, "products"),
+      where("category", "==", "laptop-gaming") 
+    );
+
+    const snapshot = await getDocs(q);
+    const products = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Product[];
+
+    // 3. Lưu vào Session để dùng lại trong tab này
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+
+    return products;
+  } catch (error) {
+    console.error("Lỗi khi fetch dữ liệu laptopgamings:", error);
+    return [];
+  }
 };
 // export const laptopgamings: Product[] = [
 //   {

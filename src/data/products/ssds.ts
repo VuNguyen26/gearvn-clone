@@ -3,17 +3,35 @@ import { db } from "@/lib/firebase";
 import { Product } from "@/types/product";
 
 export const ssds = async (): Promise<Product[]> => {
-  const q = query(
-    collection(db, "products"),
-    where("category", "==", "ssd") // ⚠️ phải match DB
-  );
+  const CACHE_KEY = "ssd_products_session";
 
-  const snapshot = await getDocs(q);
+  // 1. Kiểm tra bộ nhớ tạm (Tốn 0 lượt Read Firebase)
+  const cachedData = sessionStorage.getItem(CACHE_KEY);
+  if (cachedData) {
+    console.log("⚡ Lấy dữ liệu SSD từ Session Storage");
+    return JSON.parse(cachedData) as Product[];
+  }
 
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Product[];
+  // 2. Nếu chưa có, mới gọi Firebase
+  try {
+    const q = query(
+      collection(db, "products"),
+      where("category", "==", "ssd") 
+    );
+
+    const snapshot = await getDocs(q);
+    const products = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Product[];
+
+    // 3. Lưu vào Session để dùng lại trong tab này
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    return products;
+  } catch (error) {
+    console.error("Lỗi khi fetch dữ liệu ssds:", error);
+    return [];
+  }
 };
 
 // export const ssds: Product[] = [

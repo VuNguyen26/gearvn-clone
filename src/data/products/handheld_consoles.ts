@@ -3,17 +3,38 @@ import { db } from "@/lib/firebase";
 import { Product } from "@/types/product";
 
 export const handheldConsoles = async (): Promise<Product[]> => {
-  const q = query(
-    collection(db, "products"),
-    where("category", "==", "handheld_console") // ⚠️ phải match DB
-  );
+  const CACHE_KEY = "handheld_console_products_session";
 
-  const snapshot = await getDocs(q);
+  // 1. Kiểm tra SessionStorage trước để tránh tốn lượt Read
+  const cachedData = sessionStorage.getItem(CACHE_KEY);
+  
+  if (cachedData) {
+    console.log("🎮 Lấy dữ liệu Handheld Console từ Session Storage");
+    return JSON.parse(cachedData) as Product[];
+  }
 
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Product[];
+  // 2. Nếu chưa có, mới thực hiện gọi Firebase
+  console.warn("📡 Đang tải danh sách Handheld Console từ Firebase...");
+  try {
+    const q = query(
+      collection(db, "products"),
+      where("category", "==", "handheld_console") 
+    );
+
+    const snapshot = await getDocs(q);
+    const products = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Product[];
+
+    // 3. Lưu vào Session để dùng lại trong suốt phiên làm việc (cho đến khi đóng tab)
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+
+    return products;
+  } catch (error) {
+    console.error("Lỗi khi fetch dữ liệu handheldConsoles:", error);
+    return [];
+  }
 };
 
 // export const handheldConsoles: Product[] = [

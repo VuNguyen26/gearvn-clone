@@ -2,19 +2,40 @@
  import { db } from "@/lib/firebase";
  import { Product } from "@/types/product";
  
- export const headphones = async (): Promise<Product[]> => {
-   const q = query(
-     collection(db, "products"),
-     where("category", "==", "headphone") // ⚠️ phải match DB
-   );
- 
-   const snapshot = await getDocs(q);
- 
-   return snapshot.docs.map(doc => ({
-     id: doc.id,
-     ...doc.data(),
-   })) as Product[];
- };
+export const headphones = async (): Promise<Product[]> => {
+  const CACHE_KEY = "headphone_products_session";
+
+  // 1. Kiểm tra trong SessionStorage (Tốn 0 lượt Read)
+  const cachedData = sessionStorage.getItem(CACHE_KEY);
+  
+  if (cachedData) {
+    console.log("🎧 Lấy dữ liệu Tai nghe từ Session Storage");
+    return JSON.parse(cachedData) as Product[];
+  }
+
+  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
+  console.warn("📡 Đang tải danh sách Tai nghe từ Firebase...");
+  try {
+    const q = query(
+      collection(db, "products"),
+      where("category", "==", "headphone") 
+    );
+
+    const snapshot = await getDocs(q);
+    const products = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Product[];
+
+    // 3. Lưu vào Session để dùng lại trong tab này
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+
+    return products;
+  } catch (error) {
+    console.error("Lỗi khi fetch dữ liệu headphones:", error);
+    return [];
+  }
+};
 
 // export const headphones: Product[] = [
 //   {

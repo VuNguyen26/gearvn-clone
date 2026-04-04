@@ -3,17 +3,28 @@ import { db } from "@/lib/firebase";
 import { Product } from "@/types/product";
 
 export const pcs = async (): Promise<Product[]> => {
+  const CACHE_KEY = "pc_products_session";
+  // 1. Kiểm tra xem trong Session đã có dữ liệu chưa
+  const cachedData = sessionStorage.getItem(CACHE_KEY);
+  if (cachedData) {
+    // Nếu có, parse và trả về luôn (Tốn 0 lượt Read Firebase)
+    console.log("🚀 Lấy dữ liệu PC từ Session Storage");
+    return JSON.parse(cachedData) as Product[];
+  }
+  // 2. Nếu chưa có (lần đầu load hoặc mới mở tab), mới gọi Firebase
+  console.warn("🔥 Gọi Firebase để lấy dữ liệu PC (Tốn Quota)");
   const q = query(
     collection(db, "products"),
-    where("category", "==", "pc") // ⚠️ phải match DB
+    where("category", "==", "pc")
   );
-
   const snapshot = await getDocs(q);
-
-  return snapshot.docs.map(doc => ({
+  const products = snapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data(),
   })) as Product[];
+  // 3. Lưu vào Session Storage cho lần sau
+  sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+  return products;
 };
 
 // export const pcs: Product[] = [

@@ -1,3 +1,5 @@
+import { mainboards } from './../data/products/mainboards';
+import { vgas } from './../data/products/vgas';
 import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
 
@@ -289,36 +291,50 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   const price = getProductPrice(product);
   const value = normalizeValue(rawValue);
 
-  if (
-    value === "under-15" ||
-    value === "duoi-15-trieu" ||
-    value === "duoi-15" ||
-    value === "under15" ||
-    value === "under-15-trieu"
-  ) {
+  // === NHÓM LAPTOP THƯỜNG ===
+  if (["under-15", "duoi-15-trieu", "duoi-15"].includes(value)) {
     return price < 15000000;
   }
-
-  if (
-    value === "15-20" ||
-    value === "15-20-trieu" ||
-    value === "tu-15-den-20-trieu" ||
-    value === "15den20" ||
-    value === "15-to-20"
-  ) {
+  if (["15-20", "15-20-trieu", "tu-15-den-20-trieu"].includes(value)) {
     return price >= 15000000 && price <= 20000000;
   }
-
-  if (
-    value === "over-20" ||
-    value === "tren-20-trieu" ||
-    value === "tren-20" ||
-    value === "over20" ||
-    value === "over-20-trieu"
-  ) {
+  if (["over-20", "tren-20-trieu", "tren-20"].includes(value)) {
     return price > 20000000;
   }
 
+  // === NHÓM LAPTOP GAMING ===
+  if (["under-20", "duoi-20-trieu"].includes(value)) {
+    return price < 20000000;
+  }
+  if (["20-25", "tu-20-den-25-trieu", "20-25-trieu"].includes(value)) {
+    return price >= 20000000 && price <= 25000000;
+  }
+  if (["25-30", "tu-25-den-30-trieu", "25-30-trieu"].includes(value)) {
+    return price >= 25000000 && price <= 30000000;
+  }
+  if (["over-30", "tren-30-trieu", "tren-30"].includes(value)) {
+    return price > 30000000;
+  }
+
+  // === NHÓM PC (Workstation/High-end) ===
+  if (["under-30", "pc-duoi-30-trieu"].includes(value)) {
+    return price < 30000000;
+  }
+  if (["30-50", "pc-tu-30-50-trieu", "tu-30-den-50-trieu"].includes(value)) {
+    return price >= 30000000 && price <= 50000000;
+  }
+  if (["50-70", "pc-tu-50-70-trieu", "tu-50-den-70-trieu"].includes(value)) {
+    return price >= 50000000 && price <= 70000000;
+  }
+  if (["70-100", "pc-tu-70-100-trieu", "tu-70-den-100-trieu"].includes(value)) {
+    return price >= 70000000 && price <= 100000000;
+  }
+  if (["100-200", "pc-tu-100-200-trieu", "tu-100-den-200-trieu"].includes(value)) {
+    return price >= 100000000 && price <= 200000000;
+  }
+  if (["over-200", "pc-tren-200-trieu", "tren-200-trieu"].includes(value)) {
+    return price > 200000000;
+  }
   return true;
 }
 
@@ -425,10 +441,12 @@ export type ListQuery = {
   need?: string;
   purpose?: string;
   series?: string;
-  price?: "under-15" | "15-20" | "over-20";
+  price?: "under-15" | "15-20" | "over-20" | string;
   min?: number;
   max?: number;
   sort?: "price_asc" | "price_desc" | "newest";
+  vga?: string;
+  mainboard?: string;
 };
 
 export function filterProducts(items: Product[], query: ListQuery) {
@@ -442,6 +460,8 @@ export function filterProducts(items: Product[], query: ListQuery) {
   );
   const normalizedSeries = normalizeValue(query.series);
   const normalizedQ = normalizeText(query.q);
+  const normalizedVga = normalizeValue(query.vga);
+  const normalizedMainboard = normalizeValue(query.mainboard);
 
   if (normalizedCategory) {
     const matchedCategories = expandCategoryAliases(normalizedCategory);
@@ -525,6 +545,42 @@ export function filterProducts(items: Product[], query: ListQuery) {
           ...getSpecValues(p),
         ].map((v) => (v ? slugify(String(v)) : "")),
         slugify(normalizedSeries.replace("series", "").trim())
+      )
+    );
+  }
+
+  if (normalizedVga) {
+    arr = arr.filter((p) =>
+      matchFromCandidates(
+        [
+          (p as any).vga,
+          getSpecValue(p, "vga"),
+          getSpecValue(p, "VGA"),
+          getSpecValue(p, "gpu"),
+          getSpecValue(p, "GPU"),
+          getSpecValue(p, "card đồ họa"),
+          p.name,
+          p.slug,
+          ...getSpecValues(p),
+        ],
+        normalizedVga
+      )
+    );
+  }
+  if (normalizedMainboard) {
+    arr = arr.filter((p) =>
+      matchFromCandidates(
+        [
+          (p as any).mainboard,
+          getSpecValue(p, "mainboard"),
+          getSpecValue(p, "Mainboard"),
+          getSpecValue(p, "bo mạch chủ"),
+          getSpecValue(p, "chipset"),
+          p.name,
+          p.slug,
+          ...getSpecValues(p),
+        ],
+        normalizedMainboard
       )
     );
   }

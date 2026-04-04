@@ -3,17 +3,35 @@ import { db } from "@/lib/firebase";
 import { Product } from "@/types/product";
 
 export const speakers = async (): Promise<Product[]> => {
-  const q = query(
-    collection(db, "products"),
-    where("category", "==", "speaker") // ⚠️ phải match DB
-  );
+  const CACHE_KEY = "speaker_products_session";
 
-  const snapshot = await getDocs(q);
+  // 1. Kiểm tra bộ nhớ tạm (Session)
+  const cachedData = sessionStorage.getItem(CACHE_KEY);
+  if (cachedData) {
+    console.log("🔊 Lấy dữ liệu Loa từ Session Storage");
+    return JSON.parse(cachedData) as Product[];
+  }
 
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Product[];
+  // 2. Nếu không có, mới gọi Firebase
+  try {
+    const q = query(
+      collection(db, "products"),
+      where("category", "==", "speaker")
+    );
+
+    const snapshot = await getDocs(q);
+    const products = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Product[];
+
+    // 3. Lưu vào Session cho lần sau
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    return products;
+  } catch (error) {
+    console.error("Lỗi khi fetch speakers:", error);
+    return [];
+  }
 };
 
 // export const speakers: Product[] = [

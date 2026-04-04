@@ -59,7 +59,6 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
   const label = getItemLabel(item);
   const title = normalize(columnTitle); 
   const value = normalize(label);
-  console.log(title);
   
   const SPECIFIC_PRODUCT_MAP: Record<string, string> = {
   "homework athlon": "homework-athlon-3000g", // Slug thực tế trên website của bạn
