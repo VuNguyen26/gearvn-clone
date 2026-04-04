@@ -4,18 +4,22 @@ import { Product } from "@/types/product";
 
 export const handheldConsoles = async (): Promise<Product[]> => {
   const CACHE_KEY = "handheld_console_products_session";
-
-  // 1. Kiểm tra SessionStorage trước để tránh tốn lượt Read
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
   
-  if (cachedData) {
-    console.log("🎮 Lấy dữ liệu Handheld Console từ Session Storage");
-    return JSON.parse(cachedData) as Product[];
+  // KIỂM TRA: Chỉ dùng sessionStorage nếu đang ở trình duyệt (Client)
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra SessionStorage trước (Chỉ thực hiện ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("🎮 [Handheld] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới thực hiện gọi Firebase
-  console.warn("📡 Đang tải danh sách Handheld Console từ Firebase...");
+  // 2. Nếu chưa có hoặc đang ở Server, mới thực hiện gọi Firebase
   try {
+    console.warn("📡 [Handheld] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "handheld_console") 
@@ -27,8 +31,10 @@ export const handheldConsoles = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để dùng lại trong suốt phiên làm việc (cho đến khi đóng tab)
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để dùng lại (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {

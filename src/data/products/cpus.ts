@@ -5,18 +5,22 @@ import { Product } from "@/types/product";
 
 export const cpus = async (): Promise<Product[]> => {
   const CACHE_KEY = "cpu_products_session";
-
-  // 1. Kiểm tra xem trong Session đã có dữ liệu chưa
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
   
-  if (cachedData) {
-    console.log("⚡ Lấy dữ liệu CPU từ Session Storage (0 Read)");
-    return JSON.parse(cachedData) as Product[];
+  // KIỂM TRA: Đảm bảo code chỉ truy cập sessionStorage khi chạy ở trình duyệt
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra xem trong Session đã có dữ liệu chưa (Chỉ thực hiện ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("⚡ [CPU] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách CPU từ Firebase...");
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase (Tốn Quota)
   try {
+    console.warn("📡 [CPU] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "cpu") 
@@ -28,8 +32,10 @@ export const cpus = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để tái sử dụng trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để tái sử dụng (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {
@@ -37,7 +43,6 @@ export const cpus = async (): Promise<Product[]> => {
     return [];
   }
 };
-
 // export const cpus: Product[] = [
 //   {
 //     id: "CPU001",

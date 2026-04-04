@@ -1,24 +1,25 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { Product } from "@/types/product";
 
 export const accessories = async (): Promise<Product[]> => {
   const CACHE_KEY = "accessory_products_session";
+  const isBrowser = typeof window !== "undefined";
 
-  // 1. Kiểm tra dữ liệu trong SessionStorage
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
-  
-  if (cachedData) {
-    console.log("📦 Lấy dữ liệu Phụ kiện từ Session Storage");
-    return JSON.parse(cachedData) as Product[];
+  // 1. Kiểm tra Cache (Chỉ chạy trên Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("💻 Lấy Laptop từ Session Storage");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu không có trong Session, mới gọi Firebase
-  console.warn("🔍 Đang tải Phụ kiện từ Firebase (Tốn Quota)...");
+  // 2. Fetch Firebase (Chạy trên cả Server và Client)
   try {
     const q = query(
       collection(db, "products"),
-      where("category", "==", "accessory") 
+      where("category", "==", "accessory")
     );
 
     const snapshot = await getDocs(q);
@@ -27,13 +28,15 @@ export const accessories = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để dùng cho các lần sau trong cùng tab
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Cache (Chỉ thực hiện trên Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {
-    console.error("Lỗi khi lấy dữ liệu accessories:", error);
-    return []; // Trả về mảng rỗng nếu lỗi để tránh crash app
+    console.error("Lỗi fetch accessories:", error);
+    return [];
   }
 };
 

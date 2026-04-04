@@ -4,18 +4,22 @@ import { Product } from "@/types/product";
 
 export const keyboards = async (): Promise<Product[]> => {
   const CACHE_KEY = "keyboard_products_session";
-
-  // 1. Kiểm tra SessionStorage (Tránh tốn lượt Read Firebase)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
   
-  if (cachedData) {
-    console.log("⌨️ Lấy dữ liệu Bàn phím từ Session Storage");
-    return JSON.parse(cachedData) as Product[];
+  // Kiểm tra môi trường để tránh lỗi ReferenceError trên Server
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra SessionStorage (Chỉ thực hiện ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("⌨️ [Keyboard] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới thực hiện gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách Bàn phím từ Firebase...");
+  // 2. Nếu chưa có hoặc đang ở Server, mới thực hiện gọi Firebase
   try {
+    console.warn("📡 [Keyboard] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "keyboard") 
@@ -27,8 +31,10 @@ export const keyboards = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để dùng lại trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để dùng lại (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {

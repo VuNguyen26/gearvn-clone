@@ -4,15 +4,20 @@ import { Product } from "@/types/product";
 
 export const tables = async (): Promise<Product[]> => {
   const CACHE_KEY = "table_products_session";
+  
+  // Kiểm tra môi trường trình duyệt để tránh lỗi "sessionStorage is not defined"
+  const isBrowser = typeof window !== "undefined";
 
-  // 1. Kiểm tra Session Storage trước (Tiết kiệm Quota)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
-  if (cachedData) {
-    console.log("📑 Lấy dữ liệu Bàn từ Session Storage (0 Read)");
-    return JSON.parse(cachedData) as Product[];
+  // 1. Kiểm tra Session Storage trước (Chỉ chạy ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("📑 [Table] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase
   try {
     const q = query(
       collection(db, "products"),
@@ -25,8 +30,11 @@ export const tables = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để dùng lại trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để dùng lại (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
+    
     return products;
   } catch (error) {
     console.error("Lỗi khi fetch dữ liệu tables:", error);

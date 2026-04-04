@@ -1,35 +1,39 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import { Product } from "@/types/product";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export const webcams = async (): Promise<Product[]> => {
   const CACHE_KEY = "webcam_products_session";
+  
+  // KIỂM TRA: Chỉ dùng sessionStorage nếu đang ở trình duyệt (Client)
+  const isBrowser = typeof window !== "undefined";
 
-  // 1. Kiểm tra SessionStorage trước (Tiết kiệm Quota)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
-  if (cachedData) {
-    console.log("📷 Lấy dữ liệu Webcam từ Session Storage (0 Read)");
-    return JSON.parse(cachedData) as Product[];
+  // 1. Kiểm tra Cache
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("📷 [Webcam] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase
+  // 2. Fetch Firebase
   try {
-    const q = query(
-      collection(db, "products"),
-      where("category", "==", "webcam") 
-    );
-
+    const q = query(collection(db, "products"), where("category", "==", "webcam"));
     const snapshot = await getDocs(q);
     const products = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào bộ nhớ tạm của Tab hiện tại
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Cache (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
+
     return products;
   } catch (error) {
-    console.error("Lỗi khi fetch dữ liệu webcams:", error);
+    console.error("Lỗi fetch webcams:", error);
     return [];
   }
 };

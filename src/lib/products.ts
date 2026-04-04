@@ -3,8 +3,8 @@ import { vgas } from './../data/products/vgas';
 import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
 
-export function getAllProducts() {
-  return products;
+export async function getAllProducts() {
+  return await products(); 
 }
 
 export function getAllProductsFlat() {
@@ -414,8 +414,8 @@ export function getFeaturedProducts(limit?: number) {
   return result;
 }
 
-export function getPaginatedProducts(page: number = 1, pageSize: number = 20) {
-  const all = getAllProducts();
+export async function getPaginatedProducts(page: number = 1, pageSize: number = 20) {
+  const all = await getAllProducts();
   const totalItems = all.length;
   const totalPages = Math.ceil(totalItems / pageSize);
   const currentPage = Math.min(Math.max(page, 1), Math.max(totalPages, 1));
@@ -450,6 +450,10 @@ export type ListQuery = {
 };
 
 export function filterProducts(items: Product[], query: ListQuery) {
+  if (!Array.isArray(items)) {
+    console.error("Lỗi: filterProducts nhận được dữ liệu không phải mảng!", items);
+    return [];
+  }
   let arr = [...items];
 
   const normalizedCategory = normalizeValue(query.category);

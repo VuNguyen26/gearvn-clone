@@ -4,15 +4,20 @@ import { Product } from "@/types/product";
 
 export const ssds = async (): Promise<Product[]> => {
   const CACHE_KEY = "ssd_products_session";
+  
+  // Kiểm tra môi trường để không bị lỗi ReferenceError trên Server
+  const isBrowser = typeof window !== "undefined";
 
-  // 1. Kiểm tra bộ nhớ tạm (Tốn 0 lượt Read Firebase)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
-  if (cachedData) {
-    console.log("⚡ Lấy dữ liệu SSD từ Session Storage");
-    return JSON.parse(cachedData) as Product[];
+  // 1. Kiểm tra bộ nhớ tạm (Chỉ chạy ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("⚡ [SSD] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase
   try {
     const q = query(
       collection(db, "products"),
@@ -25,8 +30,11 @@ export const ssds = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để dùng lại trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để dùng lại (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
+    
     return products;
   } catch (error) {
     console.error("Lỗi khi fetch dữ liệu ssds:", error);

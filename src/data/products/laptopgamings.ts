@@ -5,18 +5,22 @@ import { Product } from "@/types/product";
 
 export const laptopgamings = async (): Promise<Product[]> => {
   const CACHE_KEY = "laptop_gaming_products_session";
-
-  // 1. Kiểm tra SessionStorage trước (Tiết kiệm lượt Read Firebase)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
   
-  if (cachedData) {
-    console.log("🎮 Lấy dữ liệu Laptop Gaming từ Session Storage");
-    return JSON.parse(cachedData) as Product[];
+  // Kiểm tra môi trường để tránh lỗi ReferenceError trên Server
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra SessionStorage trước (Chỉ chạy ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("🎮 [Laptop Gaming] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách Laptop Gaming từ Firebase...");
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase
   try {
+    console.warn("📡 [Laptop Gaming] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "laptop-gaming") 
@@ -28,8 +32,10 @@ export const laptopgamings = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để dùng lại trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để dùng lại (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {

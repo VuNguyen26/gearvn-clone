@@ -4,18 +4,22 @@ import { Product } from "@/types/product";
 
 export const mouses = async (): Promise<Product[]> => {
   const CACHE_KEY = "mouse_products_session";
-
-  // 1. Kiểm tra SessionStorage trước (Tiết kiệm lượt Read Firebase)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
   
-  if (cachedData) {
-    console.log("🖱️ Lấy dữ liệu Chuột từ Session Storage (0 Read)");
-    return JSON.parse(cachedData) as Product[];
+  // Kiểm tra môi trường để tránh lỗi ReferenceError: sessionStorage is not defined
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra SessionStorage trước (Chỉ thực hiện ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("🖱️ [Mouse] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách Chuột từ Firebase...");
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase
   try {
+    console.warn("📡 [Mouse] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "mouse") 
@@ -27,8 +31,10 @@ export const mouses = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để tái sử dụng trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để tái sử dụng (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {

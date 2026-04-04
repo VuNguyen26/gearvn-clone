@@ -4,18 +4,22 @@ import { Product } from "@/types/product";
 
 export const chairs = async (): Promise<Product[]> => {
   const CACHE_KEY = "chair_products_session";
-
-  // 1. Kiểm tra trong SessionStorage trước
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
   
-  if (cachedData) {
-    console.log("🪑 Lấy dữ liệu Ghế từ Session Storage");
-    return JSON.parse(cachedData) as Product[];
+  // KIỂM TRA: Đảm bảo code chỉ chạy sessionStorage trên Browser
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra trong SessionStorage trước (Chỉ chạy ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("🪑 [Chair] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách Ghế từ Firebase...");
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase
   try {
+    console.warn("📡 [Chair] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "chair") 
@@ -27,8 +31,10 @@ export const chairs = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để tái sử dụng trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để tái sử dụng (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {

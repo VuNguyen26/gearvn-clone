@@ -25,7 +25,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const page = Number(sp.page || "1");
   const safePage = Number.isFinite(page) && page > 0 ? page : 1;
 
-  const { items, totalPages, currentPage, totalItems } = getPaginatedProducts(
+  const { items, totalPages, currentPage, totalItems } = await getPaginatedProducts(
     safePage,
     20
   );

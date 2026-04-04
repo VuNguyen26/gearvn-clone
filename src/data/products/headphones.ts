@@ -4,18 +4,22 @@
  
 export const headphones = async (): Promise<Product[]> => {
   const CACHE_KEY = "headphone_products_session";
-
-  // 1. Kiểm tra trong SessionStorage (Tốn 0 lượt Read)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
   
-  if (cachedData) {
-    console.log("🎧 Lấy dữ liệu Tai nghe từ Session Storage");
-    return JSON.parse(cachedData) as Product[];
+  // Kiểm tra môi trường để tránh lỗi ReferenceError trên Server
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra trong SessionStorage (Chỉ thực hiện ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("🎧 [Headphone] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách Tai nghe từ Firebase...");
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase
   try {
+    console.warn("📡 [Headphone] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "headphone") 
@@ -27,8 +31,10 @@ export const headphones = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để dùng lại trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để dùng lại (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {

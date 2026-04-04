@@ -1,38 +1,31 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import { Product } from "@/types/product";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export const vgas = async (): Promise<Product[]> => {
-  const CACHE_KEY = "vga_products_session";
+  const CACHE_KEY = "vga_products_cache"; // Phải duy nhất cho mỗi file
+  const isBrowser = typeof window !== "undefined";
 
-  // 1. Kiểm tra SessionStorage trước (Tiết kiệm lượt Read Firebase)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
-  
-  if (cachedData) {
-    console.log("🎮 Lấy dữ liệu VGA từ Session Storage (0 Read)");
-    return JSON.parse(cachedData) as Product[];
+  // 1. Chống lỗi Next.js SSR
+  if (isBrowser) {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    if (cached) return JSON.parse(cached);
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách VGA từ Firebase...");
+  // 2. Fetch Firebase
   try {
-    const q = query(
-      collection(db, "products"),
-      where("category", "==", "vga") 
-    );
-
+    const q = query(collection(db, "products"), where("category", "==", "vga"));
     const snapshot = await getDocs(q);
-    const products = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Product[];
+    const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Product[];
 
-    // 3. Lưu vào Session để tái sử dụng trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu cache ở Client
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {
-    console.error("Lỗi khi fetch dữ liệu vgas:", error);
+    console.error("Lỗi fetch vgas:", error);
     return [];
   }
 };

@@ -5,17 +5,21 @@ import { Product } from "@/types/product";
 export const mousepads = async (): Promise<Product[]> => {
   const CACHE_KEY = "mousepad_products_session";
 
-  // 1. Kiểm tra SessionStorage trước (Tiết kiệm lượt Read Firebase)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
-  
-  if (cachedData) {
-    console.log("🖱️ Lấy dữ liệu Lót chuột từ Session Storage (0 Read)");
-    return JSON.parse(cachedData) as Product[];
+  // KIỂM TRA: Chỉ dùng sessionStorage nếu đang ở trình duyệt
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra SessionStorage trước (Chỉ thực hiện ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("🖱️ [Mousepad] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách Lót chuột từ Firebase...");
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase
   try {
+    console.warn("📡 [Mousepad] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "mousepad") 
@@ -27,8 +31,10 @@ export const mousepads = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để tái sử dụng trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session để tái sử dụng (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {

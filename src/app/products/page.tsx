@@ -1,3 +1,4 @@
+
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getFilteredPaginatedProducts } from "@/lib/products";

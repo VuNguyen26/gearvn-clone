@@ -4,27 +4,44 @@ import { Product } from "@/types/product";
 
 export const pcs = async (): Promise<Product[]> => {
   const CACHE_KEY = "pc_products_session";
-  // 1. Kiểm tra xem trong Session đã có dữ liệu chưa
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
-  if (cachedData) {
-    // Nếu có, parse và trả về luôn (Tốn 0 lượt Read Firebase)
-    console.log("🚀 Lấy dữ liệu PC từ Session Storage");
-    return JSON.parse(cachedData) as Product[];
+  
+  // Kiểm tra môi trường để tránh lỗi "sessionStorage is not defined" trên Server
+  const isBrowser = typeof window !== "undefined";
+
+  // 1. Kiểm tra Session Storage (Chỉ thực hiện ở Client)
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      // Nếu có, parse và trả về luôn (Tốn 0 lượt Read Firebase)
+      console.log("🚀 [PC] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
-  // 2. Nếu chưa có (lần đầu load hoặc mới mở tab), mới gọi Firebase
-  console.warn("🔥 Gọi Firebase để lấy dữ liệu PC (Tốn Quota)");
-  const q = query(
-    collection(db, "products"),
-    where("category", "==", "pc")
-  );
-  const snapshot = await getDocs(q);
-  const products = snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Product[];
-  // 3. Lưu vào Session Storage cho lần sau
-  sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
-  return products;
+
+  // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase
+  try {
+    console.warn("🔥 [PC] Gọi Firebase để lấy dữ liệu (Tốn Quota)");
+    const q = query(
+      collection(db, "products"),
+      where("category", "==", "pc")
+    );
+    
+    const snapshot = await getDocs(q);
+    const products = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Product[];
+
+    // 3. Lưu vào Session Storage cho lần sau (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
+    
+    return products;
+  } catch (error) {
+    console.error("Lỗi khi fetch dữ liệu pcs:", error);
+    return [];
+  }
 };
 
 // export const pcs: Product[] = [

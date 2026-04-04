@@ -4,18 +4,21 @@ import { Product } from "@/types/product";
 
 export const mainboards = async (): Promise<Product[]> => {
   const CACHE_KEY = "mainboard_products_session";
-
-  // 1. Kiểm tra SessionStorage trước (Tiết kiệm lượt Read Firebase)
-  const cachedData = sessionStorage.getItem(CACHE_KEY);
   
-  if (cachedData) {
-    console.log("🔌 Lấy dữ liệu Mainboard từ Session Storage (0 Read)");
-    return JSON.parse(cachedData) as Product[];
+  // 1. KIỂM TRA QUAN TRỌNG: Chỉ chạy sessionStorage nếu đang ở trình duyệt
+  const isBrowser = typeof window !== "undefined";
+
+  if (isBrowser) {
+    const cachedData = sessionStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      console.log("🔌 [Mainboard] Lấy từ Session Storage (0 Read)");
+      return JSON.parse(cachedData) as Product[];
+    }
   }
 
-  // 2. Nếu chưa có, mới gọi Firebase (Tốn Quota)
-  console.warn("📡 Đang tải danh sách Mainboard từ Firebase...");
+  // 2. Nếu ở Server hoặc chưa có cache, mới gọi Firebase
   try {
+    console.warn("📡 [Mainboard] Đang tải danh sách từ Firebase...");
     const q = query(
       collection(db, "products"),
       where("category", "==", "mainboard") 
@@ -27,8 +30,10 @@ export const mainboards = async (): Promise<Product[]> => {
       ...doc.data(),
     })) as Product[];
 
-    // 3. Lưu vào Session để tái sử dụng trong tab này
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    // 3. Lưu vào Session (Chỉ thực hiện ở Client)
+    if (isBrowser) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+    }
 
     return products;
   } catch (error) {
