@@ -436,7 +436,7 @@ export function filterProducts(items: Product[], query: ListQuery) {
 
   const normalizedCategory = normalizeValue(query.category);
   const normalizedBrand = normalizeValue(query.brand);
-  const normalizedCpu = normalizeValue(query.cpu);
+  const normalizedCpu = normalizeValue(query.cpu?.replace("-", " "));
   const normalizedUsage = normalizeValue(
     query.usage || query.need || query.purpose
   );
@@ -524,7 +524,7 @@ export function filterProducts(items: Product[], query: ListQuery) {
           (p as any).shortDesc,
           ...getSpecValues(p),
         ].map((v) => (v ? slugify(String(v)) : "")),
-        slugify(normalizedSeries)
+        slugify(normalizedSeries.replace("series", "").trim())
       )
     );
   }
@@ -532,7 +532,7 @@ export function filterProducts(items: Product[], query: ListQuery) {
   if (normalizedQ) {
     arr = arr.filter((p) => {
       const pPrice = getProductPrice(p);
-
+      // Laptop
       if (
         normalizedQ === "duoi 15 trieu" ||
         normalizedQ === "duoi 15" ||
@@ -556,7 +556,85 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice > 20000000;
       }
+      // Laptop Gaming
+      if (
+      normalizedQ === "duoi 20 trieu" ||
+      normalizedQ === "under 20"
+      ) {
+        return pPrice < 20000000;
+      }
 
+      if (
+        normalizedQ === "tu 20 den 25 trieu" ||
+        normalizedQ === "20 25 trieu" ||
+        normalizedQ === "20 25"
+      ) {
+        return pPrice >= 20000000 && pPrice <= 25000000;
+      }
+
+      if (
+        normalizedQ === "tu 25 den 30 trieu" ||
+        normalizedQ === "25 30 trieu" ||
+        normalizedQ === "25 30"
+      ) {
+        return pPrice >= 25000000 && pPrice <= 30000000;
+      }
+
+      if (
+        normalizedQ === "tren 30 trieu" ||
+        normalizedQ === "tren 30" ||
+        normalizedQ === "over 30"
+      ) {
+        return pPrice > 30000000;
+      }
+
+      // ===== PC =====
+      if (
+        normalizedQ === "pc duoi 30 trieu" ||
+        normalizedQ === "duoi 30 trieu"
+      ) {
+        return pPrice < 30000000;
+      }
+
+      if (
+        normalizedQ === "pc tu 30 50 trieu" ||
+        normalizedQ === "30 50 trieu" ||
+        normalizedQ === "tu 30 den 50 trieu"
+      ) {
+        return pPrice >= 30000000 && pPrice <= 50000000;
+      }
+
+      if (
+        normalizedQ === "pc tu 50 70 trieu" ||
+        normalizedQ === "50 70 trieu" ||
+        normalizedQ === "tu 50 den 70 trieu"
+      ) {
+        return pPrice >= 50000000 && pPrice <= 70000000;
+      }
+
+      if (
+        normalizedQ === "pc tu 70 100 trieu" ||
+        normalizedQ === "70 100 trieu" ||
+        normalizedQ === "tu 70 den 100 trieu"
+      ) {
+        return pPrice >= 70000000 && pPrice <= 100000000;
+      }
+
+      if (
+        normalizedQ === "pc tu 100 200 trieu" ||
+        normalizedQ === "100 200 trieu" ||
+        normalizedQ === "tu 100 den 200 trieu"
+      ) {
+        return pPrice >= 100000000 && pPrice <= 200000000;
+      }
+
+      if (
+        normalizedQ === "pc tren 200 trieu" ||
+        normalizedQ === "tren 200 trieu" ||
+        normalizedQ === "over 200"
+      ) {
+        return pPrice > 200000000;
+      }
       const searchable = normalizeText(getAllSearchableValues(p).join(" "));
       return (
         searchable.includes(normalizedQ) ||

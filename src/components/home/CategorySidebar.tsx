@@ -197,7 +197,7 @@ export default function CategorySidebar({
     clearCloseTimer();
     closeTimerRef.current = setTimeout(() => {
       setIsMegaOpen(false);
-    }, 120);
+    }, 0);
   };
 
   useEffect(() => {
@@ -235,7 +235,7 @@ export default function CategorySidebar({
                   onClick={closeAll}
                   className={[
                     "group relative h-9 flex w-full items-center gap-2 px-3",
-                    "text-left text-[15px] font-medium leading-none transition-colors duration-50",
+                    "text-left text-[15px] font-medium leading-none",
                     isActive
                       ? "bg-[#E30019] text-white"
                       : "bg-white text-black hover:bg-[#E30019] hover:text-white",

@@ -1,5 +1,10 @@
+'use client'
+
 import Link from "next/link";
-import type { MenuContent, MegaMenuChildItem, MenuItem } from "@/types/megamenu";
+import type { MegaMenuChildItem, MenuItem } from "@/types/megamenu";
+import { constant } from "firebase/firestore/pipelines";
+import { main } from "framer-motion/client";
+import { cp } from "fs";
 
 type MegaMenuProps = {
   activeSidebarItem: MenuItem;
@@ -52,9 +57,24 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
   if (directHref) return directHref;
 
   const label = getItemLabel(item);
-  const title = normalize(columnTitle);
+  const title = normalize(columnTitle); 
   const value = normalize(label);
+  console.log(title);
+  
+  const SPECIFIC_PRODUCT_MAP: Record<string, string> = {
+  "homework athlon": "homework-athlon-3000g", // Slug thực tế trên website của bạn
+  "homework r3": "homework-ryzen-3-4300g",
+  "homework r5": "homework-ryzen-5-5600g",
+  "homework i5": "homework-intel-core-i5",
+  "window ban quyen": "microsoft-windows-11-home",
+  "office 365 ban quyen": "microsoft-office-365-personal",
+  };
+  const rawValue = normalize(label).split("-")[0].trim();
 
+  // 1. Kiểm tra nếu là sản phẩm cụ thể để dẫn thẳng vào trang chi tiết
+  if (SPECIFIC_PRODUCT_MAP[rawValue]) {
+    return `/product/${SPECIFIC_PRODUCT_MAP[rawValue]}`;
+  }
   const brandMap: Record<string, string> = {
     asus: "asus",
     acer: "acer",
@@ -67,12 +87,25 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
   };
 
   const priceMap: Record<string, string> = {
+    // Laptop
     "duoi 15 trieu": "under-15",
     "15-20 trieu": "15-20",
     "tren 20 trieu": "over-20",
+    //Laptop gaming
+    "duoi 20 trieu": "under-20",
+    "tu 20 den 25 trieu": "20-25",
+    "tu 25 den 30 trieu": "25-30",
+    "tren 30 trieu": "over-30",
+    // PC
+    "pc duoi 30 trieu": "under-30",
+    "pc tu 30 50 trieu": "30-50",
+    "pc tu 50 70 trieu": "50-70",
+    "pc tu 70 100 trieu": "70-100",
+    "pc tu 100 200 trieu": "100-200",
+    "pc tren 200 trieu": "over-200",
   };
-
   const cpuMap: Record<string, string> = {
+    // Laptop 
     "core i3": "core-i3",
     "core i5": "core-i5",
     "core i7": "core-i7",
@@ -80,16 +113,91 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     "amd ryzen": "amd-ryzen",
     "ryzen 5": "ryzen-5",
     "ryzen 7": "ryzen-7",
-  };
+    // Laptop gaming
+    "cpu core ultra" : "cpu-core-ultra",
+    "cpu adm" : "cpu-adm",
+    // PC
+    "pc amd r3" : "pc-amd-r3",
+    "pc amd r5" : "pc-amd-r5",
+    "pc amd r7" : "pc-amd-r7",
+    "pc amd r9" : "pc-amd-r9",
+    "pc core i3": "pc-core-i3",
+    "pc core i5": "pc-core-i5",
+    "pc core i7": "pc-core-i7",
+    "pc core i9": "pc-core-i9",
+    "pc ultra 5": "pc-ultra-5",
+    "pc ultra 7": "pc-ultra-7",
+    "pc ultra 9": "pc-ultra-9",
+    // Main, CPU
+    "cpu intel core ultra series 2": "cpu-intel-core-ultra-series-2",
+    "cpu intel 9": "cpu-intel-9",
+    "cpu intel 7": "cpu-intel-7",
+    "cpu intel 5": "cpu-intel-5",
+    "cpu intel 3": "cpu-intel-3",
 
+    "cpu amd athlon": "cpu-amd-athlon",
+    "cpu amd r3": "cpu-amd-r3",
+    "cpu amd r5": "cpu-amd-r5",
+    "cpu amd r7": "cpu-amd-r7",
+    "cpu amd r9": "cpu-amd-r9",
+    
+  };
+  const gpuMap: Record<string, string> = {
+    // Laptop gaming
+    "rtx 50 series" : "rtx-50-series",
+    // PC
+    "pc rtx 5090" : "pc-rtx-5090",
+    "pc rtx 5080": "pc-rtx-5080",
+    "pc rtx 5070ti": "pc-rtx-5070ti",
+    "pc rtx 5070": "pc-rtx-5070",
+    "pc rtx 5060ti": "pc-rtx-5060ti",
+    "pc rtx 5060": "pc-rtx-5060",
+    "pc rtx 5050": "pc-rtx-5050",
+    "pc rtx 3060": "pc-rtx-3060",
+    "pc rtx 3050": "pc-rtx-3050",
+    // Main, CPU
+    "rtx 5090" : "rtx-5090",
+    "rtx 5080": "rtx-5080",
+    "rtx 5070ti": "rtx-5070ti",
+    "rtx 5070": "rtx-5070",
+    "rtx 5060ti": "rtx-5060ti",
+    "rtx 5060": "rtx-5060",
+    "rtx 4070 super (12gb)": "rtx-4070-super-12gb",
+    "rtx 4070Ti super (16gb)": "rtx-4070ti-super-16gb",
+    "rtx 4080 super (16gb)": "rtx-4080-super-16gb",
+    "rtx 4090 super (24gb)": "rtx-4070-super-24gb",
+
+    "rtx 4060ti (8 - 16gb)": "rtx-4060ti-8-16gb",
+    "rtx 4060 (8gb)": "rtx-4060-8gb",
+    "rtx 3060 (12gb)": "rtx-3060-12gb",
+    "rtx 3050 (6 - 8gb)": "rtx-3050-6-8gb",
+    "gtx 1650 (4gb)": "gtx-1650-4gb",
+    "gt 710 / gt 1030 (2-4gb)": "gt-710-gt-1030-2-4gb",
+
+    "nvidia quadro": "nvidia-quadro",
+    "amd radeon": "amd-radeon",
+  };
+  const mainboardMap : Record<string,string> = {
+    "z890": "z890",
+    "z790": "z790",
+    "b760": "b760",
+    "h610": "h610",
+    "x299x": "x299x",
+    "amd x870": "amd-x870",
+    "amd x670": "amd-x670",
+    "amd x570": "amd-x570",
+    "amd b650": "amd-b650",
+    "amd b550": "amd-b550",
+    "amd a320": "amd-a320",
+    "amd trx40": "amd-trx40",
+  }
   const usageMap: Record<string, string> = {
-    "do hoa-studio": "do-hoa-studio",
+    "đo hoa-studio": "do-hoa-studio",
     "hoc sinh-sinh vien": "hoc-sinh-sinh-vien",
     "mong nhe-cao cap": "mong-nhe-cao-cap",
     gaming: "gaming",
     "van phong": "van-phong",
   };
-
   if (title === "thuong hieu" && brandMap[value]) {
     return buildHref(PRODUCTS_PATH, {
       category,
@@ -120,7 +228,6 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
 
   if (title.startsWith("laptop ")) {
     const brandFromTitle = title.replace("laptop ", "").trim();
-
     return buildHref(PRODUCTS_PATH, {
       category,
       brand: brandFromTitle,
@@ -128,6 +235,84 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     });
   }
 
+  // Laptop gaming
+  if (title === "thuong hieu") {
+    // Tách lấy chữ đầu tiên (ví dụ "asus / rog" -> lấy "asus")
+    const brandRaw = value.split(/[|/]/)[0].trim();
+    return buildHref(PRODUCTS_PATH, { category, brand: slugify(brandRaw) });
+  }
+  if (title === "gia ban") {
+    return buildHref(PRODUCTS_PATH, { 
+      category, 
+      price: priceMap[value] || slugify(label) 
+    });
+  }
+
+  if (title === "cau hinh") {
+    return buildHref(PRODUCTS_PATH, { 
+      category, 
+      series: gpuMap[value] || slugify(label) || cpuMap[value]
+    });
+  }
+  const brands = ["asus", "acer", "msi", "lenovo", "dell", "hp", "gigabyte"];
+  const matchedBrand = brands.find(b => title.includes(b));
+
+  if (matchedBrand) {
+    return buildHref(PRODUCTS_PATH, {
+      category,
+      brand: matchedBrand,
+      series: slugify(label),
+    });
+  }
+
+  // PC
+  const series = ["pc rtx 50 series", "pc theo cau hinh vga"]
+  const matchedSeri = series.find(b => title.includes(b));
+  if (matchedSeri) {
+    return buildHref(PRODUCTS_PATH, {
+      category,
+      series: gpuMap[value],
+    })
+  }
+  if (title === "pc theo gia") {
+    return buildHref(PRODUCTS_PATH, {
+      category,
+      price: priceMap[value]
+    })
+  }
+  const cpus = ["pc theo cpu amd", "pc theo cpu intel"];
+  const matchedCPU = cpus.find(cpu => title.includes(cpu));
+  if (matchedCPU){
+    return buildHref(PRODUCTS_PATH, {
+      category,
+      series: cpuMap[value]
+    })
+  }
+  // Mainboard, CPU
+  const vgas = ["vga rtx 50 series", "vga (tren 12 gb vram)", "vga (duoi 12 gb vram)", "vga - card man hinh"];
+  const matchedvgas = vgas.find(vga => title.includes(vga));
+  if (matchedvgas){
+    return buildHref(PRODUCTS_PATH, {
+      category,
+      vga: gpuMap[value]
+    })
+  }
+  const mainboards = ["bo mach chu intel", "bo mach chu amd"];
+  const matchedmainboard = mainboards.find(mainboard => title.includes(mainboard));
+  if(matchedmainboard) {
+    return buildHref(PRODUCTS_PATH, {
+      category,
+      mainboard: mainboardMap[value]
+    })
+  }
+  const cpusMainboard = ["cpu - bo vi xu ly intel", "cpu - bo vi xu ly amd"]
+  const matchedCpusMainboard = cpusMainboard.find(cpu => title.includes(cpu))
+  if (matchedCpusMainboard) {
+    return buildHref(PRODUCTS_PATH,{
+      category,
+      cpu: cpuMap[value],
+    })
+  }
   return buildHref(PRODUCTS_PATH, {
     category,
   });
@@ -160,15 +345,14 @@ export default function MegaMenu({ activeSidebarItem }: MegaMenuProps) {
                 {col.items.map((item, itemIndex) => {
                   const label = getItemLabel(item);
                   const href = resolveHref(category, col.title, item);
-console.log(`Cột: ${col.title} | Item: ${label} | Href: ${href}`);
                   return (
                     <li key={`${label}-${itemIndex}`}>
                       <Link
                         href={href}
+                        onClick={() => console.log("CLICK:", label, href)}
                         className="text-[13px] text-gray-700 transition-colors duration-150 hover:text-[#E30019]"
                       >
                         {label}
-                        
                       </Link>
                     </li>
                   );

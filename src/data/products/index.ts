@@ -21,9 +21,9 @@ import { headphones } from "./headphones";
 import { handheldConsoles } from "./handheld_consoles";
 import { accessories } from "./accessories";
 
-export const products: Product[] = [
-  ...await laptops(),
-  ...await laptopgamings(),
+export  const products: Product[] = [
+  ...(await laptops()),
+  ...(await laptopgamings()),
   ...await mainboards(),
   ...await cpus(),
   ...await vgas(),
@@ -44,5 +44,3 @@ export const products: Product[] = [
   ...await handheldConsoles(),
   ...await accessories(),
 ];
-
-export default products;

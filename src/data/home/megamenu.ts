@@ -136,9 +136,9 @@ export const MENU_DATA: MenuItem[] = [
             {
                 title: "PC theo cấu hình VGA",
                 items: [
-                "PC RTX 5060 (HOT)",
+                "PC RTX 5060",
                 "PC RTX 5050",
-                "PC RTX 3060 (HOT)",
+                "PC RTX 3060",
                 "PC RTX 3050"
                 ],
             },
@@ -166,7 +166,7 @@ export const MENU_DATA: MenuItem[] = [
             },
             {
                 title: "PC theo CPU Intel",
-                items: ["PC Core i3", "PC Core i5", "PC Core i7 (HOT)", "PC Core i9"],
+                items: ["PC Core i3", "PC Core i5", "PC Core i7", "PC Core i9"],
             },
             {
                 title: "PC theo CPU Intel",
@@ -216,16 +216,16 @@ export const MENU_DATA: MenuItem[] = [
             },
             {
                 title: "Bo mạch chủ Intel",
-                items: ["Z890 (Mới)", "Z790", "B760", "H610", "X299X", "Xem tất cả"],
+                items: ["Z890", "Z790", "B760", "H610", "X299X", "Xem tất cả"],
             },
             {
                 title: "Bo mạch chủ AMD",
-                items: ["AMD X870 (Mới)", "AMD X670", "AMD X570", "AMD B650 (Mới)", "AMD B550", "AMD A320", "AMD TRX40"],
+                items: ["AMD X870", "AMD X670", "AMD X570", "AMD B650", "AMD B550", "AMD A320", "AMD TRX40"],
             },
             {
                 title: "CPU - Bộ vi xử lý Intel",
                 items: [
-                "CPU Intel Core Ultra Series 2 (Mới)",
+                "CPU Intel Core Ultra Series 2",
                 "CPU Intel 9",
                 "CPU Intel 7",
                 "CPU Intel 5",

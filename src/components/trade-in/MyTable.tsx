@@ -9,25 +9,32 @@ import {
   TableFooter
 } from "@/components/ui/table"
 
-import { ScrollArea } from "@/components/ui/scroll-area"
+type Props = {
+  data: TradeInTable;
+}
 
-export function MyTable() {
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { TradeInTable } from "@/data/tradeInPriceData"
+
+export function MyTable({data} : Props) {
   return (
     <ScrollArea className="h-120 w-100 border rounded-md">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="bg-green-700 text-white">Hãng</TableHead>
-            <TableHead className="bg-green-700 text-white">Dòng sản phẩm</TableHead>
-            <TableHead className="bg-green-700 text-white">Khoảng giá (nghìn đồng)</TableHead>
+            {data.columns.map((col, index) => (
+              <TableHead key={index} className="bg-green-700 text-white">
+                {col}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from({ length: 50 }).map((_, i) => (
-            <TableRow key={i}>
-              <TableCell>{i}</TableCell>
-              <TableCell>User {i}</TableCell>
-              <TableCell>User {i}</TableCell>
+          {data.rows.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {row.map((cell, cellIndex) => (
+                <TableCell key={cellIndex}>{cell}</TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

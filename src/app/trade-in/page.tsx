@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { MyTable } from "@/components/trade-in/MyTable";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
+import { tradeInTables } from "@/data/tradeInPriceData";
+import { tr } from "framer-motion/client";
 
 const MAX_W = "w-300";
 export default function TradeInPage() {
@@ -24,21 +26,15 @@ export default function TradeInPage() {
             </div>
             <h2 className="text-red-500 font-bold text-2xl my-4">Bảng giá thu sản phẩm cũ tham khảo:</h2>
             <div className="grid grid-cols-2 gap-4 my-4 p-4">
-                <div className="border w-fit border-black py-2 ">
-                    <p className="ml-2">Giá thu sản phẩm cũ: VGA</p>
-                    <MyTable />
-                    <span className="border-x border-b border-black ml-1">VGA</span>
-                </div>
-                <div className="border w-fit border-black py-2">
-                    <p className="ml-2">Giá thu sản phẩm cũ: VGA</p>
-                    <MyTable />
-                    <span className="border-x border-b border-black ml-1">VGA</span>
-                </div>
-                <div className="border w-fit border-black py-2">
-                    <p className="ml-2">Giá thu sản phẩm cũ: VGA</p>
-                    <MyTable />
-                    <span className="border-x border-b border-black ml-1">VGA</span>
-                </div>
+                {Object.entries(tradeInTables).map(([key,tradein],index) => (
+
+                    
+                    <div key={index} className="border w-fit border-black py-2 ">
+                        <p className="ml-2">{tradein.title}</p>
+                        <MyTable data={tradein}/>
+                        <span className="border-x border-b border-black ml-1"> {key.toUpperCase()}</span>
+                    </div>
+                    ))}
             </div>
             <div className="my-4 italic border-l-4 border-gray-300 p-4">
                 <p className="my-4"><span className="font-bold underline">Lưu ý:</span> Giá thu mua có thể thay đổi tùy theo biến động thị trường. Vui lòng liên hệ trực tiếp để có báo giá chính xác nhất.</p>
