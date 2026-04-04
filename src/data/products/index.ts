@@ -21,38 +21,63 @@ import { headphones } from "./headphones";
 import { handheldConsoles } from "./handheld_consoles";
 import { accessories } from "./accessories";
 
-export const products = async (): Promise<Product[]> => {
-  try {
-    // Chạy tất cả các hàm cùng một lúc (Parallel)
-    const results = await Promise.all([
-      laptops(),
-      laptopgamings(),
-      mainboards(),
-      cpus(),
-      vgas(),
-      ssds(),
-      rams(),
-      sdcards(),
-      speakers(),
-      microphones(),
-      webcams(),
-      monitors(),
-      mouses(),
-      mousepads(),
-      chairs(),
-      tables(),
-      keyboards(),
-      pcs(),
-      headphones(),
-      handheldConsoles(),
-      accessories(),
-    ]);
+// export const products = async (): Promise<Product[]> => {
+//   try {
+//     // Chạy tất cả các hàm cùng một lúc (Parallel)
+//     const results = await Promise.all([
+//       laptops(),
+//       laptopgamings(),
+//       mainboards(),
+//       cpus(),
+//       vgas(),
+//       ssds(),
+//       rams(),
+//       sdcards(),
+//       speakers(),
+//       microphones(),
+//       webcams(),
+//       monitors(),
+//       mouses(),
+//       mousepads(),
+//       chairs(),
+//       tables(),
+//       keyboards(),
+//       pcs(),
+//       headphones(),
+//       handheldConsoles(),
+//       accessories(),
+//     ]);
 
-    // results là mảng các mảng [ [laptop1, laptop2], [cpu1, cpu2], ... ]
-    // Dùng flat() để trải phẳng thành 1 mảng Product[] duy nhất
-    return results.flat();
-  } catch (error) {
-    console.error("Lỗi khi gom tất cả sản phẩm:", error);
-    return [];
-  }
-};
+//     // results là mảng các mảng [ [laptop1, laptop2], [cpu1, cpu2], ... ]
+//     // Dùng flat() để trải phẳng thành 1 mảng Product[] duy nhất
+//     return results.flat();
+//   } catch (error) {
+//     console.error("Lỗi khi gom tất cả sản phẩm:", error);
+//     return [];
+//   }
+// };
+export const products: Product[] = [
+  ...laptops,
+  ...laptopgamings,
+  ...mainboards,
+  ...cpus,
+  ...vgas,
+  ...ssds,
+  ...rams,
+  ...sdcards,
+  ...speakers,
+  ...microphones,
+  ...webcams,
+  ...monitors,
+  ...mouses,
+  ...mousepads,
+  ...chairs,
+  ...tables,
+  ...keyboards,
+  ...pcs,
+  ...headphones,
+  ...handheldConsoles,
+  ...accessories,
+];
+
+export default products;

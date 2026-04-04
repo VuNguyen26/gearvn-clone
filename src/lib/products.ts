@@ -3,8 +3,12 @@ import { vgas } from './../data/products/vgas';
 import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
 
-export async function getAllProducts() {
-  return await products(); 
+// export async function getAllProducts() {
+//   return await products(); 
+// }
+
+export function getAllProducts() {
+  return  products; 
 }
 
 export function getAllProductsFlat() {
