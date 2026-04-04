@@ -458,7 +458,15 @@ export function filterProducts(items: Product[], query: ListQuery) {
 
   const normalizedCategory = normalizeValue(query.category);
   const normalizedBrand = normalizeValue(query.brand);
-  const normalizedCpu = normalizeValue(query.cpu?.replace("-", " "));
+  // Thay vì query.cpu?.replace("-", " ")
+  let rawCpuQuery = query.cpu || "";
+  // 1. Thay tất cả dấu gạch thành dấu cách
+  rawCpuQuery = rawCpuQuery.replaceAll("-", " "); 
+  // 2. Nếu query bắt đầu bằng chữ "cpu ", hãy xóa nó đi để lọc chính xác hơn (ví dụ "cpu intel" -> "intel")
+  const cpuSearchTerm = rawCpuQuery.startsWith("cpu ") 
+      ? rawCpuQuery.replace("cpu ", "").trim() 
+      : rawCpuQuery.trim();
+  const normalizedCpu = normalizeValue(cpuSearchTerm);
   const normalizedUsage = normalizeValue(
     query.usage || query.need || query.purpose
   );
