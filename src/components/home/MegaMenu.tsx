@@ -164,7 +164,7 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     "rtx 4070 super (12gb)": "rtx-4070-super-12gb",
     "rtx 4070Ti super (16gb)": "rtx-4070ti-super-16gb",
     "rtx 4080 super (16gb)": "rtx-4080-super-16gb",
-    "rtx 4090 super (24gb)": "rtx-4070-super-24gb",
+    "rtx 4090 super (24gb)": "rtx-4090-super-24gb",
 
     "rtx 4060ti (8 - 16gb)": "rtx-4060ti-8-16gb",
     "rtx 4060 (8gb)": "rtx-4060-8gb",
@@ -288,27 +288,30 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     })
   }
   // Mainboard, CPU
+  // Card man hinh
   const vgas = ["vga rtx 50 series", "vga (tren 12 gb vram)", "vga (duoi 12 gb vram)", "vga - card man hinh"];
   const matchedvgas = vgas.find(vga => title.includes(vga));
   if (matchedvgas){
     return buildHref(PRODUCTS_PATH, {
-      category,
+      category: "vga",
       vga: gpuMap[value]
     })
   }
+  // Bo mach chu 
   const mainboards = ["bo mach chu intel", "bo mach chu amd"];
   const matchedmainboard = mainboards.find(mainboard => title.includes(mainboard));
   if(matchedmainboard) {
     return buildHref(PRODUCTS_PATH, {
-      category,
+      category: "mainboard",
       mainboard: mainboardMap[value]
     })
   }
+  // CPU
   const cpusMainboard = ["cpu - bo vi xu ly intel", "cpu - bo vi xu ly amd"]
   const matchedCpusMainboard = cpusMainboard.find(cpu => title.includes(cpu))
   if (matchedCpusMainboard) {
     return buildHref(PRODUCTS_PATH,{
-      category,
+      category: "cpu",
       cpu: cpuMap[value],
     })
   }
