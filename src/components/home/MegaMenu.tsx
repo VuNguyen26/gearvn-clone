@@ -59,6 +59,8 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
   const label = getItemLabel(item);
   const title = normalize(columnTitle); 
   const value = normalize(label);
+
+  console.log(value);
   
   const SPECIFIC_PRODUCT_MAP: Record<string, string> = {
   "homework athlon": "homework-athlon-3000g", // Slug thực tế trên website của bạn
@@ -102,6 +104,8 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     "pc tu 70 100 trieu": "70-100",
     "pc tu 100 200 trieu": "100-200",
     "pc tren 200 trieu": "over-200",
+    // Case
+    
   };
   const cpuMap: Record<string, string> = {
     // Laptop 
@@ -128,18 +132,17 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     "pc ultra 7": "pc-ultra-7",
     "pc ultra 9": "pc-ultra-9",
     // Main, CPU
-    "cpu intel core ultra series 2": "cpu-intel-core-ultra-series-2",
-    "cpu intel 9": "cpu-intel-9",
-    "cpu intel 7": "cpu-intel-7",
-    "cpu intel 5": "cpu-intel-5",
-    "cpu intel 3": "cpu-intel-3",
+    "cpu intel core ultra series 2": "core-ultra",
+    "cpu intel 9": "core-i9",
+    "cpu intel 7": "core-i7",
+    "cpu intel 5": "core-i5",
+    "cpu intel 3": "core-i3",
 
     "cpu amd athlon": "cpu-amd-athlon",
     "cpu amd r3": "cpu-amd-r3",
     "cpu amd r5": "cpu-amd-r5",
     "cpu amd r7": "cpu-amd-r7",
     "cpu amd r9": "cpu-amd-r9",
-    
   };
   const gpuMap: Record<string, string> = {
     // Laptop gaming
@@ -155,12 +158,14 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     "pc rtx 3060": "pc-rtx-3060",
     "pc rtx 3050": "pc-rtx-3050",
     // Main, CPU
+    //Card man hinh vga
     "rtx 5090" : "rtx-5090",
     "rtx 5080": "rtx-5080",
     "rtx 5070ti": "rtx-5070ti",
     "rtx 5070": "rtx-5070",
     "rtx 5060ti": "rtx-5060ti",
     "rtx 5060": "rtx-5060",
+
     "rtx 4070 super (12gb)": "rtx-4070-super-12gb",
     "rtx 4070Ti super (16gb)": "rtx-4070ti-super-16gb",
     "rtx 4080 super (16gb)": "rtx-4080-super-16gb",
@@ -303,7 +308,7 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
   if(matchedmainboard) {
     return buildHref(PRODUCTS_PATH, {
       category: "mainboard",
-      mainboard: mainboardMap[value]
+      chip: mainboardMap[value]
     })
   }
   // CPU
@@ -315,6 +320,9 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
       cpu: cpuMap[value],
     })
   }
+  // Case
+
+
   return buildHref(PRODUCTS_PATH, {
     category,
   });

@@ -2,6 +2,7 @@
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getFilteredPaginatedProducts } from "@/lib/products";
+import { get } from "node_modules/axios/index.cjs";
 
 export const revalidate = 60;
 
@@ -30,6 +31,9 @@ export default async function ProductsPage({ searchParams }: Props) {
 
     min: toNumber(sp.min),
     max: toNumber(sp.max),
+    sort: getFirst(sp.sort) as any,
+    gpu: getFirst(sp.vga),
+    chip: getFirst(sp.chip),
   });
 
   return (

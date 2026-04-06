@@ -1,5 +1,5 @@
+import { MapPin } from 'lucide-react';
 import { mainboards } from './../data/products/mainboards';
-import { vgas } from './../data/products/vgas';
 import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
 
@@ -449,8 +449,9 @@ export type ListQuery = {
   min?: number;
   max?: number;
   sort?: "price_asc" | "price_desc" | "newest";
-  vga?: string;
-  mainboard?: string;
+
+  gpu?: string;
+  chip?:string;
 };
 
 export function filterProducts(items: Product[], query: ListQuery) {
@@ -459,7 +460,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
     return [];
   }
   let arr = [...items];
-
   const normalizedCategory = normalizeValue(query.category);
   const normalizedBrand = normalizeValue(query.brand);
   // 1. Thay vì query.cpu?.replace("-", " ")
@@ -474,18 +474,15 @@ export function filterProducts(items: Product[], query: ListQuery) {
   );
   const normalizedSeries = normalizeValue(query.series);
   const normalizedQ = normalizeText(query.q);
-  const vgaQuery = query.vga || "";
-  // Sử dụng Regex /[- /()]/g để xóa sạch: gạch ngang, dấu cách, gạch chéo và dấu ngoặc
-  const normalizedVga = normalizeValue(vgaQuery).replace(/[- /()]/g, "");
-// Nếu nó ra "rtx5090super" (dính lền) thì .includes() sẽ rất khó khớp.
-  const normalizedMainboard = normalizeValue(query.mainboard);
+
+
+  const normalizedVga = normalizeValue(query.gpu);
+  const normalizedMainboard = normalizeValue(query.chip);
 
   if (normalizedCategory) {
     const matchedCategories = expandCategoryAliases(normalizedCategory);
-
     arr = arr.filter((p) => {
       const values = getProductCategoryValues(p);
-      console.log(arr);
       return values.some((value) => matchedCategories.includes(value));
     });
   }
@@ -509,55 +506,40 @@ export function filterProducts(items: Product[], query: ListQuery) {
   }
 
   if (normalizedMainboard) {
-  arr = arr.filter((p) => {
-    // 1. Chuẩn hóa giá trị từ URL: "amd-x870" -> "amd x870"
-    const searchKeyword = normalizedMainboard.replace(/-/g, " ");
-
-    // 2. Gom tất cả các nơi có thể chứa thông tin Chipset/Model
-    const mainboardTargets = [
-      p.name,
-      p.slug,
-      p.shortDesc,
-      // Lấy thêm từ detailSpecs (Chipset, Socket...)
-      ...(p.detailSpecs?.map((spec: any) => spec.value) || []),
-      // Lấy từ cardSpecs
-      ...(p.cardSpecs?.map((spec: any) => spec.value) || []),
-      getSpecValue(p, "chipset"),
-    ].map(v => normalizeValue(String(v || "")));
-
-    // 3. Kiểm tra so khớp
-    return mainboardTargets.some(target => {
-      // Khớp trực tiếp: "amd x870" có nằm trong "Siêu phẩm Mainboard X870E..." không?
-      if (target.includes(searchKeyword)) return true;
-
-      // Khớp thông minh: Nếu URL là "amd-x870" nhưng tên chỉ ghi "X870E"
-      // ta tách chữ "amd" ra và tìm "x870"
-      const modelOnly = searchKeyword.replace("amd ", "").replace("intel ", "").trim();
-      return target.includes(modelOnly);
-    });
-  });
-}
-  // 4. Bắt đầu lọc
+    arr = arr.filter((p) => {
+      const cardValues = (p as any).cardSpecs?.map((card : any) => card.value) || [];
+      const detailValues = (p as any).detailSpecs?.map((s: any) => s.value) || [];
+      const candidates = [
+        ...cardValues,
+        ...detailValues,
+        getSpecValue(p, "Chipset"),
+        getSpecValue(p, "Mainboard"),
+        ...getSpecValues(p),
+      ];
+      const normalizedCandidates = candidates
+        .filter(Boolean) 
+        .map(val => normalizeValue(val)); 
+      return matchFromCandidates(
+        normalizedCandidates, 
+        normalizedMainboard
+      );
+    })
+  }
+  
   if (normalizedCpu) {
     arr = arr.filter((p) => {
-      // Lấy tất cả dữ liệu có thể tìm kiếm của sản phẩm (Tên, Specs, Mô tả ngắn)
-      const searchTargets = [
-        p.name,
-        p.slug,
-        (p as any).shortDesc,
+      const detailValues = (p as any).detailSpecs?.map((value : any) => value.value) || [];
+      const candidates = [
+        (p as any).specs?.cpu,
+        ...detailValues,
+        getSpecValue(p,"Dòng CPU"),
+        getSpecValue(p,"dòng CPU"),
         ...getSpecValues(p),
-        getSpecValue(p, "cpu"),
-        getSpecValue(p, "CPU"),
-      ].map(v => normalizeValue(String(v || "")));
-
-      // Kiểm tra xem có mục nào chứa từ khóa không
-      return searchTargets.some(target => {
-        // Nếu query là "cpu intel core ultra series 2", ta thử khớp cả cụm 
-        // hoặc khớp cụm quan trọng nhất là "intel core ultra series 2"
-        const essentialTerm = normalizedCpu.replace("cpu ", "").trim();
-        
-        return target.includes(normalizedCpu) || target.includes(essentialTerm);
-      });
+      ];
+      const normalizedCandidates = candidates
+        .filter(Boolean)
+        .map(val => normalizeValue(val));
+      return matchFromCandidates(normalizedCandidates, normalizedCpu);
     });
   }
 
@@ -597,52 +579,35 @@ export function filterProducts(items: Product[], query: ListQuery) {
           p.slug,
           (p as any).shortDesc,
           ...getSpecValues(p),
-        ].map((v) => (v ? slugify(String(v)) : "")),
-        slugify(normalizedSeries.replace("series", "").trim())
+        ],
+        normalizedSeries
       )
     );
   }
   if (normalizedVga) {
-  console.log("--- BẮT ĐẦU LỌC VGA ---");
-  console.log("Từ khóa từ URL (đã normalize):", normalizedVga);
+    const cleanTarget = normalizedVga.toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // Bỏ dấu tiếng Việt
+            .replace(/đ/g, "d")
+            .replace(/[^a-z0-9]/g, "");
+    arr = arr.filter((p) => {
+      const normalizedCandidates =
+        [
+        (p as any).specs?.gpu, // Dành cho cấu trúc specs: { gpu: "RTX 5080" }
+        ...getSpecValues(p),
+      ].filter(Boolean).map(value => value.toLowerCase()
+                                          .normalize("NFD")
+                                          .replace(/[\u0300-\u036f]/g, "") // Bỏ dấu tiếng Việt
+                                          .replace(/đ/g, "d")
+                                          .replace(/[^a-z0-9]/g, ""));
+      return normalizedCandidates.some((candidate) => {
+        if (cleanTarget.endsWith("ti")) 
+          return candidate.includes(cleanTarget);
+        return candidate.includes(cleanTarget) && !candidate.includes(cleanTarget + "ti");
+      });
+   });
+  }
 
-  arr = arr.filter((p) => {
-    // 1. Gom tất cả các nguồn dữ liệu vào một mảng "ứng cử viên" (candidates)
-    const vgaCandidates = [
-      p.name,
-      p.slug,
-      (p as any).shortDesc,
-      (p as any).vga,
-      (p as any).gpu,
-      (p as any).specs?.gpu, // Dành cho cấu trúc specs: { gpu: "RTX 5080" }
-      getSpecValue(p, "vga"), // Nếu bạn có hàm helper này
-      getSpecValue(p, "GPU"),
-      getSpecValue(p, "Chipset đồ họa"),
-      ...(p.cardSpecs?.map((s: any) => s.value) || []),
-      ...(p.detailSpecs?.map((s: any) => s.value) || []),
-    ];
-
-    // 2. Sử dụng hàm matchFromCandidates để so khớp
-    // Lưu ý: Đảm bảo hàm matchFromCandidates của bạn có thực hiện normalize bên trong
-    const isMatch = matchFromCandidates(vgaCandidates, normalizedVga);
-
-    // 3. Dự phòng (Fallback): Nếu không khớp trực tiếp, thử khớp theo Model (bỏ GB)
-    if (!isMatch) {
-      const modelOnly = normalizedVga.split("gb")[0].replace(/\d+$/, "");
-      if (modelOnly.length > 3) {
-        return matchFromCandidates(vgaCandidates, modelOnly);
-      }
-    }
-
-    if (isMatch) {
-      console.log(`✅ KHỚP: [${p.id}] ${p.name}`);
-    }
-
-    return isMatch;
-  });
-
-  console.log(`--- KẾT THÚC LỌC: Tìm thấy ${arr.length} sản phẩm ---`);
-}
   if (normalizedQ) {
     arr = arr.filter((p) => {
       const pPrice = getProductPrice(p);
