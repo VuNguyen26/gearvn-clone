@@ -228,25 +228,15 @@ function isConcreteProductCategory(value: string) {
 function expandCategoryAliases(rawValue?: string) {
   const normalized = normalizeValue(rawValue);
   if (!normalized) return [];
-
-  // 1) Nếu đây là category/subcategory thật đang tồn tại trong data sản phẩm
-  // thì chỉ match đúng category đó, không bung sang nhóm khác
-  // Ví dụ: case -> chỉ là case, không ra psu/cooler
   if (isConcreteProductCategory(normalized)) {
     return [normalized];
   }
-
-  // 2) Nếu đây là key nhóm menu
-  // Ví dụ: case-nguon-tan, o-cung-ram-the-nho, chuot-lot-chuot...
   const directAliases = menuCategoryMap[normalized];
   if (directAliases) {
     return Array.from(
       new Set([normalized, ...directAliases].map(normalizeValue))
     ).filter(Boolean);
   }
-
-  // 3) Nếu đây là alias của 1 nhóm menu
-  // Ví dụ: accessories -> phu-kien, speakers -> loa-micro-webcam
   const matchedGroup = Object.entries(menuCategoryMap).find(([, aliases]) =>
     aliases.some((item) => normalizeValue(item) === normalized)
   );
@@ -486,6 +476,26 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (value === "over-30" || value === "tren-30-trieu") {
     return price > 30000000;
   }
+  // === NHÓM KEYBOARD ===
+  if (value === "under-1" || value === "duoi-1-trieu") {
+    return price < 1000000;
+  }
+
+  if (value === "1-2" || value === "1-trieu-2-trieu") {
+    return price >= 1000000 && price <= 2000000;
+  }
+
+  if (value === "2-3" || value === "2-trieu-3-trieu") {
+    return price > 2000000 && price <= 3000000;
+  }
+
+  if (value === "3-4" || value === "3-trieu-4-trieu") {
+    return price > 3000000 && price <= 4000000;
+  }
+
+  if (value === "over-4" || value === "tren-4-trieu") {
+    return price > 4000000;
+  }
   return true;
 }
 
@@ -625,6 +635,11 @@ export type ListQuery = {
   speaker?:string;
   resolution?:string;
   microphone?: string;
+
+  hz?: string;
+  inch?: string;
+
+  type?: string;
 };
 
 export function filterProducts(items: Product[], query: ListQuery) {
@@ -664,6 +679,10 @@ export function filterProducts(items: Product[], query: ListQuery) {
   const normalizedResolution = normalizeValue(query.resolution);
   const normalizedMicrophone = normalizeValue(query.microphone);
 
+  const normalizedHz = normalizeValue(query.hz);
+  const normalizedInch = normalizeValue(query.inch);
+
+  const normalizedType = normalizeValue(query.type);
 
   if (normalizedCategory) {
     if (normalizedCategory === "mouse" || normalizedCategory === "mousepad") {
@@ -880,7 +899,29 @@ export function filterProducts(items: Product[], query: ListQuery) {
     )
     })
   }
-
+  if (normalizedHz){
+    arr = arr.filter((p) => {
+      return matchFromCandidates([
+        (p as any).detailSpecs?.map((value : any) => value.value),
+        ...getSpecValues(p),
+      ],
+      normalizedHz
+    )
+    })
+  }
+  if (normalizedInch){
+    const inch = parseFloat(normalizedInch); 
+    arr = arr.filter((p) => {
+      const detailValues = (p as any).detailSpecs?.map((value : any) => normalizeValue(value.value)) || [];
+    const inches = detailValues
+      .map((v: string) => parseFloat(v))
+      .filter((n: number) => !isNaN(n));
+    if (normalizedInch === "over-32") {
+      return inches.some((n) => n > 32); 
+    }
+    return inches.some((n) => n === inch);
+    })
+  }
   if (normalizedQ) {
     arr = arr.filter((p) => {
       const pPrice = getProductPrice(p);
@@ -892,7 +933,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice < 15000000;
       }
-
       if (
         normalizedQ === "tu 15 den 20 trieu" ||
         normalizedQ === "15 20 trieu" ||
@@ -900,7 +940,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 15000000 && pPrice <= 20000000;
       }
-
       if (
         normalizedQ === "tren 20 trieu" ||
         normalizedQ === "tren 20" ||
@@ -915,7 +954,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice < 20000000;
       }
-
       if (
         normalizedQ === "tu 20 den 25 trieu" ||
         normalizedQ === "20 25 trieu" ||
@@ -923,7 +961,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 20000000 && pPrice <= 25000000;
       }
-
       if (
         normalizedQ === "tu 25 den 30 trieu" ||
         normalizedQ === "25 30 trieu" ||
@@ -931,7 +968,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 25000000 && pPrice <= 30000000;
       }
-
       if (
         normalizedQ === "tren 30 trieu" ||
         normalizedQ === "tren 30" ||
@@ -939,7 +975,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice > 30000000;
       }
-
       // ===== PC =====
       if (
         normalizedQ === "pc duoi 30 trieu" ||
@@ -947,7 +982,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice < 30000000;
       }
-
       if (
         normalizedQ === "pc tu 30 50 trieu" ||
         normalizedQ === "30 50 trieu" ||
@@ -955,7 +989,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 30000000 && pPrice <= 50000000;
       }
-
       if (
         normalizedQ === "pc tu 50 70 trieu" ||
         normalizedQ === "50 70 trieu" ||
@@ -963,7 +996,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 50000000 && pPrice <= 70000000;
       }
-
       if (
         normalizedQ === "pc tu 70 100 trieu" ||
         normalizedQ === "70 100 trieu" ||
@@ -971,7 +1003,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 70000000 && pPrice <= 100000000;
       }
-
       if (
         normalizedQ === "pc tu 100 200 trieu" ||
         normalizedQ === "100 200 trieu" ||
@@ -979,7 +1010,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 100000000 && pPrice <= 200000000;
       }
-
       if (
         normalizedQ === "pc tren 200 trieu" ||
         normalizedQ === "tren 200 trieu" ||
@@ -995,7 +1025,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice < 5000000;
       }
-
       if (
         normalizedQ === "man hinh 5 10 trieu" ||
         normalizedQ === "5 10 trieu" ||
@@ -1003,7 +1032,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 5000000 && pPrice <= 10000000;
       }
-
       if (
         normalizedQ === "man hinh 10 20 trieu" ||
         normalizedQ === "10 20 trieu" ||
@@ -1011,7 +1039,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 10000000 && pPrice <= 20000000;
       }
-
       if (
         normalizedQ === "man hinh 20 30 trieu" ||
         normalizedQ === "20 30 trieu" ||
@@ -1019,13 +1046,47 @@ export function filterProducts(items: Product[], query: ListQuery) {
       ) {
         return pPrice >= 20000000 && pPrice <= 30000000;
       }
-
       if (
         normalizedQ === "man hinh tren 30 trieu" ||
         normalizedQ === "tren 30 trieu" ||
         normalizedQ === "over 30m"
       ) {
         return pPrice > 30000000;
+      }
+      // ===== KEYBOARD =====
+      if (
+        normalizedQ === "ban phim duoi 1 trieu" ||
+        normalizedQ === "duoi 1 trieu"
+      ) {
+        return pPrice < 1000000;
+      }
+      if (
+        normalizedQ === "ban phim tu 1 2 trieu" ||
+        normalizedQ === "1 2 trieu" ||
+        normalizedQ === "tu 1 den 2 trieu"
+      ) {
+        return pPrice >= 1000000 && pPrice <= 2000000;
+      }
+      if (
+        normalizedQ === "ban phim tu 2 3 trieu" ||
+        normalizedQ === "2 3 trieu" ||
+        normalizedQ === "tu 2 den 3 trieu"
+      ) {
+        return pPrice >= 2000000 && pPrice <= 3000000;
+      }
+      if (
+        normalizedQ === "ban phim tu 3 4 trieu" ||
+        normalizedQ === "3 4 trieu" ||
+        normalizedQ === "tu 3 den 4 trieu"
+      ) {
+        return pPrice >= 3000000 && pPrice <= 4000000;
+      }
+      if (
+        normalizedQ === "ban phim tren 4 trieu" ||
+        normalizedQ === "tren 4 trieu" ||
+        normalizedQ === "over 4"
+      ) {
+        return pPrice > 4000000;
       }
       const searchable = normalizeText(getAllSearchableValues(p).join(" "));
       return (
@@ -1034,45 +1095,46 @@ export function filterProducts(items: Product[], query: ListQuery) {
       );
     });
   }
-  
-
+  if (normalizedType){
+    arr = arr.filter((p) => {
+      return matchFromCandidates([
+        (p as any).detailSpecs?.map((val : any) => val.value),
+        (p as any).cardSpecs?.map((val : any) => val.value),
+        ...getSpecValues(p),
+      ].filter(Boolean).map(v => (normalizeValue(v))),
+      normalizedType
+    )
+    })
+  }
   if (query.price) {
     arr = arr.filter((p) => matchPriceLabel(p, query.price));
   }
-
   const minPrice = query.min;
   if (typeof minPrice === "number" && !Number.isNaN(minPrice)) {
     arr = arr.filter((p) => getProductPrice(p) >= minPrice);
   }
-
   const maxPrice = query.max;
   if (typeof maxPrice === "number" && !Number.isNaN(maxPrice)) {
     arr = arr.filter((p) => getProductPrice(p) <= maxPrice);
   }
-
   switch (query.sort) {
     case "price_asc":
       arr.sort((a, b) => getProductPrice(a) - getProductPrice(b));
       break;
-
     case "price_desc":
       arr.sort((a, b) => getProductPrice(b) - getProductPrice(a));
       break;
-
     case "newest":
       arr.reverse();
       break;
-
     default:
       break;
   }
-
   return arr;
 }
 
 function productHasBrandInName(product: Product) {
   const name = normalizeText(product.name);
-
   const knownBrands = [
     "asus",
     "acer",

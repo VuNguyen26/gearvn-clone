@@ -45,6 +45,11 @@ export default async function ProductsPage({ searchParams }: Props) {
     speaker: getFirst(sp.speaker),
     resolution: getFirst(sp.resolution),
     microphone: getFirst(sp.microphone),
+
+    hz: getFirst(sp.hz),
+    inch: getFirst(sp.inch),
+
+    type: getFirst(sp.type),
   });
 
   return (

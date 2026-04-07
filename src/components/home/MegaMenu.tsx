@@ -162,7 +162,20 @@ const resolveHref = (
     "case lianli": "lianli",
     "case nzxt": "nzxt",
     "case jonsbo": "jonsbo",
-
+    // keyboard
+    akko : "akko",
+    aula : "aula",
+    "dare-u" : "dare-u",
+    durgod : "durgod",
+    leobog : "leobog",
+    keychron : "keychron",
+    "fl-esports" : "fl-esports",
+    cidoo : "cidoo",
+    machenike : "machenike",
+    rapoo: "rapoo",
+    vgn : "vgn",
+    madlions : "madlions",
+    skyloong : "skyloong"
   };
 
   const priceMap: Record<string, string> = {
@@ -212,8 +225,12 @@ const resolveHref = (
     "phu kien tu 500 nghin den 1 trieu": "500k-1m",
     "phu kien tren 1 trieu": "over-1m",
     // Case
-
-    
+    // Keyboard
+    "duoi 1 trieu" : "under-1",
+    "1 trieu 2 trieu" : "1-2",
+    "2 trieu 3 trieu" : "2-3",
+    "3 trieu 4 trieu" : "3-4",
+    "tren 4 trieu" : "over-4"
   };
   const cpuMap: Record<string, string> = {
     // Laptop 
@@ -376,7 +393,25 @@ const resolveHref = (
   const microphoneMap : Record<string,string> = {
     "micro hyperx" : "hyperx"
   }
-
+  const hzMap : Record<string,string> = {
+    "60hz" : "60hz",
+    "75hz" : "75hz",
+    "100hz" : "100hz",
+    "144hz" : "144hz",
+    "240hz" : "240hz",
+  }
+  const inchMap : Record<string,string> = {
+    "man hinh 22" : "22",
+    "man hinh 24" : "24",
+    "man hinh 27" : "27",
+    "man hinh 29" : "29",
+    "man hinh 32" : "32",
+    "man hinh tren 32" : "over-32"
+  }
+  const typeKeyboardMap : Record<string,string> = {
+    "bluetooth" : "bluetooth",
+    "wireless" : "wireless",
+  }
   if (title === "thuong hieu" && brandMap[value]) {
     return buildHref(PRODUCTS_PATH, {
       category: queryCategory,
@@ -393,7 +428,6 @@ const resolveHref = (
       accessoryType: type,
     });
     }
-
     // Chuột + Lót chuột
   if (queryCategory === "chuot-lot-chuot") {
     if (title === "thuong hieu chuot") {
@@ -402,14 +436,12 @@ const resolveHref = (
         brand: slugify(label),
       });
     }
-
     if (title === "gia tien") {
       return buildHref(PRODUCTS_PATH, {
         category: "mouse",
         price: priceMap[value] ?? slugify(label),
       });
     }
-
     if (title === "loai chuot") {
       const mouseTypeMap: Record<string, string> = {
         "chuot choi game": "chuot gaming",
@@ -421,20 +453,17 @@ const resolveHref = (
         q: mouseTypeMap[value] ?? label,
       });
     }
-
     if (title === "logitech") {
       const logitechMouseMap: Record<string, string> = {
         "logitech gaming": "chuot gaming",
         "logitech van phong": "chuot van phong",
       };
-
       return buildHref(PRODUCTS_PATH, {
         category: "mouse",
         brand: "logitech",
         q: logitechMouseMap[value] ?? label,
       });
     }
-
     if (title === "thuong hieu lot chuot") {
       return buildHref(PRODUCTS_PATH, {
         category: "mousepad",
@@ -442,7 +471,6 @@ const resolveHref = (
       });
     }
   }
-
   // Tai nghe
   if (queryCategory === "headphone") {
     if (title === "thuong hieu tai nghe") {
@@ -451,14 +479,12 @@ const resolveHref = (
         brand: slugify(label),
       });
     }
-
     if (title === "tai nghe theo gia") {
       return buildHref(PRODUCTS_PATH, {
         category: queryCategory,
         price: priceMap[value] ?? slugify(label),
       });
     }
-
     if (title === "kieu ket noi") {
       const headphoneConnectionMap: Record<string, string> = {
         "tai nghe wireless": "wireless",
@@ -470,7 +496,6 @@ const resolveHref = (
         q: headphoneConnectionMap[value] ?? label,
       });
     }
-
     if (title === "kieu tai nghe") {
       const headphoneTypeMap: Record<string, string> = {
         "tai nghe over-ear": "over-ear",
@@ -483,7 +508,6 @@ const resolveHref = (
       });
     }
   }
-
   // Ghế - Bàn
     if (queryCategory === "ghe-ban") {
     const chairBrandTitles = ["thuong hieu ghe gaming", "thuong hieu ghe cth"];
@@ -517,7 +541,6 @@ const resolveHref = (
       });
     }
   }
-
   if (
     title === "gia ban" ||
     ((queryCategory === "handheld-console" || queryCategory === "ghe-ban") && title === "gia tien")
@@ -729,9 +752,10 @@ const resolveHref = (
       brand: brandMap[value]
     })
   }
+  console.log(value);
   if (title === "gia tien") {
     return buildHref(PRODUCTS_PATH,{
-      category: "monitor",
+      category,
       price: priceMap[value]
     })
   }
@@ -739,6 +763,25 @@ const resolveHref = (
     return buildHref(PRODUCTS_PATH, {
       category: "monitor",
       resolution : resolutionMap[value]
+    })
+  }
+  if (title === "tan so quet") {
+    return buildHref(PRODUCTS_PATH, {
+      category:"monitor",
+      hz : hzMap[value],
+    })
+  }
+  if (title === "kich thuoc") {
+    return buildHref(PRODUCTS_PATH, {
+      category: "monitor",
+      inch: inchMap[value],
+    })
+  }
+  // Keyboard
+  if (title === "ket noi"){
+    return buildHref(PRODUCTS_PATH, {
+      category,
+      type: typeKeyboardMap[value],
     })
   }
   return buildHref(PRODUCTS_PATH, {
