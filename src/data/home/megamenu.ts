@@ -285,7 +285,7 @@ export const MENU_DATA: MenuItem[] = [
         label: "Ổ cứng, RAM, Thẻ nhớ", 
         icon: HardDrive, 
         href: "/category/o-cung-ram-the-nho",
-         id: "storage-ram",
+        id: "storage-ram",
         content: {
             columns: [
             {

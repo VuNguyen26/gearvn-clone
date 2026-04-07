@@ -1,7 +1,11 @@
+import { speakers } from './../data/products/speakers';
+import { sdcards } from './../data/products/sdcards';
+import { MapPin } from 'lucide-react';
 import { mainboards } from './../data/products/mainboards';
-import { vgas } from './../data/products/vgas';
 import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
+import { constant } from 'firebase/firestore/pipelines';
+import { body, p } from 'framer-motion/client';
 
 // export async function getAllProducts() {
 //   return await products(); 
@@ -449,8 +453,17 @@ export type ListQuery = {
   min?: number;
   max?: number;
   sort?: "price_asc" | "price_desc" | "newest";
-  vga?: string;
-  mainboard?: string;
+
+  gpu?: string;
+  chip?:string;
+
+  ram?: string;
+  ssd?: string;
+  maxstorage?: string;
+  minstorage?: string;
+  sdcard?:string;
+
+  speaker?:string;
 };
 
 export function filterProducts(items: Product[], query: ListQuery) {
@@ -459,35 +472,39 @@ export function filterProducts(items: Product[], query: ListQuery) {
     return [];
   }
   let arr = [...items];
-
   const normalizedCategory = normalizeValue(query.category);
   const normalizedBrand = normalizeValue(query.brand);
-  // Thay vì query.cpu?.replace("-", " ")
-  let rawCpuQuery = query.cpu || "";
-  // 1. Thay tất cả dấu gạch thành dấu cách
-  rawCpuQuery = rawCpuQuery.replaceAll("-", " "); 
-  // 2. Nếu query bắt đầu bằng chữ "cpu ", hãy xóa nó đi để lọc chính xác hơn (ví dụ "cpu intel" -> "intel")
-  const cpuSearchTerm = rawCpuQuery.startsWith("cpu ") 
-      ? rawCpuQuery.replace("cpu ", "").trim() 
-      : rawCpuQuery.trim();
-  const normalizedCpu = normalizeValue(cpuSearchTerm);
+  // 1. Thay vì query.cpu?.replace("-", " ")
+  let cpuQuery = query.cpu || "";
+  // 2. Dùng Regex để thay THẾ TẤT CẢ dấu "-" thành dấu cách
+  // "cpu-intel-core-ultra-series-2" -> "cpu intel core ultra series 2"
+  cpuQuery = cpuQuery.replace(/-/g, " ");
+  // 3. Chuẩn hóa chuỗi (xóa khoảng trắng thừa, viết thường)
+  const normalizedCpu = normalizeValue(cpuQuery);
   const normalizedUsage = normalizeValue(
     query.usage || query.need || query.purpose
   );
   const normalizedSeries = normalizeValue(query.series);
   const normalizedQ = normalizeText(query.q);
-  const normalizedVga = normalizeValue(query.vga);
-  const normalizedMainboard = normalizeValue(query.mainboard);
 
+
+  const normalizedVga = normalizeValue(query.gpu);
+  const normalizedMainboard = normalizeValue(query.chip);
+
+  const normalizedRAM = normalizeValue(query.ram);
+  const normalizedSSD = normalizeValue(query.ssd);
+  const normalizedMinStorage = normalizeValue(query.minstorage);
+  const normalizedMaxStorage = normalizeValue(query.maxstorage);
+  const normalizedSdCard = normalizeValue(query.sdcard);
+
+  const normalizedSpeaker = normalizeValue(query.speaker);
   if (normalizedCategory) {
     const matchedCategories = expandCategoryAliases(normalizedCategory);
-
     arr = arr.filter((p) => {
       const values = getProductCategoryValues(p);
       return values.some((value) => matchedCategories.includes(value));
     });
   }
-
   if (normalizedBrand) {
     arr = arr.filter((p) =>
       matchFromCandidates(
@@ -505,24 +522,42 @@ export function filterProducts(items: Product[], query: ListQuery) {
       )
     );
   }
-
-  if (normalizedCpu) {
-    arr = arr.filter((p) =>
-      matchFromCandidates(
-        [
-          (p as any).cpu,
-          getSpecValue(p, "cpu"),
-          getSpecValue(p, "CPU"),
-          p.name,
-          p.slug,
-          (p as any).shortDesc,
-          ...getSpecValues(p),
-        ],
-        normalizedCpu
-      )
-    );
+  if (normalizedMainboard) {
+    arr = arr.filter((p) => {
+      const cardValues = (p as any).cardSpecs?.map((card : any) => card.value) || [];
+      const detailValues = (p as any).detailSpecs?.map((s: any) => s.value) || [];
+      const candidates = [
+        ...cardValues,
+        ...detailValues,
+        getSpecValue(p, "Chipset"),
+        getSpecValue(p, "Mainboard"),
+        ...getSpecValues(p),
+      ];
+      const normalizedCandidates = candidates
+        .filter(Boolean) 
+        .map(val => normalizeValue(val)); 
+      return matchFromCandidates(
+        normalizedCandidates, 
+        normalizedMainboard
+      );
+    })
   }
-
+  if (normalizedCpu) {
+    arr = arr.filter((p) => {
+      const detailValues = (p as any).detailSpecs?.map((value : any) => value.value) || [];
+      const candidates = [
+        (p as any).specs?.cpu,
+        ...detailValues,
+        getSpecValue(p,"Dòng CPU"),
+        getSpecValue(p,"dòng CPU"),
+        ...getSpecValues(p),
+      ];
+      const normalizedCandidates = candidates
+        .filter(Boolean)
+        .map(val => normalizeValue(val));
+      return matchFromCandidates(normalizedCandidates, normalizedCpu);
+    });
+  }
   if (normalizedUsage) {
     arr = arr.filter((p) =>
       matchFromCandidates(
@@ -547,7 +582,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       )
     );
   }
-
   if (normalizedSeries) {
     arr = arr.filter((p) =>
       matchFromCandidates(
@@ -559,48 +593,89 @@ export function filterProducts(items: Product[], query: ListQuery) {
           p.slug,
           (p as any).shortDesc,
           ...getSpecValues(p),
-        ].map((v) => (v ? slugify(String(v)) : "")),
-        slugify(normalizedSeries.replace("series", "").trim())
+        ],
+        normalizedSeries
       )
     );
   }
-
   if (normalizedVga) {
-    arr = arr.filter((p) =>
-      matchFromCandidates(
+    const cleanTarget = normalizedVga.toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // Bỏ dấu tiếng Việt
+            .replace(/đ/g, "d")
+            .replace(/[^a-z0-9]/g, "");
+    arr = arr.filter((p) => {
+      const normalizedCandidates =
         [
-          (p as any).vga,
-          getSpecValue(p, "vga"),
-          getSpecValue(p, "VGA"),
-          getSpecValue(p, "gpu"),
-          getSpecValue(p, "GPU"),
-          getSpecValue(p, "card đồ họa"),
-          p.name,
-          p.slug,
-          ...getSpecValues(p),
-        ],
-        normalizedVga
-      )
-    );
+        (p as any).specs?.gpu, // Dành cho cấu trúc specs: { gpu: "RTX 5080" }
+        ...getSpecValues(p),
+      ].filter(Boolean).map(value => value.toLowerCase()
+                                          .normalize("NFD")
+                                          .replace(/[\u0300-\u036f]/g, "") // Bỏ dấu tiếng Việt
+                                          .replace(/đ/g, "d")
+                                          .replace(/[^a-z0-9]/g, ""));
+      return normalizedCandidates.some((candidate) => {
+        if (cleanTarget.endsWith("ti")) 
+          return candidate.includes(cleanTarget);
+        return candidate.includes(cleanTarget) && !candidate.includes(cleanTarget + "ti");
+      });
+   });
   }
-  if (normalizedMainboard) {
-    arr = arr.filter((p) =>
-      matchFromCandidates(
+  if (normalizedRAM){
+    arr = arr.filter((p) => { 
+      const specsRam = normalizeValue((p as any).specs?.ram);
+      const cardValues = (p as any).cardSpecs?.map((card : any) => card.value.toLowerCase());
+      const candidates = 
         [
-          (p as any).mainboard,
-          getSpecValue(p, "mainboard"),
-          getSpecValue(p, "Mainboard"),
-          getSpecValue(p, "bo mạch chủ"),
-          getSpecValue(p, "chipset"),
-          p.name,
-          p.slug,
+          p.brand,
+          ...cardValues,
+          ...(Array.isArray(specsRam) ? specsRam : [specsRam]),
           ...getSpecValues(p),
-        ],
-        normalizedMainboard
-      )
-    );
+        ].filter(Boolean).map(val => val.toLowerCase());
+      return candidates.includes(normalizedRAM);
+    })
   }
-
+  if (normalizedMinStorage && normalizedMaxStorage){
+    const min = parseFloat(normalizedMinStorage);
+    const max = parseFloat(normalizedMaxStorage);
+    arr = arr.filter((p) => {
+      const specsStorage = normalizeValue((p as any).specs?.storage);
+      let num = parseFloat(specsStorage);
+      if (specsStorage.includes("tb")) num = num*1000;
+      return num >= min && num <= max;
+    })
+  }
+  if (normalizedSSD) {
+    arr = arr.filter((p) => {
+      const ssd = (p as any).brand.toLowerCase();
+      return matchFromCandidates(
+        [
+          (p as any).brand,
+          ...getSpecValues(p)
+        ].filter(Boolean).map(val => val.toLowerCase()),
+        normalizedSSD
+      )
+    })
+  }
+  if(normalizedSdCard) {
+    arr = arr.filter((p) => {
+      return matchFromCandidates([
+        (p as any).brand,
+        ...getSpecValues(p)
+      ].filter(Boolean).map(val => val.toLowerCase()),
+      normalizedSdCard
+    )})
+  }
+if(normalizedSpeaker) {
+    arr = arr.filter((p) => {
+      return matchFromCandidates([
+        (p as any).brand,
+        (p as any).detailSpecs?.map((specs : any) => specs.value),
+        ...getSpecValues(p)
+      ].filter(Boolean).map(val => String(val).toLowerCase()),
+      normalizedSdCard
+    )})
+  }
   if (normalizedQ) {
     arr = arr.filter((p) => {
       const pPrice = getProductPrice(p);
@@ -714,6 +789,7 @@ export function filterProducts(items: Product[], query: ListQuery) {
       );
     });
   }
+  
 
   if (query.price) {
     arr = arr.filter((p) => matchPriceLabel(p, query.price));
