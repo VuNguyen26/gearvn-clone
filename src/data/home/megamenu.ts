@@ -248,7 +248,7 @@ export const MENU_DATA: MenuItem[] = [
             columns: [
             {
                 title: "Case - Theo hãng",
-                items: ["Case ASUS", "Case Corsair", "Case Lianli", "Case NZXT", "Case Jonsbo", "Xem tất cả"],
+                items: ["Case ASUS", "Case Corsair", "Case Lianli", "Case Cooler Master", "Case Jonsbo", "Xem tất cả"],
             },
             {
                 title: "Case - Theo giá",
@@ -256,15 +256,15 @@ export const MENU_DATA: MenuItem[] = [
             },
             {
                 title: "Nguồn - Theo Hãng",
-                items: ["Nguồn ASUS", "Nguồn DeepCool", "Nguồn Corsair", "Nguồn NZXT", "Nguồn MSI", "Xem tất cả"],
+                items: ["Nguồn ASUS", "Nguồn DeepCool", "Nguồn Corsair", "Nguồn Cooler Master", "Nguồn MSI", "Xem tất cả"],
             },
             {
                 title: "Nguồn - Theo công suất",
                 items: ["Từ 400w - 500w", "Từ 500w - 600w", "Từ 700w - 800w", "Trên 1000w", "Xem tất cả"],
             },
             {
-                title: "Phụ kiện PC",
-                items: ["Dây LED", "Dây rise - Dựng VGA", "Giá đỡ VGA", "Keo tản nhiệt", "Xem tất cả"],
+                title: "Tản nhiệt - Theo hãng",
+                items: ["Tản nhiệt ASUS", "Tản nhiệt Jonsbo", "Tản nhiệt DeepCool", "Tản nhiệt Cooler Master", "Tản nhiệt MSI"],
             },
             {
                 title: "Loại tản nhiệt",

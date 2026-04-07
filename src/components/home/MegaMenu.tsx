@@ -160,8 +160,20 @@ const resolveHref = (
     "case asus": "asus",
     "case corsair": "corsair",
     "case lianli": "lianli",
-    "case nzxt": "nzxt",
+    "case cooler master": "cooler-master",
     "case jonsbo": "jonsbo",
+    // psu
+    "nguon asus": "asus",
+    "nguon deepcool": "deepcool",
+    "nguon corsair": "corsair",
+    "nguon cooler master": "cooler-master",
+    "nguon msi": "msi",
+    // tản nhiệt
+    "tan nhiet asus": "asus",
+    "tan nhiet jonsbo": "jonsbo",
+    "tan nhiet deepcool": "deepcool",
+    "tan nhiet cooler master": "cooler-master",
+    "tan nhiet msi": "msi",
 
   };
 
@@ -663,6 +675,21 @@ const resolveHref = (
       brand: brandMap[value],
     });
   }
+  // PSU
+  if (title === "nguon theo hang") {
+    return buildHref(PRODUCTS_PATH, {
+      category: "psu",
+      brand: brandMap[value],
+    });
+  }
+  // Tản nhiệt
+  if (title === "tan nhiet theo hang") {
+    return buildHref(PRODUCTS_PATH, {
+      category: "cooler",
+      brand: brandMap[value],
+    });
+  }
+
   // RAM
   const rams = ["dung luong ram", "loai ram", "hang ram"];
   const matchedRam = rams.find( ram => title.includes(ram));
