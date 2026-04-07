@@ -43,6 +43,7 @@ export type Product = {
   name: string;
 
   category: string;
+  accessoryType?: "hub" | "cap-sac" | "cu-sac";
   subcategory?: string;
 
   price: number;

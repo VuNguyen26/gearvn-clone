@@ -470,14 +470,10 @@ export const MENU_DATA: MenuItem[] = [
             columns: [
             {
                 title: "Thương hiệu chuột",
-                items: ["Logitech", "Razer", "Corsair", "Microsoft", "Dare U"],
+                items: ["Logitech", "Razer", "Corsair", "Microsoft", "Dare U","ASUS"],
             },
             {
-                title: "Thương hiệu chuột",
-                items: ["ASUS", "Steelseries", "Glorious", "Rapoo", "HyperX", "ATK"],
-            },
-            {
-                title: "Chuột theo giá tiền",
+                title: "Giá tiền",
                 items: ["Dưới 500 nghìn", "Từ 500 nghìn - 1 triệu", "Từ 1 triệu - 2 triệu", "Trên 2 triệu - 3 triệu", "Trên 3 triệu"],
             },
             {
@@ -490,15 +486,7 @@ export const MENU_DATA: MenuItem[] = [
             },
             {
                 title: "Thương hiệu lót chuột",
-                items: ["GEARVN", "ASUS", "Steelseries", "Dare-U", "Razer", "SKYLOONG"],
-            },
-            {
-                title: "Các loại lót chuột",
-                items: ["Mềm", "Cứng", "Dày", "Mỏng", "Viền có led"],
-            },
-            {
-                title: "Lót chuột theo size",
-                items: ["Nhỏ", "Vừa", "Lớn"],
+                items: ["GEARVN", "ASUS", "Corsair", "Steelseries", "Dare-U", "Razer", "SKYLOONG"],
             },
             ],
         },
@@ -512,11 +500,7 @@ export const MENU_DATA: MenuItem[] = [
             columns: [
             {
                 title: "Thương hiệu tai nghe",
-                items: ["ASUS", "HyperX", "Corsair", "Razer", "ONIKUMA"],
-            },
-            {
-                title: "Thương hiệu tai nghe",
-                items: ["Steelseries", "Rapoo", "Logitech", "Edifier"],
+                items: ["ASUS", "HyperX", "Razer", "ONIKUMA"],
             },
             {
                 title: "Tai nghe theo giá",
@@ -530,7 +514,7 @@ export const MENU_DATA: MenuItem[] = [
             },
             {
                 title: "Kiểu kết nối",
-                items: ["Tai nghe Wireless", "Tai nghe Bluetooth"],
+                items: [ "Tai nghe Bluetooth"],
             },
             {
                 title: "Kiểu tai nghe",
@@ -619,7 +603,7 @@ export const MENU_DATA: MenuItem[] = [
             columns: [
             {
                 title: "Handheld PC",
-                items: ["Rog Ally", "MSI Claw", "Legion Go"],
+                items: [ "MSI Claw", "Legion Go"],
             },
             {
                 title: "Tay cầm",
@@ -631,12 +615,17 @@ export const MENU_DATA: MenuItem[] = [
                 ],
             },
             {
-                title: "Vô lăng lái xe, máy bay",
-                items: [], 
+                title: "Vô lăng lái xe",
+                items: [
+                "Vô lăng Logitech",
+                ], 
             },
             {
-                title: "Sony Playstation",
-                items: ["Sony PS5 (Máy) chính hãng", "Tay cầm chính hãng"],
+                title: "Giá tiền",
+                items: [
+                    "Dưới 1 triệu",
+                    "Trên 2 triệu",
+                ],
             },
             ],
         },
@@ -652,17 +641,15 @@ export const MENU_DATA: MenuItem[] = [
                 title: "Hub, sạc, cáp",
                 items: ["Hub chuyển đổi", "Dây cáp", "Củ sạc"],
             },
+            
             {
-                title: "Quạt cầm tay, Quạt mini",
-                items: ["Jisulife"],
-            },
-            {
-                title: "Phụ kiện Elgato",
-                items: [], 
-            },
-            {
-                title: "Sạc dự phòng",
-                items: [], 
+                title: "GIÁ BÁN",
+                items: [
+                    "Dưới 200 nghìn",
+                    "Từ 200 đến 500 nghìn",
+                    "Từ 500 nghìn đến 1 triệu",
+                    "Trên 1 triệu",
+                ],
             },
             ],
         },

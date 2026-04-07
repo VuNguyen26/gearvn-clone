@@ -31,11 +31,11 @@ export default function AddToCart({ product }: { product: Product }) {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center">
       <button
         type="button"
         onClick={handleBuyNow}
-        className="w-full rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
+        className="w-full rounded-xl bg-red-600 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-red-700 sm:py-3 sm:text-base"
       >
         Mua Ngay
       </button>
@@ -46,9 +46,9 @@ export default function AddToCart({ product }: { product: Product }) {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="rounded-xl border bg-white px-3 py-2 text-xs"
+            className="w-full rounded-xl border border-green-200 bg-white px-3 py-2 text-center text-xs font-medium text-green-700 sm:w-auto sm:text-left"
           >
-            Đã thêm
+            Đã thêm vào giỏ hàng
           </motion.div>
         )}
       </AnimatePresence>

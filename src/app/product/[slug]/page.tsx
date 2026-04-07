@@ -102,50 +102,65 @@ export default async function ProductPage({ params }: PageProps) {
   const highlightSpecs = displaySpecs.slice(0, 6);
 
   return (
-    <div className="mx-auto max-w-[1200px] space-y-4 bg-[#f5f5f5] px-3 py-4">
+    <div className="mx-auto w-full max-w-[1200px] space-y-4 bg-[#f5f5f5] px-3 py-3 pb-24 sm:px-4 sm:py-4 lg:px-3">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
 
-      <nav aria-label="Breadcrumb" className="text-sm text-gray-600">
-        <Link href="/" className="hover:underline">
-          Trang chủ
-        </Link>{" "}
-        /{" "}
-        <Link href={`/category/${p.category}`} className="hover:underline">
-          {p.category}
-        </Link>{" "}
-        / <span className="text-gray-900">{p.name}</span>
+      <nav
+        aria-label="Breadcrumb"
+        className="overflow-hidden rounded-xl bg-white px-3 py-2 text-xs text-gray-600 sm:px-4 sm:text-sm"
+      >
+        <div className="flex flex-wrap items-center gap-x-1 gap-y-1">
+          <Link href="/" className="hover:underline">
+            Trang chủ
+          </Link>
+
+          <span>/</span>
+
+          <Link href={`/category/${p.category}`} className="hover:underline">
+            {p.category}
+          </Link>
+
+          <span>/</span>
+
+          <span className="line-clamp-2 font-medium text-gray-900">{p.name}</span>
+        </div>
       </nav>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-        <ProductGallery name={p.name} images={p.images} />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-6">
+        <div className="min-w-0">
+          <ProductGallery name={p.name} images={p.images} />
+        </div>
 
-        <div className="space-y-4">
-          <div className="rounded-2xl bg-white p-5 shadow-sm">
-            <h1 className="text-2xl font-bold text-black">{p.name}</h1>
+        <div className="min-w-0 space-y-4">
+          <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-5">
+            <h1 className="text-[22px] font-bold leading-8 text-black sm:text-[28px]">
+              {p.name}
+            </h1>
 
             <p className="mt-2 text-sm text-blue-600">Xem đánh giá</p>
 
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <div className="text-4xl font-extrabold text-red-600">
+            <div className="mt-4 flex flex-wrap items-center gap-2 sm:gap-3">
+              <div className="text-3xl font-extrabold leading-none text-red-600 sm:text-4xl">
                 {vnd(price)}
               </div>
 
               {p.salePrice && (
                 <>
-                  <div className="text-2xl text-gray-500 line-through">
+                  <div className="text-lg text-gray-500 line-through sm:text-2xl">
                     {vnd(p.price)}
                   </div>
-                  <div className="rounded-md border border-red-300 px-3 py-1 text-sm font-semibold text-red-600">
+
+                  <div className="rounded-md border border-red-300 px-2.5 py-1 text-xs font-semibold text-red-600 sm:px-3 sm:text-sm">
                     -{discountPercent}%
                   </div>
                 </>
               )}
             </div>
 
-            <p className="mt-4 text-sm leading-6 text-gray-600">
+            <p className="mt-4 text-sm leading-6 text-gray-600 sm:text-[15px]">
               {p.shortDesc ?? "Chưa có mô tả ngắn cho sản phẩm này."}
             </p>
 
@@ -155,7 +170,7 @@ export default async function ProductPage({ params }: PageProps) {
 
             {highlightSpecs.length > 0 && (
               <div className="mt-6 overflow-hidden rounded-2xl border border-gray-200">
-                <div className="bg-red-600 px-4 py-3 text-base font-bold text-white">
+                <div className="bg-red-600 px-4 py-3 text-sm font-bold text-white sm:text-base">
                   ĐIỂM NỔI BẬT
                 </div>
 
@@ -163,12 +178,13 @@ export default async function ProductPage({ params }: PageProps) {
                   {highlightSpecs.map((item, index) => (
                     <div
                       key={`${item.label}-${index}`}
-                      className="flex gap-2 border-b border-gray-100 px-4 py-3 last:border-b-0"
+                      className="flex flex-col gap-1 border-b border-gray-100 px-4 py-3 last:border-b-0 sm:flex-row sm:gap-3"
                     >
-                      <dt className="w-32 shrink-0 text-gray-500">
+                      <dt className="shrink-0 text-sm font-medium text-gray-500 sm:w-32">
                         {item.label}
                       </dt>
-                      <dd className="whitespace-pre-line font-medium">
+
+                      <dd className="break-words whitespace-pre-line font-medium leading-6">
                         {item.value}
                       </dd>
                     </div>
@@ -180,7 +196,9 @@ export default async function ProductPage({ params }: PageProps) {
         </div>
       </div>
 
-      <ProductSpecsTable specs={displaySpecs} />
+      <div className="min-w-0">
+        <ProductSpecsTable specs={displaySpecs} />
+      </div>
     </div>
   );
 }

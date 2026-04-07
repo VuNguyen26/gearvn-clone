@@ -339,7 +339,132 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-200", "pc-tren-200-trieu", "tren-200-trieu"].includes(value)) {
     return price > 200000000;
   }
+
+  // === NHÓM TAI NGHE ===
+  if (["under-500k", "tai-nghe-duoi-500-nghin"].includes(value)) {
+    return price < 500000;
+  }
+  if (["500k-1m", "tai-nghe-tu-500-nghin-den-1-trieu"].includes(value)) {
+    return price >= 500000 && price <= 1000000;
+  }
+  if (["1-2m", "tai-nghe-tu-1-den-2-trieu"].includes(value)) {
+    return price > 1000000 && price <= 2000000;
+  }
+  if (["over-2m", "tai-nghe-tren-2-trieu"].includes(value)) {
+    return price > 2000000;
+  }
+
+  // === NHÓM LOA ===
+  if (["under-1m", "loa-duoi-1-trieu"].includes(value)) {
+    return price < 1000000;
+  }
+  if (["1-3m", "loa-tu-1-den-3-trieu"].includes(value)) {
+    return price >= 1000000 && price <= 3000000;
+  }
+  if (["3-5m", "loa-tu-3-den-5-trieu"].includes(value)) {
+    return price > 3000000 && price <= 5000000;
+  }
+  if (["over-5m", "loa-tren-5-trieu"].includes(value)) {
+    return price > 5000000;
+  }
+
+  // === NHÓM MICRO ===
+  if (["under-1m", "micro-duoi-1-trieu"].includes(value)) {
+    return price < 1000000;
+  }
+  if (["1-2m", "micro-tu-1-den-2-trieu"].includes(value)) {
+    return price >= 1000000 && price <= 2000000;
+  }
+  if (["2-5m", "micro-tu-2-den-5-trieu"].includes(value)) {
+    return price > 2000000 && price <= 5000000;
+  }
+  if (["over-5m", "micro-tren-5-trieu"].includes(value)) {
+    return price > 5000000;
+  }
+
+  // === NHÓM TAI NGHE ===
+  if (["under-1m-headphone", "tai-nghe-duoi-1-trieu"].includes(value)) {
+    return price < 1000000;
+  }
+  if (["1-2m-headphone", "tai-nghe-1-trieu-den-2-trieu", "tai-nghe-tu-1-den-2-trieu"].includes(value)) {
+    return price >= 1000000 && price <= 2000000;
+  }
+  if (["2-3m-headphone", "tai-nghe-2-den-3-trieu"].includes(value)) {
+    return price > 2000000 && price <= 3000000;
+  }
+  if (["3-4m-headphone", "tai-nghe-3-den-4-trieu"].includes(value)) {
+    return price > 3000000 && price <= 4000000;
+  }
+  if (["over-4m-headphone", "tai-nghe-tren-4-trieu"].includes(value)) {
+    return price > 4000000;
+  }
+
+  // === NHÓM CHUỘT ===
+  if (["under-500k-mouse", "chuot-duoi-500-nghin"].includes(value)) {
+    return price < 500000;
+  }
+  if (["500k-1m-mouse", "chuot-tu-500-nghin-den-1-trieu", "chuot-tu-500-nghin-1-trieu"].includes(value)) {
+    return price >= 500000 && price <= 1000000;
+  }
+  if (["1-2m-mouse", "chuot-tu-1-trieu-den-2-trieu", "chuot-tu-1-trieu-2-trieu"].includes(value)) {
+    return price > 1000000 && price <= 2000000;
+  }
+  if (["2-3m-mouse", "chuot-tren-2-trieu-3-trieu", "chuot-tu-2-trieu-den-3-trieu"].includes(value)) {
+    return price > 2000000 && price <= 3000000;
+  }
+  if (["over-3m-mouse", "chuot-tren-3-trieu"].includes(value)) {
+    return price > 3000000;
+  }
+
+  // === NHÓM GHẾ - BÀN ===
+  if (["under-5m-chair-table", "ban-ghe-duoi-5-trieu"].includes(value)) {
+    return price < 5000000;
+  }
+  if (["5-10m-chair-table", "ban-ghe-tu-5-den-10-trieu"].includes(value)) {
+    return price >= 5000000 && price <= 10000000;
+  }
+  if (["over-10m-chair-table", "ban-ghe-tren-10-trieu"].includes(value)) {
+    return price > 10000000;
+  }
+
+  // === NHÓM HANDHELD / CONSOLE ===
+  if (["under-1m-handheld", "handheld-duoi-1-trieu"].includes(value)) {
+    return price < 1000000;
+  }
+  if (["over-2m-handheld", "handheld-tren-2-trieu"].includes(value)) {
+    return price > 2000000;
+  }
+
+  // === NHÓM PHỤ KIỆN ===
+  if (["under-200k", "phu-kien-duoi-200-nghin", "duoi-200-nghin"].includes(value)) {
+    return price < 200000;
+  }
+  if (["200k-500k", "phu-kien-tu-200-den-500-nghin", "tu-200-en-500-nghin"].includes(value)) {
+    return price >= 200000 && price <= 500000;
+  }
+  if (["500k-1m", "phu-kien-tu-500-nghin-den-1-trieu", "tu-500-nghin-en-1-trieu"].includes(value)) {
+    return price > 500000 && price <= 1000000;
+  }
+  if (["over-1m", "phu-kien-tren-1-trieu", "tren-1-trieu"].includes(value)) {
+    return price > 1000000;
+  }
+
   return true;
+}
+
+function matchAccessoryTypeLabel(product: Product, rawValue?: string) {
+  if (!rawValue) return true;
+
+  return matchFromCandidates(
+    [
+      (product as any).accessoryType,
+      (product as any).type,
+      getSpecValue(product, "accessoryType"),
+      getSpecValue(product, "AccessoryType"),
+      ...getAllSearchableValues(product),
+    ],
+    rawValue
+  );
 }
 
 export function getProductsByMenuSlug(slug: string): Product[] {
@@ -445,6 +570,7 @@ export type ListQuery = {
   need?: string;
   purpose?: string;
   series?: string;
+  accessoryType?: string;
   price?: "under-15" | "15-20" | "over-20" | string;
   min?: number;
   max?: number;
@@ -459,7 +585,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
     return [];
   }
   let arr = [...items];
-
   const normalizedCategory = normalizeValue(query.category);
   const normalizedBrand = normalizeValue(query.brand);
   const normalizedCpu = normalizeValue(query.cpu?.replace("-", " "));
@@ -470,16 +595,31 @@ export function filterProducts(items: Product[], query: ListQuery) {
   const normalizedQ = normalizeText(query.q);
   const normalizedVga = normalizeValue(query.vga);
   const normalizedMainboard = normalizeValue(query.mainboard);
+  const normalizedAccessoryType = normalizeValue(query.accessoryType);
+
 
   if (normalizedCategory) {
-    const matchedCategories = expandCategoryAliases(normalizedCategory);
+    if (normalizedCategory === "mouse" || normalizedCategory === "mousepad") {
+      arr = arr.filter((p) => {
+        const values = getProductCategoryValues(p);
+        return values.includes(normalizedCategory);
+      });
+    } else {
+      const matchedCategories = expandCategoryAliases(normalizedCategory);
 
-    arr = arr.filter((p) => {
-      const values = getProductCategoryValues(p);
-      return values.some((value) => matchedCategories.includes(value));
-    });
+      arr = arr.filter((p) => {
+        const values = getProductCategoryValues(p);
+        return values.some((value) => matchedCategories.includes(value));
+      });
+    }
   }
 
+    if (normalizedAccessoryType) {
+    arr = arr.filter((p) =>
+      matchAccessoryTypeLabel(p, normalizedAccessoryType)
+    );
+  }
+  
   if (normalizedBrand) {
     arr = arr.filter((p) =>
       matchFromCandidates(

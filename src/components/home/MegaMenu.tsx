@@ -16,7 +16,10 @@ const normalize = (value: string) =>
   value
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[\u0300-\u036f]/g, "") 
+    .replace(/đ/g, "d")             
+    .replace(/[^\w\s]/g, "")        
+    .replace(/\s+/g, " ")           
     .trim();
 
 const slugify = (value: string) =>
@@ -52,13 +55,63 @@ const getDirectHref = (item: MegaMenuChildItem) => {
   return href;
 };
 
-const resolveHref = (category: string | undefined, columnTitle: string, item: MegaMenuChildItem) => {
+
+const SPECIAL_LINK_MAP: Record<string, string | null> = {
+  "dich vu::dich vu ky thuat tai nha": "/on-site-technical-support",
+  "dich vu::dich vu sua chua tai nha": "/on-site-technical-support",
+  "dich vu::dich vu sua chua": "/on-site-technical-support",
+
+  "chinh sach::chinh sach & bang gia thu vga qua su dung": "/trade-in",
+  "chinh sach::chinh sach va bang gia thu vga qua su dung": "/trade-in",
+  "chinh sach::chinh sach bao hanh": "/warranty-policy",
+  "chinh sach::chinh sach giao hang": "/shipping-policy",
+  "chinh sach::chinh sach doi tra": "/trade-in",
+};
+
+const categoryAliasMap: Record<string, string> = {
+  "phu-kien": "accessory",
+  "accessories": "accessory",
+  "tai-nghe": "headphone",
+  "headphones": "headphone",
+  "loa": "speaker",
+  "audio-webcam": "speaker",
+  "micro": "microphone",
+};
+
+const accessoryTypeMap: Record<string, string> = {
+  "cap sac": "cap-sac",
+  "day cap": "cap-sac",
+  "hub chuyen doi": "hub",
+  "cu sac": "cu-sac",
+};
+
+const categoryPricePrefixMap: Record<string, string> = {
+  accessory: "phu kien",
+  headphone: "tai nghe",
+  "mouse-mousepad": "chuot-lot-chuot",
+  "ghe-ban": "ban ghe",
+  "handheld-console": "handheld",
+};
+
+const resolveHref = (
+  category: string | undefined,
+  columnTitle: string,
+  item: MegaMenuChildItem
+): string | undefined => {
+  const label = getItemLabel(item);
+  const title = normalize(columnTitle);
+  const value = normalize(label);
+  const queryCategory = categoryAliasMap[category ?? ""] ?? category;
+
+  const specialKey = `${title}::${value}`;
+  if (specialKey in SPECIAL_LINK_MAP) {
+    return SPECIAL_LINK_MAP[specialKey] ?? undefined;
+  }
+
   const directHref = getDirectHref(item);
   if (directHref) return directHref;
 
-  const label = getItemLabel(item);
-  const title = normalize(columnTitle); 
-  const value = normalize(label);
+
   
   const SPECIFIC_PRODUCT_MAP: Record<string, string> = {
   "homework athlon": "homework-athlon-3000g", // Slug thực tế trên website của bạn
@@ -83,6 +136,22 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     hp: "hp",
     lg: "lg",
     apple: "apple",
+    gigabyte: "gigabyte",
+    // Man hinh
+
+    // Tai nghe, loa, gear
+    razer: "razer",
+    logitech: "logitech",
+    corsair: "corsair",
+    hyperx: "hyperx",
+    steelseries: "steelseries",
+    sony: "sony",
+    jbl: "jbl",
+    edifier: "edifier",
+
+    // Phụ kiện
+    ugreen: "ugreen",
+    belkin: "belkin",
   };
 
   const priceMap: Record<string, string> = {
@@ -102,6 +171,36 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     "pc tu 70 100 trieu": "70-100",
     "pc tu 100 200 trieu": "100-200",
     "pc tren 200 trieu": "over-200",
+    //Man hinh
+
+    // Chuột
+    "duoi 500 nghin": "under-500k-mouse",
+    "tu 500 nghin 1 trieu": "500k-1m-mouse",
+    "tu 1 trieu 2 trieu": "1-2m-mouse",
+    "tren 2 trieu 3 trieu": "2-3m-mouse",
+    "tren 3 trieu": "over-3m-mouse",
+
+    // Tai nghe
+    "tai nghe duoi 1 trieu": "under-1m-headphone",
+    "tai nghe 1 trieu den 2 trieu": "1-2m-headphone",
+    "tai nghe 2 den 3 trieu": "2-3m-headphone",
+    "tai nghe 3 den 4 trieu": "3-4m-headphone",
+    "tai nghe tren 4 trieu": "over-4m-headphone",
+
+    // Ghế - Bàn
+    "ban ghe duoi 5 trieu": "under-5m-chair-table",
+    "ban ghe tu 5 den 10 trieu": "5-10m-chair-table",
+    "ban ghe tren 10 trieu": "over-10m-chair-table",
+
+    // Handheld, Console
+    "handheld duoi 1 trieu": "under-1m-handheld",
+    "handheld tren 2 trieu": "over-2m-handheld",
+
+    // Phụ kiện
+    "phu kien duoi 200 nghin": "under-200k",
+    "phu kien tu 200 den 500 nghin": "200k-500k",
+    "phu kien tu 500 nghin den 1 trieu": "500k-1m",
+    "phu kien tren 1 trieu": "over-1m",
   };
   const cpuMap: Record<string, string> = {
     // Laptop 
@@ -197,17 +296,161 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
     gaming: "gaming",
     "van phong": "van-phong",
   };
+
   if (title === "thuong hieu" && brandMap[value]) {
     return buildHref(PRODUCTS_PATH, {
-      category,
+      category: queryCategory,
       brand: brandMap[value],
     });
   }
+  if (
+    queryCategory === "accessory" &&
+    (title.includes("hub") || title.includes("sac") || title.includes("cap") || title.includes("nhom san pham"))
+  ) {
+    const type = accessoryTypeMap[value] ?? slugify(label);
+    // console.log("Accessory Mapping:", { value, type }); 
 
-  if (title === "gia ban" && priceMap[value]) {
     return buildHref(PRODUCTS_PATH, {
-      category,
-      price: priceMap[value],
+      category: queryCategory,
+      accessoryType: type,
+    });
+  }
+
+    // Chuột + Lót chuột
+  if (queryCategory === "chuot-lot-chuot") {
+    if (title === "thuong hieu chuot") {
+      return buildHref(PRODUCTS_PATH, {
+        category: "mouse",
+        brand: slugify(label),
+      });
+    }
+
+    if (title === "gia tien") {
+      return buildHref(PRODUCTS_PATH, {
+        category: "mouse",
+        price: priceMap[value] ?? slugify(label),
+      });
+    }
+
+    if (title === "loai chuot") {
+      const mouseTypeMap: Record<string, string> = {
+        "chuot choi game": "chuot gaming",
+        "chuot van phong": "chuot van phong",
+      };
+
+      return buildHref(PRODUCTS_PATH, {
+        category: "mouse",
+        q: mouseTypeMap[value] ?? label,
+      });
+    }
+
+    if (title === "logitech") {
+      const logitechMouseMap: Record<string, string> = {
+        "logitech gaming": "chuot gaming",
+        "logitech van phong": "chuot van phong",
+      };
+
+      return buildHref(PRODUCTS_PATH, {
+        category: "mouse",
+        brand: "logitech",
+        q: logitechMouseMap[value] ?? label,
+      });
+    }
+
+    if (title === "thuong hieu lot chuot") {
+      return buildHref(PRODUCTS_PATH, {
+        category: "mousepad",
+        brand: slugify(label),
+      });
+    }
+  }
+
+  // Tai nghe
+  if (queryCategory === "headphone") {
+    if (title === "thuong hieu tai nghe") {
+      return buildHref(PRODUCTS_PATH, {
+        category: queryCategory,
+        brand: slugify(label),
+      });
+    }
+
+    if (title === "tai nghe theo gia") {
+      return buildHref(PRODUCTS_PATH, {
+        category: queryCategory,
+        price: priceMap[value] ?? slugify(label),
+      });
+    }
+
+    if (title === "kieu ket noi") {
+      const headphoneConnectionMap: Record<string, string> = {
+        "tai nghe wireless": "wireless",
+        "tai nghe bluetooth": "bluetooth",
+      };
+
+      return buildHref(PRODUCTS_PATH, {
+        category: queryCategory,
+        q: headphoneConnectionMap[value] ?? label,
+      });
+    }
+
+    if (title === "kieu tai nghe") {
+      const headphoneTypeMap: Record<string, string> = {
+        "tai nghe over-ear": "over-ear",
+        "tai nghe gaming in-ear": "in-ear",
+      };
+
+      return buildHref(PRODUCTS_PATH, {
+        category: queryCategory,
+        q: headphoneTypeMap[value] ?? label,
+      });
+    }
+  }
+
+  // Ghế - Bàn
+    if (queryCategory === "ghe-ban") {
+    const chairBrandTitles = ["thuong hieu ghe gaming", "thuong hieu ghe cth"];
+
+    if (chairBrandTitles.includes(title)) {
+      return buildHref(PRODUCTS_PATH, {
+        category: queryCategory,
+        brand: slugify(label),
+      });
+    }
+
+    if (title === "kieu ghe") {
+      return buildHref(PRODUCTS_PATH, {
+        category: queryCategory,
+        q: label,
+      });
+    }
+
+    if (title === "ban gaming" || title === "ban cong thai hoc") {
+      const chairTableKeywordMap: Record<string, string> = {
+        "ban gaming dxracer": "dxracer",
+        "ban gaming e-dra": "e-dra",
+        "ban gaming warrior": "warrior",
+        "ban cth warrior": "warrior",
+        "phu kien ban ghe": "phu kien ban ghe",
+      };
+
+      return buildHref(PRODUCTS_PATH, {
+        category: queryCategory,
+        q: chairTableKeywordMap[value] ?? label,
+      });
+    }
+  }
+
+  if (
+    title === "gia ban" ||
+    ((queryCategory === "handheld-console" || queryCategory === "ghe-ban") && title === "gia tien")
+  ) {
+    const prefix = categoryPricePrefixMap[queryCategory ?? ""];
+    const fullPriceKey = prefix ? `${prefix} ${value}` : value;
+    const resolvedPrice = priceMap[fullPriceKey] ?? priceMap[value];
+
+    return buildHref(PRODUCTS_PATH, {
+      category: queryCategory,
+      price: resolvedPrice ?? slugify(label),
     });
   }
 
@@ -312,8 +555,35 @@ const resolveHref = (category: string | undefined, columnTitle: string, item: Me
       cpu: cpuMap[value],
     })
   }
+  //handheld, console
+  if (
+    queryCategory === "handheld-console" &&
+    (title === "handheld pc" || title === "tay cam" || title === "vo lang lai xe")
+  ) {
+    if (value === "xem tat ca") {
+      return buildHref(PRODUCTS_PATH, {
+        category: queryCategory,
+      });
+    }
+
+    const handheldKeywordMap: Record<string, string> = {
+      "rog ally": "rog ally",
+      "msi claw": "msi claw",
+      "legion go": "legion go",
+      "tay cam playstation": "playstation",
+      "tay cam rapoo": "rapoo",
+      "tay cam dareu": "dareu",
+      "vo lang logitech": "logitech",
+    };
+
+    return buildHref(PRODUCTS_PATH, {
+      category: queryCategory,
+      q: handheldKeywordMap[value] ?? label,
+    });
+  }
+
   return buildHref(PRODUCTS_PATH, {
-    category,
+    category: queryCategory,
   });
 };
 
@@ -344,15 +614,22 @@ export default function MegaMenu({ activeSidebarItem }: MegaMenuProps) {
                 {col.items.map((item, itemIndex) => {
                   const label = getItemLabel(item);
                   const href = resolveHref(category, col.title, item);
+
                   return (
                     <li key={`${label}-${itemIndex}`}>
-                      <Link
-                        href={href}
-                        onClick={() => console.log("CLICK:", label, href)}
-                        className="text-[13px] text-gray-700 transition-colors duration-150 hover:text-[#E30019]"
-                      >
-                        {label}
-                      </Link>
+                      {href ? (
+                        <Link
+                          href={href}
+                          onClick={() => console.log("CLICK:", label, href)}
+                          className="text-[13px] text-gray-700 transition-colors duration-150 hover:text-[#E30019]"
+                        >
+                          {label}
+                        </Link>
+                      ) : (
+                        <span className="text-[13px] text-gray-700 cursor-default">
+                          {label}
+                        </span>
+                      )}
                     </li>
                   );
                 })}
