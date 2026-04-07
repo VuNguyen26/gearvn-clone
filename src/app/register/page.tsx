@@ -132,32 +132,31 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#ececec]">
-      {/* Nền giả lập trang chủ */}
-      <div className="absolute inset-0 z-0">
+    <main className="relative min-h-dvh overflow-hidden bg-[#ececec]">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="bg-[#0A86FF]">
-          <div className="mx-auto h-[44px] max-w-[1200px] px-3">
-            <div className="flex h-full items-center justify-center text-3xl font-extrabold text-white">
+          <div className="mx-auto flex h-[38px] max-w-[1200px] items-center justify-center px-3 sm:h-[44px]">
+            <div className="truncate text-center text-sm font-extrabold text-white sm:text-lg lg:text-3xl">
               GVN | TẶNG MÀN OLED 240Hz
             </div>
           </div>
         </div>
 
         <div className="bg-[#E30019]">
-          <div className="mx-auto flex h-[74px] max-w-[1200px] items-center gap-3 px-3">
-            <div className="flex h-[42px] w-[150px] items-center justify-center text-4xl font-extrabold text-white">
+          <div className="mx-auto flex h-auto max-w-[1200px] flex-wrap items-center gap-2 px-3 py-3 sm:h-[74px] sm:flex-nowrap sm:gap-3 sm:py-0">
+            <div className="flex h-[38px] min-w-[110px] items-center justify-center text-2xl font-extrabold text-white sm:h-[42px] sm:w-[150px] sm:text-4xl">
               GEARVN
             </div>
 
-            <div className="flex h-[44px] w-[115px] items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white">
+            <div className="flex h-[40px] shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-3 font-bold text-white sm:h-[44px] sm:w-[115px] sm:px-2.5">
               <span className="text-[13px]">Danh mục</span>
             </div>
 
-            <div className="relative flex-1">
+            <div className="order-3 w-full sm:order-none sm:flex-1">
               <input
                 readOnly
                 placeholder="Bạn cần tìm gì?"
-                className="h-[44px] w-full rounded-[6px] bg-white px-4 pr-12 text-[15px]"
+                className="h-[42px] w-full rounded-[6px] bg-white px-4 pr-12 text-[15px] outline-none"
               />
             </div>
 
@@ -176,53 +175,52 @@ export default function RegisterPage() {
         </div>
 
         <div className="mx-auto max-w-[1200px] px-3 py-4">
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-2 h-[360px] rounded-lg bg-white/80" />
-            <div className="col-span-7 h-[360px] rounded-lg bg-[linear-gradient(135deg,#0ea5e9,#2563eb)]" />
-            <div className="col-span-3 space-y-4">
-              <div className="h-[172px] rounded-lg bg-red-500/80" />
-              <div className="h-[172px] rounded-lg bg-red-500/80" />
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-12 lg:gap-4">
+            <div className="hidden lg:col-span-2 lg:block lg:h-[360px] lg:rounded-lg lg:bg-white/80" />
+            <div className="h-[180px] rounded-lg bg-[linear-gradient(135deg,#0ea5e9,#2563eb)] sm:h-[240px] lg:col-span-7 lg:h-[360px]" />
+            <div className="grid grid-cols-2 gap-3 lg:col-span-3 lg:grid-cols-1 lg:gap-4">
+              <div className="h-[90px] rounded-lg bg-red-500/80 sm:h-[120px] lg:h-[172px]" />
+              <div className="h-[90px] rounded-lg bg-red-500/80 sm:h-[120px] lg:h-[172px]" />
             </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-4 gap-4">
-            <div className="h-[130px] rounded-lg bg-white/80" />
-            <div className="h-[130px] rounded-lg bg-white/80" />
-            <div className="h-[130px] rounded-lg bg-white/80" />
-            <div className="h-[130px] rounded-lg bg-white/80" />
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:gap-4">
+            <div className="h-[88px] rounded-lg bg-white/80 sm:h-[110px] lg:h-[130px]" />
+            <div className="h-[88px] rounded-lg bg-white/80 sm:h-[110px] lg:h-[130px]" />
+            <div className="h-[88px] rounded-lg bg-white/80 sm:h-[110px] lg:h-[130px]" />
+            <div className="h-[88px] rounded-lg bg-white/80 sm:h-[110px] lg:h-[130px]" />
           </div>
         </div>
       </div>
 
-      {/* Lớp mờ phủ lên nền */}
       <button
         type="button"
         aria-label="Đóng popup"
         onClick={closeModal}
-        className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[6px]"
+        className="fixed inset-0 z-40 bg-black/25 backdrop-blur-[6px]"
       >
         <span className="sr-only">Đóng</span>
       </button>
 
       <div className="pointer-events-none fixed inset-0 z-40 bg-white/10" />
 
-      <div className="relative z-50 flex min-h-screen items-center justify-center px-4 py-8">
-        <div className="w-full max-w-[540px] animate-[modalIn_.24s_ease-out] overflow-hidden rounded-[20px] bg-white shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
-          <div className="flex items-center justify-between border-b border-[#e5e5e5] px-6 py-5">
-            <h1 className="text-[18px] font-bold text-[#3a3a3a]">
+      <div className="relative z-50 flex min-h-dvh items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
+        <div className="w-full max-w-[540px] animate-[modalIn_.24s_ease-out] overflow-hidden rounded-[18px] bg-white shadow-[0_24px_80px_rgba(0,0,0,0.28)] sm:rounded-[20px]">
+          <div className="flex items-start justify-between gap-3 border-b border-[#e5e5e5] px-4 py-4 sm:px-6 sm:py-5">
+            <h1 className="pr-2 text-[15px] font-bold leading-6 text-[#3a3a3a] sm:text-[18px]">
               ĐĂNG KÝ TÀI KHOẢN GEARVN
             </h1>
 
             <button
               type="button"
               onClick={closeModal}
-              className="text-gray-500 transition hover:text-black"
+              className="shrink-0 text-gray-500 transition hover:text-black"
             >
-              <X className="h-7 w-7" />
+              <X className="h-6 w-6 sm:h-7 sm:w-7" />
             </button>
           </div>
 
-          <div className="px-6 pb-6 pt-5">
+          <div className="px-4 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-5">
             <div className="mb-4 flex justify-end">
               {mode === "email" ? (
                 <button
@@ -231,7 +229,7 @@ export default function RegisterPage() {
                     setMode("phone");
                     resetMessages();
                   }}
-                  className="text-[14px] text-gray-600 underline hover:text-red-600"
+                  className="text-[13px] text-gray-600 underline hover:text-red-600 sm:text-[14px]"
                 >
                   Đăng ký bằng số điện thoại
                 </button>
@@ -242,7 +240,7 @@ export default function RegisterPage() {
                     setMode("email");
                     resetMessages();
                   }}
-                  className="text-[14px] text-gray-600 underline hover:text-red-600"
+                  className="text-[13px] text-gray-600 underline hover:text-red-600 sm:text-[14px]"
                 >
                   Đăng ký bằng email
                 </button>
@@ -250,13 +248,13 @@ export default function RegisterPage() {
             </div>
 
             {err && (
-              <div className="mb-3 rounded bg-red-100 p-2 text-sm text-red-600">
+              <div className="mb-3 rounded-lg bg-red-100 px-3 py-2 text-sm text-red-600">
                 {err}
               </div>
             )}
 
             {ok && (
-              <div className="mb-3 rounded bg-green-100 p-2 text-sm text-green-600">
+              <div className="mb-3 rounded-lg bg-green-100 px-3 py-2 text-sm text-green-600">
                 {ok}
               </div>
             )}
@@ -268,7 +266,7 @@ export default function RegisterPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                   type="email"
-                  className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[16px] outline-none transition focus:border-[#b9b9b9]"
+                  className="h-[46px] w-full rounded-lg border border-[#d8d8d8] px-4 text-[15px] outline-none transition focus:border-[#b9b9b9] sm:text-[16px]"
                 />
               ) : (
                 <input
@@ -276,51 +274,55 @@ export default function RegisterPage() {
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Số điện thoại"
                   type="tel"
-                  className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[16px] outline-none transition focus:border-[#b9b9b9]"
+                  className="h-[46px] w-full rounded-lg border border-[#d8d8d8] px-4 text-[15px] outline-none transition focus:border-[#b9b9b9] sm:text-[16px]"
                 />
               )}
 
-              <input
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                placeholder="Họ"
-                className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[16px] outline-none transition focus:border-[#b9b9b9]"
-              />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <input
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Họ"
+                  className="h-[46px] w-full rounded-lg border border-[#d8d8d8] px-4 text-[15px] outline-none transition focus:border-[#b9b9b9] sm:text-[16px]"
+                />
 
-              <input
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                placeholder="Tên"
-                className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[16px] outline-none transition focus:border-[#b9b9b9]"
-              />
+                <input
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="Tên"
+                  className="h-[46px] w-full rounded-lg border border-[#d8d8d8] px-4 text-[15px] outline-none transition focus:border-[#b9b9b9] sm:text-[16px]"
+                />
+              </div>
 
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 placeholder="Mật khẩu"
-                className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[16px] outline-none transition focus:border-[#b9b9b9]"
+                className="h-[46px] w-full rounded-lg border border-[#d8d8d8] px-4 text-[15px] outline-none transition focus:border-[#b9b9b9] sm:text-[16px]"
               />
 
               <button
                 type="submit"
-                className="h-[54px] w-full rounded bg-[#e60012] text-[18px] font-bold text-white transition hover:bg-[#cc0010]"
+                className="h-[50px] w-full rounded-lg bg-[#e60012] text-[16px] font-bold text-white transition hover:bg-[#cc0010] sm:h-[54px] sm:text-[18px]"
               >
                 TẠO TÀI KHOẢN
               </button>
             </form>
 
-            <div className="my-6 flex items-center gap-3">
+            <div className="my-5 flex items-center gap-3 sm:my-6">
               <div className="h-[1px] flex-1 bg-gray-300" />
-              <span className="text-sm text-gray-500">hoặc đăng ký bằng</span>
+              <span className="shrink-0 text-center text-xs text-gray-500 sm:text-sm">
+                hoặc đăng ký bằng
+              </span>
               <div className="h-[1px] flex-1 bg-gray-300" />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={handleGoogle}
-                className="h-[50px] rounded bg-[#e64a2f] font-semibold text-white"
+                className="h-[48px] rounded-lg bg-[#e64a2f] text-sm font-semibold text-white transition hover:opacity-95 sm:h-[50px]"
               >
                 G+ Google
               </button>
@@ -328,15 +330,15 @@ export default function RegisterPage() {
               <button
                 type="button"
                 onClick={handleFacebook}
-                className="h-[50px] rounded bg-[#4267b2] font-semibold text-white"
+                className="h-[48px] rounded-lg bg-[#4267b2] text-sm font-semibold text-white transition hover:opacity-95 sm:h-[50px]"
               >
                 Facebook
               </button>
             </div>
 
-            <div className="mt-6 text-center text-sm text-gray-600">
+            <div className="mt-5 text-center text-sm text-gray-600 sm:mt-6">
               Bạn đã có tài khoản?{" "}
-              <Link href="/login" className="text-blue-600 hover:underline">
+              <Link href="/login" className="font-medium text-blue-600 hover:underline">
                 Đăng nhập!
               </Link>
             </div>

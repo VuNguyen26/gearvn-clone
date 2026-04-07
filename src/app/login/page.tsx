@@ -197,26 +197,26 @@ export default function LoginPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#ececec]">
       {/* Nền giả lập trang chủ */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="bg-[#0A86FF]">
           <div className="mx-auto h-[44px] max-w-[1200px] px-3">
-            <div className="flex h-full items-center justify-center text-3xl font-extrabold text-white">
+            <div className="flex h-full items-center justify-center text-center text-sm font-extrabold text-white sm:text-lg lg:text-3xl">
               GVN | TẶNG MÀN OLED 240Hz
             </div>
           </div>
         </div>
 
         <div className="bg-[#E30019]">
-          <div className="mx-auto flex h-[74px] max-w-[1200px] items-center gap-3 px-3">
-            <div className="flex h-[42px] w-[150px] items-center justify-center text-4xl font-extrabold text-white">
+          <div className="mx-auto flex h-auto max-w-[1200px] flex-wrap items-center gap-2 px-3 py-3 sm:h-[74px] sm:flex-nowrap sm:gap-3 sm:py-0">
+            <div className="flex h-[42px] min-w-[120px] items-center justify-center text-2xl font-extrabold text-white sm:w-[150px] sm:text-4xl">
               GEARVN
             </div>
 
-            <div className="flex h-[44px] w-[115px] items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white">
+            <div className="flex h-[44px] shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white sm:w-[115px]">
               <span className="text-[13px]">Danh mục</span>
             </div>
 
-            <div className="relative flex-1">
+            <div className="order-3 w-full sm:order-none sm:flex-1">
               <input
                 readOnly
                 placeholder="Bạn cần tìm gì?"
@@ -239,20 +239,20 @@ export default function LoginPage() {
         </div>
 
         <div className="mx-auto max-w-[1200px] px-3 py-4">
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-2 h-[360px] rounded-lg bg-white/80" />
-            <div className="col-span-7 h-[360px] rounded-lg bg-[linear-gradient(135deg,#0ea5e9,#2563eb)]" />
-            <div className="col-span-3 space-y-4">
-              <div className="h-[172px] rounded-lg bg-red-500/80" />
-              <div className="h-[172px] rounded-lg bg-red-500/80" />
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+            <div className="hidden lg:col-span-2 lg:block lg:h-[360px] lg:rounded-lg lg:bg-white/80" />
+            <div className="h-[180px] rounded-lg bg-[linear-gradient(135deg,#0ea5e9,#2563eb)] sm:h-[260px] lg:col-span-7 lg:h-[360px]" />
+            <div className="grid grid-cols-2 gap-4 lg:col-span-3 lg:grid-cols-1">
+              <div className="h-[110px] rounded-lg bg-red-500/80 lg:h-[172px]" />
+              <div className="h-[110px] rounded-lg bg-red-500/80 lg:h-[172px]" />
             </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-4 gap-4">
-            <div className="h-[130px] rounded-lg bg-white/80" />
-            <div className="h-[130px] rounded-lg bg-white/80" />
-            <div className="h-[130px] rounded-lg bg-white/80" />
-            <div className="h-[130px] rounded-lg bg-white/80" />
+          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="h-[90px] rounded-lg bg-white/80 sm:h-[130px]" />
+            <div className="h-[90px] rounded-lg bg-white/80 sm:h-[130px]" />
+            <div className="h-[90px] rounded-lg bg-white/80 sm:h-[130px]" />
+            <div className="h-[90px] rounded-lg bg-white/80 sm:h-[130px]" />
           </div>
         </div>
       </div>
@@ -269,23 +269,23 @@ export default function LoginPage() {
 
       <div className="pointer-events-none fixed inset-0 z-40 bg-white/10" />
 
-      <div className="relative z-50 flex min-h-screen items-center justify-center px-4 py-8">
+      <div className="relative z-50 flex min-h-screen items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
         <div className="w-full max-w-[500px] animate-[modalIn_.24s_ease-out] overflow-hidden rounded-[20px] bg-white shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
-          <div className="flex items-center justify-between border-b border-[#e5e5e5] px-6 py-5">
-            <h1 className="text-[18px] font-bold text-[#3a3a3a]">
+          <div className="flex items-start justify-between gap-3 border-b border-[#e5e5e5] px-4 py-4 sm:px-6 sm:py-5">
+            <h1 className="pr-2 text-[15px] font-bold leading-6 text-[#3a3a3a] sm:text-[18px]">
               ĐĂNG NHẬP HOẶC TẠO TÀI KHOẢN
             </h1>
 
             <button
               type="button"
               onClick={closeModal}
-              className="text-gray-500 transition hover:text-black"
+              className="shrink-0 text-gray-500 transition hover:text-black"
             >
-              <X className="h-7 w-7" />
+              <X className="h-6 w-6 sm:h-7 sm:w-7" />
             </button>
           </div>
 
-          <div className="px-6 pb-6 pt-5">
+          <div className="px-4 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-5">
             <div className="mb-4 flex justify-end">
               <button
                 type="button"
@@ -294,7 +294,7 @@ export default function LoginPage() {
                   setErr(null);
                   setOk(null);
                 }}
-                className="text-[14px] text-gray-600 underline hover:text-red-600"
+                className="text-[13px] text-gray-600 underline hover:text-red-600 sm:text-[14px]"
               >
                 {titleSwitch}
               </button>
@@ -318,7 +318,7 @@ export default function LoginPage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Số điện thoại"
-                  className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[16px] outline-none transition focus:border-[#b9b9b9]"
+                  className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[15px] outline-none transition focus:border-[#b9b9b9] sm:text-[16px]"
                 />
               ) : (
                 <input
@@ -326,7 +326,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                   type="email"
-                  className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[16px] outline-none transition focus:border-[#b9b9b9]"
+                  className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 text-[15px] outline-none transition focus:border-[#b9b9b9] sm:text-[16px]"
                 />
               )}
 
@@ -336,7 +336,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   type={showPassword ? "text" : "password"}
                   placeholder="Mật khẩu"
-                  className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 pr-12 text-[16px] outline-none transition focus:border-[#b9b9b9]"
+                  className="h-[46px] w-full rounded border border-[#d8d8d8] px-4 pr-12 text-[15px] outline-none transition focus:border-[#b9b9b9] sm:text-[16px]"
                 />
 
                 <button
@@ -356,7 +356,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={handleForgotPassword}
-                  className="text-[14px] text-gray-600 underline hover:text-red-600"
+                  className="text-[13px] text-gray-600 underline hover:text-red-600 sm:text-[14px]"
                 >
                   {mode === "phone"
                     ? "Quên mật khẩu?"
@@ -366,7 +366,7 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                className="h-[54px] w-full rounded bg-[#e60012] text-[18px] font-bold text-white transition hover:bg-[#cc0010]"
+                className="h-[50px] w-full rounded bg-[#e60012] text-[16px] font-bold text-white transition hover:bg-[#cc0010] sm:h-[54px] sm:text-[18px]"
               >
                 ĐĂNG NHẬP
               </button>
@@ -374,11 +374,13 @@ export default function LoginPage() {
 
             <div className="my-6 flex items-center gap-3">
               <div className="h-[1px] flex-1 bg-gray-300" />
-              <span className="text-sm text-gray-500">hoặc đăng nhập bằng</span>
+              <span className="text-center text-xs text-gray-500 sm:text-sm">
+                hoặc đăng nhập bằng
+              </span>
               <div className="h-[1px] flex-1 bg-gray-300" />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={handleGoogleLogin}
