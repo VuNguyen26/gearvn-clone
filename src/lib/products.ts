@@ -913,7 +913,7 @@ export function filterProducts(items: Product[], query: ListQuery) {
     const inch = parseFloat(normalizedInch); 
     arr = arr.filter((p) => {
       const detailValues = (p as any).detailSpecs?.map((value : any) => normalizeValue(value.value)) || [];
-    const inches = detailValues
+    const inches:number[] = detailValues
       .map((v: string) => parseFloat(v))
       .filter((n: number) => !isNaN(n));
     if (normalizedInch === "over-32") {
