@@ -42,15 +42,15 @@ export default function NewsPage() {
   const normalArticles = newsArticles.filter((item) => !item.featured);
 
   return (
-    <main className="min-h-screen bg-[#f3f3f3] py-4">
-      <div className="mx-auto max-w-[1200px] px-4">
+    <main className="min-h-screen bg-[#f3f3f3] py-3 sm:py-4">
+      <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-4">
         <nav
           aria-label="Breadcrumb"
-          className="mb-4 text-sm text-gray-500"
+          className="mb-3 text-[13px] text-gray-500 sm:mb-4 sm:text-sm"
         >
           <ol className="flex flex-wrap items-center">
             <li>
-              <Link href="/" className="hover:text-red-600">
+              <Link href="/" className="hover:text-red-600 transition-colors">
                 Trang chủ
               </Link>
             </li>
@@ -59,41 +59,42 @@ export default function NewsPage() {
           </ol>
         </nav>
 
-        <section className="rounded-md bg-white p-4 shadow-sm">
-          <div className="hidden xl:block">
-                  <SideFloatBanners />
-                </div>
+        <div className="hidden xl:block">
+          <SideFloatBanners />
+        </div>
+
+        <section className="rounded-2xl bg-white p-3 shadow-sm sm:p-4 md:p-5">
           <header>
-            <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
+            <h1 className="text-[30px] font-bold leading-tight text-gray-900 sm:text-3xl md:text-4xl">
               Tin tức công nghệ mới nhất
             </h1>
-            <p className="mt-2 text-sm leading-6 text-gray-600 md:text-base">
+            <p className="mt-2 text-[15px] leading-6 text-gray-600 sm:text-base">
               Tổng hợp các bài viết nổi bật về công nghệ, phần cứng, thiết bị
               gaming, xu hướng mới và kinh nghiệm chọn mua sản phẩm phù hợp cho
               học tập, làm việc và giải trí.
             </p>
           </header>
 
-          <div className="mt-4">
+          <div className="mt-4 overflow-hidden rounded-2xl">
             <NewsBanner />
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_280px]">
-            <div>
+          <div className="mt-5 grid grid-cols-1 gap-5 lg:mt-6 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-6">
+            <div className="min-w-0">
               <section aria-labelledby="featured-news-heading">
                 <h2
                   id="featured-news-heading"
-                  className="mb-4 text-xl font-bold text-gray-900"
+                  className="mb-3 text-[22px] font-bold text-gray-900 sm:mb-4 sm:text-2xl"
                 >
                   Bài viết nổi bật
                 </h2>
                 <FeaturedNewsGrid articles={featured} />
               </section>
 
-              <section aria-labelledby="all-news-heading" className="mt-6">
+              <section aria-labelledby="all-news-heading" className="mt-5 sm:mt-6">
                 <h2
                   id="all-news-heading"
-                  className="mb-4 text-xl font-bold text-gray-900"
+                  className="mb-3 text-[22px] font-bold text-gray-900 sm:mb-4 sm:text-2xl"
                 >
                   Tất cả bài viết
                 </h2>
@@ -101,7 +102,7 @@ export default function NewsPage() {
               </section>
             </div>
 
-            <aside>
+            <aside className="min-w-0">
               <NewsSidebar />
             </aside>
           </div>

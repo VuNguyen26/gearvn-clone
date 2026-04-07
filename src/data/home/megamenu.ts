@@ -399,25 +399,10 @@ export const MENU_DATA: MenuItem[] = [
                 items: ["60Hz", "75Hz", "100Hz", "144Hz", "240Hz"],
             },
             {
-                title: "Màn hình cong",
-                items: ["24\" Curved", "27\" Curved", "32\" Curved", "Trên 32\" Curved"],
-            },
-            {
                 title: "Kích thước",
-                items: ["Màn hình 22\"", "Màn hình 24\"", "Màn hình 27\"", "Màn hình 29\"", "Màn hình 32\"", "Màn hình Trên 32\"", "Hỗ trợ giá treo (VESA)"],
+                items: ["Màn hình 22\"", "Màn hình 24\"", "Màn hình 27\"", "Màn hình 29\"", "Màn hình 32\"", "Màn hình Trên 32\""],
             },
-            {
-                title: "Màn hình đồ họa",
-                items: ["Màn hình đồ họa 24\"", "Màn hình đồ họa 27\"", "Màn hình đồ họa 32\""],
-            },
-            {
-                title: "Phụ kiện màn hình",
-                items: ["Giá treo màn hình", "Phụ kiện dây HDMI,DP,LAN"],
-            },
-            {
-                title: "Màn hình di động",
-                items: ["Full HD 1080p", "2K 1440p", "Có cảm ứng"],
-            },
+
             ],
         },
     },

@@ -91,26 +91,26 @@ export default async function NewsDetailPage({ params }: Props) {
   };
 
   return (
-    <main className="min-h-screen bg-[#f3f3f3] py-6">
+    <main className="min-h-screen bg-[#f3f3f3] py-3 sm:py-4 md:py-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <div className="mx-auto max-w-[1200px] px-4">
+      <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-4">
         <nav
           aria-label="Breadcrumb"
-          className="mb-4 text-sm text-gray-500"
+          className="mb-3 text-[13px] text-gray-500 sm:mb-4 sm:text-sm"
         >
           <ol className="flex flex-wrap items-center">
             <li>
-              <Link href="/" className="hover:text-red-600">
+              <Link href="/" className="transition-colors hover:text-red-600">
                 Trang chủ
               </Link>
             </li>
             <li className="mx-2">/</li>
             <li>
-              <Link href="/news" className="hover:text-red-600">
+              <Link href="/news" className="transition-colors hover:text-red-600">
                 Tin tức
               </Link>
             </li>
@@ -119,48 +119,49 @@ export default async function NewsDetailPage({ params }: Props) {
           </ol>
         </nav>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]">
-          <article>
-            <div className="rounded-md bg-white p-5 shadow-sm md:p-6">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-6">
+          <article className="min-w-0">
+            <div className="rounded-2xl bg-white p-3 shadow-sm sm:p-4 md:p-6">
               {article.category && (
                 <div className="inline-flex rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600">
                   {article.category}
                 </div>
               )}
 
-              <h1 className="mt-3 text-2xl font-bold leading-tight text-gray-900 md:text-4xl">
+              <h1 className="mt-3 text-[28px] font-bold leading-tight text-gray-900 sm:text-3xl md:text-4xl">
                 {article.title}
               </h1>
 
-              <div className="mt-3 text-sm text-gray-500">
+              <div className="mt-3 text-[13px] text-gray-500 sm:text-sm">
                 <span>{article.date}</span>
                 <span className="mx-2">•</span>
                 <span>{article.author}</span>
               </div>
 
-              <div className="relative mt-6 h-[240px] w-full overflow-hidden rounded-md bg-gray-100 md:h-[460px]">
+              <div className="relative mt-5 h-[220px] w-full overflow-hidden rounded-2xl bg-gray-100 sm:h-[260px] md:mt-6 md:h-[460px]">
                 <Image
                   src={article.image}
                   alt={article.title}
                   fill
                   className="object-cover"
                   priority
+                  sizes="(max-width: 767px) 100vw, (max-width: 1024px) 100vw, 900px"
                 />
               </div>
 
               {article.excerpt && (
-                <p className="mt-5 text-[17px] leading-8 text-gray-700">
+                <p className="mt-4 text-[15px] leading-7 text-gray-700 sm:mt-5 sm:text-[17px] sm:leading-8">
                   {article.excerpt}
                 </p>
               )}
 
-              <div className="mt-6 whitespace-pre-line text-[16px] leading-8 text-gray-800">
+              <div className="mt-5 whitespace-pre-line text-[15px] leading-7 text-gray-800 sm:mt-6 sm:text-[16px] sm:leading-8">
                 {article.content}
               </div>
             </div>
 
-            <section className="mt-6 rounded-md bg-white p-5 shadow-sm md:p-6">
-              <h2 className="text-xl font-bold text-gray-900">
+            <section className="mt-5 rounded-2xl bg-white p-3 shadow-sm sm:mt-6 sm:p-4 md:p-6">
+              <h2 className="text-[22px] font-bold text-gray-900 sm:text-2xl">
                 Bài viết liên quan
               </h2>
 
@@ -169,18 +170,19 @@ export default async function NewsDetailPage({ params }: Props) {
                   <Link
                     key={item.id}
                     href={`/news/${item.slug}`}
-                    className="flex gap-3 rounded-md border p-3 transition hover:border-red-300 hover:shadow-sm"
+                    className="flex gap-3 rounded-2xl border border-gray-200 p-3 transition hover:border-red-300 hover:shadow-sm"
                   >
-                    <div className="relative h-[86px] w-[130px] shrink-0 overflow-hidden rounded bg-gray-100">
+                    <div className="relative h-[86px] w-[130px] shrink-0 overflow-hidden rounded-xl bg-gray-100">
                       <Image
                         src={item.image}
                         alt={item.title}
                         fill
                         className="object-cover"
+                        sizes="130px"
                       />
                     </div>
 
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <h3 className="line-clamp-2 text-[15px] font-semibold leading-snug text-gray-900">
                         {item.title}
                       </h3>
@@ -194,7 +196,7 @@ export default async function NewsDetailPage({ params }: Props) {
             </section>
           </article>
 
-          <aside>
+          <aside className="min-w-0">
             <NewsDetailSidebar latestArticles={latestArticles} />
           </aside>
         </div>

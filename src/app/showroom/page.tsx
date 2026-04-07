@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { MapPin, Phone, ChevronRight } from "lucide-react";
-import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 type Store = {
   name: string;
@@ -54,33 +53,31 @@ const hanoiStores: Store[] = [
 
 function StoreCard({ store }: { store: Store }) {
   return (
-    <div className="rounded-lg border bg-white p-4 shadow-sm">
-      <div className="hidden xl:block">
-              <SideFloatBanners />
-            </div>
+    <div className="w-full rounded-md border border-[#e5e7eb] bg-white p-3 shadow-sm sm:p-4">
       <div className="flex items-start gap-2">
-        <MapPin className="mt-1 h-4 w-4 text-red-500" />
-        <h3 className="text-[16px] font-bold text-blue-600">{store.name}</h3>
+        <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-pink-500" />
+        <h3 className="text-[13px] font-bold uppercase leading-5 text-[#2563eb] sm:text-[14px]">
+          {store.name}
+        </h3>
       </div>
 
-      <div className="mt-3 text-[14px] text-gray-700">
+      <div className="mt-3 text-[12px] leading-6 text-[#374151]">
         <p>
           <span className="font-semibold">Địa chỉ:</span> {store.address}
         </p>
-
         <p className="mt-1">
           <span className="font-semibold">Giờ làm việc:</span> {store.hours}
         </p>
       </div>
 
-      <div className="mt-3">
+      <div className="mt-4">
         <a
           href={store.mapUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded bg-blue-500 px-4 py-2 text-[14px] font-semibold text-white hover:bg-blue-600"
+          className="inline-flex items-center gap-2 rounded bg-[#3b82f6] px-4 py-2 text-[12px] font-semibold text-white transition hover:bg-[#2563eb]"
         >
-          <MapPin className="h-4 w-4" />
+          <MapPin className="h-3.5 w-3.5" />
           Chỉ đường
         </a>
       </div>
@@ -88,81 +85,83 @@ function StoreCard({ store }: { store: Store }) {
   );
 }
 
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="w-full rounded-md bg-[#2f2f2f] px-4 py-3 text-center text-[14px] font-extrabold leading-5 text-white sm:text-[15px]">
+      {children}
+    </div>
+  );
+}
+
 export default function ShowroomPage() {
   return (
-    <main className="bg-gray-100 py-6">
-      <div className="mx-auto max-w-[1200px] px-4">
-        {/* breadcrumb */}
-        <div className="mb-4 flex items-center gap-2 text-[13px] text-gray-500">
-          <Link href="/" className="text-blue-600 hover:underline">
-            Trang chủ
-          </Link>
-
-          <ChevronRight className="h-4 w-4" />
-
-          <span>Hệ thống cửa hàng GearVN</span>
-        </div>
-
-        <div className="rounded-lg bg-white p-6">
-          <h1 className="text-[24px] font-bold text-gray-800">
-            Hệ thống cửa hàng GearVN
-          </h1>
-
-          {/* giờ mở cửa */}
-          <div className="mt-4 rounded bg-gray-100 p-4 text-[15px]">
-            <span className="font-semibold">Giờ mở cửa:</span>{" "}
-            <b>08:00 - 21:00</b>
-          </div>
-
-          {/* hotline */}
-          <div className="mt-4 flex justify-center">
-            <a
-              href="tel:19005301"
-              className="flex items-center gap-2 rounded bg-green-500 px-6 py-2 text-[16px] font-bold text-white hover:bg-green-600"
-            >
-              <Phone className="h-4 w-4" />
-              GỌI NGAY: 1900.5301
-            </a>
-          </div>
-
-          {/* HCM */}
-          <div className="mt-6">
-            <div className="rounded bg-black py-3 text-center text-[16px] font-bold text-white">
-              CỬA HÀNG TẠI TP. HỒ CHÍ MINH
+    <main className="bg-[#ececec] py-0 sm:py-3">
+      <div className="mx-auto w-full max-w-none px-0 sm:max-w-[1200px] sm:px-4">
+        <div className="bg-[#ececec] px-0 py-0 sm:px-0 sm:py-0">
+          <div className="w-full rounded-none bg-white px-3 py-4 sm:rounded-md sm:p-6">
+            <div className="mb-3 flex flex-wrap items-center gap-1 text-[10px] text-[#6b7280] sm:mb-4 sm:gap-1.5 sm:text-[11px]">
+              <Link href="/" className="text-[#2563eb] hover:underline">
+                Trang chủ
+              </Link>
+              <ChevronRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+              <span>Hệ thống cửa hàng GearVN</span>
             </div>
 
-            <div className="mt-4 grid gap-4 md:grid-cols-2">
-              {hcmStores.map((store) => (
-                <StoreCard key={store.name} store={store} />
-              ))}
-            </div>
-          </div>
+            <h1 className="text-[16px] font-bold text-[#1f2937] sm:text-[18px] lg:text-[24px]">
+              Hệ thống cửa hàng GearVN
+            </h1>
 
-          {/* HANOI */}
-          <div className="mt-6">
-            <div className="rounded bg-black py-3 text-center text-[16px] font-bold text-white">
-              CỬA HÀNG TẠI HÀ NỘI
-            </div>
-
-            <div className="mt-4 grid gap-4">
-              {hanoiStores.map((store) => (
-                <StoreCard key={store.name} store={store} />
-              ))}
-            </div>
-          </div>
-
-          {/* contact */}
-          <div className="mt-6 rounded bg-gray-100 p-5 text-center">
-            <div className="text-[18px] font-bold">Liên hệ với chúng tôi</div>
-
-            <div className="mt-1 text-[16px] font-bold text-green-600">
-              HOTLINE: 1900.5301
+            <div className="mt-4 rounded-md bg-[#f3f4f6] px-3 py-4 sm:mt-6 sm:px-4 sm:py-5">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <span className="text-[20px] font-bold leading-none text-[#ef4444] sm:text-[22px]">
+                  →
+                </span>
+                <span className="text-[13px] text-[#111827] sm:text-[14px] lg:text-[16px]">
+                  Giờ mở cửa: <b>08:00 - 21:00</b>
+                </span>
+              </div>
             </div>
 
-            <div className="mt-2 text-[14px]">
-              Email:{" "}
-              <span className="text-blue-600">cskh@gearvn.com</span> | Website:{" "}
-              <span className="text-blue-600">www.gearvn.com</span>
+            <div className="mt-4 flex justify-center sm:mt-6">
+              <a
+                href="tel:19005301"
+                className="inline-flex h-[42px] w-full items-center justify-center gap-2 rounded-md bg-[#22c55e] px-4 text-[13px] font-extrabold text-white transition hover:bg-[#16a34a] sm:h-auto sm:min-w-[250px] sm:w-auto sm:px-6 sm:py-3 sm:text-[14px]"
+              >
+                <Phone className="h-4 w-4" />
+                GỌI NGAY: 1900.5301
+              </a>
+            </div>
+
+            <div className="mt-5 sm:mt-6">
+              <SectionTitle>CỬA HÀNG TẠI TP. HỒ CHÍ MINH</SectionTitle>
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:mt-4 sm:gap-4 md:grid-cols-2">
+                {hcmStores.map((store) => (
+                  <StoreCard key={store.name} store={store} />
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-5 sm:mt-6">
+              <SectionTitle>CỬA HÀNG TẠI HÀ NỘI</SectionTitle>
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:mt-4 sm:gap-4 md:grid-cols-2">
+                {hanoiStores.map((store) => (
+                  <StoreCard key={store.name} store={store} />
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-5 rounded-md bg-[#f3f4f6] px-3 py-4 text-center sm:mt-6 sm:px-4 sm:py-5">
+              <div className="text-[15px] font-bold text-[#111827] sm:text-[16px]">
+                Liên hệ với chúng tôi
+              </div>
+              <div className="mt-1 text-[15px] font-extrabold text-[#16a34a] sm:text-[16px]">
+                HOTLINE: 1900.5301
+              </div>
+              <div className="mt-2 text-[12px] leading-6 text-[#374151]">
+                Email: <span className="text-[#2563eb]">cskh@gearvn.com</span>
+                <br />
+                Website: <span className="text-[#2563eb]">www.gearvn.com</span>
+              </div>
             </div>
           </div>
         </div>
