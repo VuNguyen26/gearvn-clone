@@ -32,8 +32,17 @@ export default async function ProductsPage({ searchParams }: Props) {
     min: toNumber(sp.min),
     max: toNumber(sp.max),
     sort: getFirst(sp.sort) as any,
+
     gpu: getFirst(sp.vga),
     chip: getFirst(sp.chip),
+
+    ram: getFirst(sp.ram),
+    ssd: getFirst(sp.ssd),
+    minstorage: getFirst(sp.minstorage),
+    maxstorage: getFirst(sp.maxstorage),
+    sdcard: getFirst(sp.sdcard),
+
+    speaker: getFirst(sp.speaker),
   });
 
   return (

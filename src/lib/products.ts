@@ -1,7 +1,11 @@
+import { speakers } from './../data/products/speakers';
+import { sdcards } from './../data/products/sdcards';
 import { MapPin } from 'lucide-react';
 import { mainboards } from './../data/products/mainboards';
 import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
+import { constant } from 'firebase/firestore/pipelines';
+import { body, p } from 'framer-motion/client';
 
 // export async function getAllProducts() {
 //   return await products(); 
@@ -452,6 +456,14 @@ export type ListQuery = {
 
   gpu?: string;
   chip?:string;
+
+  ram?: string;
+  ssd?: string;
+  maxstorage?: string;
+  minstorage?: string;
+  sdcard?:string;
+
+  speaker?:string;
 };
 
 export function filterProducts(items: Product[], query: ListQuery) {
@@ -479,6 +491,13 @@ export function filterProducts(items: Product[], query: ListQuery) {
   const normalizedVga = normalizeValue(query.gpu);
   const normalizedMainboard = normalizeValue(query.chip);
 
+  const normalizedRAM = normalizeValue(query.ram);
+  const normalizedSSD = normalizeValue(query.ssd);
+  const normalizedMinStorage = normalizeValue(query.minstorage);
+  const normalizedMaxStorage = normalizeValue(query.maxstorage);
+  const normalizedSdCard = normalizeValue(query.sdcard);
+
+  const normalizedSpeaker = normalizeValue(query.speaker);
   if (normalizedCategory) {
     const matchedCategories = expandCategoryAliases(normalizedCategory);
     arr = arr.filter((p) => {
@@ -486,7 +505,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       return values.some((value) => matchedCategories.includes(value));
     });
   }
-
   if (normalizedBrand) {
     arr = arr.filter((p) =>
       matchFromCandidates(
@@ -504,7 +522,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       )
     );
   }
-
   if (normalizedMainboard) {
     arr = arr.filter((p) => {
       const cardValues = (p as any).cardSpecs?.map((card : any) => card.value) || [];
@@ -525,7 +542,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       );
     })
   }
-  
   if (normalizedCpu) {
     arr = arr.filter((p) => {
       const detailValues = (p as any).detailSpecs?.map((value : any) => value.value) || [];
@@ -542,7 +558,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       return matchFromCandidates(normalizedCandidates, normalizedCpu);
     });
   }
-
   if (normalizedUsage) {
     arr = arr.filter((p) =>
       matchFromCandidates(
@@ -567,7 +582,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
       )
     );
   }
-
   if (normalizedSeries) {
     arr = arr.filter((p) =>
       matchFromCandidates(
@@ -607,7 +621,61 @@ export function filterProducts(items: Product[], query: ListQuery) {
       });
    });
   }
-
+  if (normalizedRAM){
+    arr = arr.filter((p) => { 
+      const specsRam = normalizeValue((p as any).specs?.ram);
+      const cardValues = (p as any).cardSpecs?.map((card : any) => card.value.toLowerCase());
+      const candidates = 
+        [
+          p.brand,
+          ...cardValues,
+          ...(Array.isArray(specsRam) ? specsRam : [specsRam]),
+          ...getSpecValues(p),
+        ].filter(Boolean).map(val => val.toLowerCase());
+      return candidates.includes(normalizedRAM);
+    })
+  }
+  if (normalizedMinStorage && normalizedMaxStorage){
+    const min = parseFloat(normalizedMinStorage);
+    const max = parseFloat(normalizedMaxStorage);
+    arr = arr.filter((p) => {
+      const specsStorage = normalizeValue((p as any).specs?.storage);
+      let num = parseFloat(specsStorage);
+      if (specsStorage.includes("tb")) num = num*1000;
+      return num >= min && num <= max;
+    })
+  }
+  if (normalizedSSD) {
+    arr = arr.filter((p) => {
+      const ssd = (p as any).brand.toLowerCase();
+      return matchFromCandidates(
+        [
+          (p as any).brand,
+          ...getSpecValues(p)
+        ].filter(Boolean).map(val => val.toLowerCase()),
+        normalizedSSD
+      )
+    })
+  }
+  if(normalizedSdCard) {
+    arr = arr.filter((p) => {
+      return matchFromCandidates([
+        (p as any).brand,
+        ...getSpecValues(p)
+      ].filter(Boolean).map(val => val.toLowerCase()),
+      normalizedSdCard
+    )})
+  }
+if(normalizedSpeaker) {
+    arr = arr.filter((p) => {
+      return matchFromCandidates([
+        (p as any).brand,
+        (p as any).detailSpecs?.map((specs : any) => specs.value),
+        ...getSpecValues(p)
+      ].filter(Boolean).map(val => String(val).toLowerCase()),
+      normalizedSdCard
+    )})
+  }
   if (normalizedQ) {
     arr = arr.filter((p) => {
       const pPrice = getProductPrice(p);
@@ -721,6 +789,7 @@ export function filterProducts(items: Product[], query: ListQuery) {
       );
     });
   }
+  
 
   if (query.price) {
     arr = arr.filter((p) => matchPriceLabel(p, query.price));
