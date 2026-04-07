@@ -43,6 +43,8 @@ export default async function ProductsPage({ searchParams }: Props) {
     sdcard: getFirst(sp.sdcard),
 
     speaker: getFirst(sp.speaker),
+    resolution: getFirst(sp.resolution),
+    microphone: getFirst(sp.microphone),
   });
 
   return (

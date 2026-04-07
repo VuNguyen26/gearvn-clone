@@ -137,7 +137,13 @@ const resolveHref = (
     apple: "apple",
     gigabyte: "gigabyte",
     // Man hinh
-
+    viewsonic: "viewsonic",
+    aoc: "aoc",
+    hkc : "hkc",
+    samsung: "samsung",
+    phiplips : "phiplips",
+    "e-dra" : "e-dra",
+    vsp : "vsp",
     // Tai nghe, loa, gear
     razer: "razer",
     logitech: "logitech",
@@ -147,7 +153,6 @@ const resolveHref = (
     sony: "sony",
     jbl: "jbl",
     edifier: "edifier",
-
     // Phụ kiện
     ugreen: "ugreen",
     belkin: "belkin",
@@ -171,30 +176,29 @@ const resolveHref = (
     "pc tu 100 200 trieu": "100-200",
     "pc tren 200 trieu": "over-200",
     //Man hinh
-
+    "duoi 5 trieu" : "under-5",
+    "tu 5 trieu den 10 trieu" : "5-10",
+    "tu 10 trieu den 20 trieu" : "10-20",
+    "tu 20 trieu den 30 trieu" : "20-30",
     // Chuột
     "duoi 500 nghin": "under-500k-mouse",
     "tu 500 nghin 1 trieu": "500k-1m-mouse",
     "tu 1 trieu 2 trieu": "1-2m-mouse",
     "tren 2 trieu 3 trieu": "2-3m-mouse",
     "tren 3 trieu": "over-3m-mouse",
-
     // Tai nghe
     "tai nghe duoi 1 trieu": "under-1m-headphone",
     "tai nghe 1 trieu den 2 trieu": "1-2m-headphone",
     "tai nghe 2 den 3 trieu": "2-3m-headphone",
     "tai nghe 3 den 4 trieu": "3-4m-headphone",
     "tai nghe tren 4 trieu": "over-4m-headphone",
-
     // Ghế - Bàn
     "ban ghe duoi 5 trieu": "under-5m-chair-table",
     "ban ghe tu 5 den 10 trieu": "5-10m-chair-table",
     "ban ghe tren 10 trieu": "over-10m-chair-table",
-
     // Handheld, Console
     "handheld duoi 1 trieu": "under-1m-handheld",
     "handheld tren 2 trieu": "over-2m-handheld",
-
     // Phụ kiện
     "phu kien duoi 200 nghin": "under-200k",
     "phu kien tu 200 den 500 nghin": "200k-500k",
@@ -349,7 +353,22 @@ const resolveHref = (
   "loa soundbar": "soundbar",
   "loa mini": "mini",
   "sub phu (loa tram)": "subwoofer"
-};
+  };
+  const resolutionMap : Record<string,string> = {
+    // webcam
+    "do phan giai 4k" : "4k",
+    "do phan giai full hd 1080p" : "full-hd-1080p",
+    "do phan giai 720p" : "720p",
+    // Man hinh
+    "man hinh full hd" : "FHD",
+    "man hinh 2k 1440p" : "2k",
+    "man hinh 4k uhd" : "4k-uhd",
+    "man hinh 6k" : "6k",
+  }
+  const microphoneMap : Record<string,string> = {
+    "micro hyperx" : "hyperx"
+  }
+
   if (title === "thuong hieu" && brandMap[value]) {
     return buildHref(PRODUCTS_PATH, {
       category: queryCategory,
@@ -365,7 +384,7 @@ const resolveHref = (
       category: queryCategory,
       accessoryType: type,
     });
-  }
+    }
 
     // Chuột + Lót chuột
   if (queryCategory === "chuot-lot-chuot") {
@@ -674,6 +693,39 @@ const resolveHref = (
       speaker: speakerMap[value],
     })
     
+  }
+  // Web cam
+  if (title === "webcam") {
+    return buildHref(PRODUCTS_PATH,{
+      category: "webcam",
+      resolution: resolutionMap[value]
+    })
+  }
+  // Microphone
+  if (title === "microphone") {
+    return buildHref(PRODUCTS_PATH,{
+      category: "microphone",
+      microphone: microphoneMap[value]
+    })
+  }
+  // Man hinh
+  if (title === "hang san xuat"){
+    return buildHref(PRODUCTS_PATH, {
+      category: "monitor",
+      brand: brandMap[value]
+    })
+  }
+  if (title === "gia tien") {
+    return buildHref(PRODUCTS_PATH,{
+      category: "monitor",
+      price: priceMap[value]
+    })
+  }
+  if (title === "do phan giai") {
+    return buildHref(PRODUCTS_PATH, {
+      category: "monitor",
+      resolution : resolutionMap[value]
+    })
   }
   return buildHref(PRODUCTS_PATH, {
     category: queryCategory,

@@ -1,3 +1,4 @@
+import { webcams } from './../data/products/webcams';
 import { speakers } from './../data/products/speakers';
 import { sdcards } from './../data/products/sdcards';
 import { MapPin } from 'lucide-react';
@@ -309,7 +310,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-20", "tren-20-trieu", "tren-20"].includes(value)) {
     return price > 20000000;
   }
-
   // === NHÓM LAPTOP GAMING ===
   if (["under-20", "duoi-20-trieu"].includes(value)) {
     return price < 20000000;
@@ -323,7 +323,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-30", "tren-30-trieu", "tren-30"].includes(value)) {
     return price > 30000000;
   }
-
   // === NHÓM PC (Workstation/High-end) ===
   if (["under-30", "pc-duoi-30-trieu"].includes(value)) {
     return price < 30000000;
@@ -343,7 +342,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-200", "pc-tren-200-trieu", "tren-200-trieu"].includes(value)) {
     return price > 200000000;
   }
-
   // === NHÓM TAI NGHE ===
   if (["under-500k", "tai-nghe-duoi-500-nghin"].includes(value)) {
     return price < 500000;
@@ -357,7 +355,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-2m", "tai-nghe-tren-2-trieu"].includes(value)) {
     return price > 2000000;
   }
-
   // === NHÓM LOA ===
   if (["under-1m", "loa-duoi-1-trieu"].includes(value)) {
     return price < 1000000;
@@ -371,7 +368,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-5m", "loa-tren-5-trieu"].includes(value)) {
     return price > 5000000;
   }
-
   // === NHÓM MICRO ===
   if (["under-1m", "micro-duoi-1-trieu"].includes(value)) {
     return price < 1000000;
@@ -385,7 +381,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-5m", "micro-tren-5-trieu"].includes(value)) {
     return price > 5000000;
   }
-
   // === NHÓM TAI NGHE ===
   if (["under-1m-headphone", "tai-nghe-duoi-1-trieu"].includes(value)) {
     return price < 1000000;
@@ -402,7 +397,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-4m-headphone", "tai-nghe-tren-4-trieu"].includes(value)) {
     return price > 4000000;
   }
-
   // === NHÓM CHUỘT ===
   if (["under-500k-mouse", "chuot-duoi-500-nghin"].includes(value)) {
     return price < 500000;
@@ -419,7 +413,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-3m-mouse", "chuot-tren-3-trieu"].includes(value)) {
     return price > 3000000;
   }
-
   // === NHÓM GHẾ - BÀN ===
   if (["under-5m-chair-table", "ban-ghe-duoi-5-trieu"].includes(value)) {
     return price < 5000000;
@@ -430,7 +423,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-10m-chair-table", "ban-ghe-tren-10-trieu"].includes(value)) {
     return price > 10000000;
   }
-
   // === NHÓM HANDHELD / CONSOLE ===
   if (["under-1m-handheld", "handheld-duoi-1-trieu"].includes(value)) {
     return price < 1000000;
@@ -438,7 +430,6 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-2m-handheld", "handheld-tren-2-trieu"].includes(value)) {
     return price > 2000000;
   }
-
   // === NHÓM PHỤ KIỆN ===
   if (["under-200k", "phu-kien-duoi-200-nghin", "duoi-200-nghin"].includes(value)) {
     return price < 200000;
@@ -452,7 +443,22 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-1m", "phu-kien-tren-1-trieu", "tren-1-trieu"].includes(value)) {
     return price > 1000000;
   }
-
+  // === NHÓM MÀN HÌNH ===
+  if (value === "under-5" || value === "duoi-5-trieu") {
+    return price < 5000000;
+  }
+  if (value === "5-10" || value === "tu-5-trieu-den-10-trieu") {
+    return price >= 5000000 && price <= 10000000;
+  }
+  if (value === "10-20" || value === "tu-10-trieu-den-20-trieu") {
+    return price > 10000000 && price <= 20000000;
+  }
+  if (value === "20-30" || value === "tu-20-trieu-den-30-trieu") {
+    return price > 20000000 && price <= 30000000;
+  }
+  if (value === "over-30" || value === "tren-30-trieu") {
+    return price > 30000000;
+  }
   return true;
 }
 
@@ -590,6 +596,8 @@ export type ListQuery = {
   sdcard?:string;
 
   speaker?:string;
+  resolution?:string;
+  microphone?: string;
 };
 
 export function filterProducts(items: Product[], query: ListQuery) {
@@ -626,6 +634,10 @@ export function filterProducts(items: Product[], query: ListQuery) {
   const normalizedSdCard = normalizeValue(query.sdcard);
 
   const normalizedSpeaker = normalizeValue(query.speaker);
+  const normalizedResolution = normalizeValue(query.resolution);
+  const normalizedMicrophone = normalizeValue(query.microphone);
+
+
   if (normalizedCategory) {
     if (normalizedCategory === "mouse" || normalizedCategory === "mousepad") {
       arr = arr.filter((p) => {
@@ -642,7 +654,7 @@ export function filterProducts(items: Product[], query: ListQuery) {
     }
   }
 
-    if (normalizedAccessoryType) {
+  if (normalizedAccessoryType) {
     arr = arr.filter((p) =>
       matchAccessoryTypeLabel(p, normalizedAccessoryType)
     );
@@ -809,7 +821,7 @@ export function filterProducts(items: Product[], query: ListQuery) {
       normalizedSdCard
     )})
   }
-if(normalizedSpeaker) {
+  if(normalizedSpeaker) {
     arr = arr.filter((p) => {
       return matchFromCandidates([
         (p as any).brand,
@@ -819,6 +831,27 @@ if(normalizedSpeaker) {
       normalizedSdCard
     )})
   }
+  if (normalizedResolution) {
+    arr = arr.filter((p) => {
+      const cardValues = (p as any).cardSpecs?.map((card : any) => card.value) || [];
+      const candidates = [
+        ...cardValues,
+        ...getSpecValues(p)
+      ].filter(Boolean).map(val => normalizeValue(val));
+      return matchFromCandidates(candidates,normalizedResolution)
+    })
+  }
+  if (normalizedMicrophone) {
+    arr = arr.filter((p) => {
+      return matchFromCandidates([
+        (p as any).brand,
+        ...getSpecValues(p),
+      ].filter(Boolean).map(val => normalizeValue(val)),
+      normalizedMicrophone
+    )
+    })
+  }
+
   if (normalizedQ) {
     arr = arr.filter((p) => {
       const pPrice = getProductPrice(p);
@@ -924,6 +957,46 @@ if(normalizedSpeaker) {
         normalizedQ === "over 200"
       ) {
         return pPrice > 200000000;
+      }
+      // ===== MÀN HÌNH (MONITOR) =====
+      if (
+        normalizedQ === "man hinh duoi 5 trieu" ||
+        normalizedQ === "duoi 5 trieu" ||
+        normalizedQ === "monitor under 5m"
+      ) {
+        return pPrice < 5000000;
+      }
+
+      if (
+        normalizedQ === "man hinh 5 10 trieu" ||
+        normalizedQ === "5 10 trieu" ||
+        normalizedQ === "tu 5 den 10 trieu"
+      ) {
+        return pPrice >= 5000000 && pPrice <= 10000000;
+      }
+
+      if (
+        normalizedQ === "man hinh 10 20 trieu" ||
+        normalizedQ === "10 20 trieu" ||
+        normalizedQ === "tu 10 den 20 trieu"
+      ) {
+        return pPrice >= 10000000 && pPrice <= 20000000;
+      }
+
+      if (
+        normalizedQ === "man hinh 20 30 trieu" ||
+        normalizedQ === "20 30 trieu" ||
+        normalizedQ === "tu 20 den 30 trieu"
+      ) {
+        return pPrice >= 20000000 && pPrice <= 30000000;
+      }
+
+      if (
+        normalizedQ === "man hinh tren 30 trieu" ||
+        normalizedQ === "tren 30 trieu" ||
+        normalizedQ === "over 30m"
+      ) {
+        return pPrice > 30000000;
       }
       const searchable = normalizeText(getAllSearchableValues(p).join(" "));
       return (
