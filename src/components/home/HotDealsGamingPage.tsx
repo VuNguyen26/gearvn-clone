@@ -33,12 +33,13 @@ function mapProductsBySlugs(products: Product[], slugs: string[]) {
 
 function HeroBanner() {
   return (
-    <div className="relative h-[851px] w-full bg-black">
+    <div className="relative h-[260px] w-full bg-black sm:h-[360px] md:h-[520px] lg:h-[720px] xl:h-[851px]">
       <Image
         src="/images/hotdeals.png"
         alt="Hot Deals Banner"
         fill
         className="object-cover"
+        priority
       />
     </div>
   );
@@ -46,37 +47,40 @@ function HeroBanner() {
 
 function TopTabs() {
   return (
-    <div className="sticky top-18 z-15 mx-auto flex w-full flex-wrap items-center justify-center gap-3 bg-black px-4 py-2">
-      <div className="rounded-2xl border border-zinc-600 bg-gradient-to-b from-zinc-500 to-zinc-800 px-5 py-3 text-center text-white shadow-lg">
-        <div className="text-lg font-black leading-none md:text-xl">VOUCHER</div>
-        <div className="mt-1 text-2xl font-black leading-none sm:text-3xl">
-          500K
+    <div className="relative z-10 mx-auto -mt-10 w-full px-2.5 sm:-mt-12 sm:px-4 md:-mt-14">
+      <div className="mx-auto max-w-[1280px] rounded-2xl bg-black/70 px-2 py-2 backdrop-blur-sm sm:px-3 sm:py-3">
+        <div className="mx-auto mb-2 w-fit rounded-xl border border-zinc-600 bg-gradient-to-b from-zinc-500 to-zinc-800 px-4 py-2 text-center text-white shadow-lg sm:mb-3 sm:px-5 sm:py-3">
+          <div className="text-[11px] font-black leading-none sm:text-sm">
+            Voucher 500K
+          </div>
+          <div className="mt-1 text-[9px] uppercase tracking-wide text-zinc-200 sm:text-[10px]">
+            Khi nâng cấp RAM / SSD
+          </div>
         </div>
-        <div className="mt-1 text-[11px] uppercase tracking-wide text-zinc-200 md:text-xs">
-          Khi nâng cấp RAM / SSD
+
+        <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+          {hotDealTabs.map((tab) => (
+            <a
+              key={tab.key}
+              href={`#${tab.sectionId}`}
+              className="flex min-h-[40px] items-center justify-center rounded-lg border border-cyan-900 bg-[radial-gradient(circle_at_top,rgba(70,170,220,0.35),rgba(10,18,30,0.95))] px-1 py-1.5 text-center font-bold text-white shadow-[0_0_12px_rgba(34,211,238,0.14)] transition hover:-translate-y-0.5 hover:shadow-[0_0_18px_rgba(34,211,238,0.22)] sm:min-h-[46px] sm:rounded-xl sm:px-2 sm:py-2"
+            >
+              <div className="text-[9px] leading-3 sm:text-[11px] sm:leading-4">
+                {formatLabel(tab.label)}
+              </div>
+            </a>
+          ))}
         </div>
       </div>
-
-      {hotDealTabs.map((tab) => (
-        <a
-          key={tab.key}
-          href={`#${tab.sectionId}`}
-          className="min-w-[170px] rounded-2xl border border-cyan-900 bg-[radial-gradient(circle_at_top,rgba(70,170,220,0.35),rgba(10,18,30,0.95))] px-5 py-3 text-center font-bold text-white shadow-[0_0_18px_rgba(34,211,238,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_22px_rgba(34,211,238,0.28)]"
-        >
-          <div className="text-sm leading-5 md:text-[15px]">
-            {formatLabel(tab.label)}
-          </div>
-        </a>
-      ))}
     </div>
   );
 }
 
 function SectionTitle({ title }: { title: string }) {
   return (
-    <div className="mx-auto mb-6 flex justify-center px-4">
-      <div className="rounded-[24px] border border-zinc-500 bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-800 px-8 py-4 text-center shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
-        <div className="text-2xl font-extrabold uppercase tracking-wide text-white md:text-4xl">
+    <div className="mx-auto mb-4 flex justify-center px-3 sm:mb-6 sm:px-4">
+      <div className="rounded-[18px] border border-zinc-500 bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-800 px-5 py-3 text-center shadow-[0_8px_24px_rgba(0,0,0,0.4)] sm:rounded-[24px] sm:px-8 sm:py-4">
+        <div className="text-lg font-extrabold uppercase tracking-wide text-white sm:text-2xl md:text-4xl">
           {title}
         </div>
       </div>
@@ -99,12 +103,28 @@ function ProductSection({
 }) {
   if (!products.length) return null;
 
+  const visibleProducts = products.slice(0, 5);
+
   return (
-    <section id={id} className="scroll-mt-24 py-8 md:py-10">
+    <section id={id} className="scroll-mt-24 py-6 sm:py-8 md:py-10">
       <SectionTitle title={title} />
 
-      <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {products.slice(0, 5).map((product) => (
+      {/* Mobile: lướt ngang | Desktop: grid */}
+      <div className="md:hidden">
+        <div className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-2.5 pb-1">
+          {visibleProducts.map((product) => (
+            <div
+              key={product.id}
+              className="w-[160px] shrink-0 snap-start"
+            >
+              <ProductCard p={product} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="hidden md:grid md:mx-auto md:max-w-[1280px] md:grid-cols-3 md:gap-3 md:px-4 lg:grid-cols-4 xl:grid-cols-5">
+        {visibleProducts.map((product) => (
           <div key={product.id} className="min-w-0">
             <ProductCard p={product} />
           </div>
@@ -112,10 +132,10 @@ function ProductSection({
       </div>
 
       {!hideViewMore && (
-        <div className="mt-6 mb-12 flex justify-center">
+        <div className="mb-10 mt-5 flex justify-center sm:mb-12 sm:mt-6">
           <Link
             href={viewMoreHref}
-            className="rounded-2xl border border-cyan-900 bg-[radial-gradient(circle_at_top,rgba(70,170,220,0.35),rgba(10,18,30,0.95))] px-7 py-2.5 text-lg font-bold text-white shadow-[0_0_18px_rgba(34,211,238,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_22px_rgba(34,211,238,0.28)]"
+            className="rounded-2xl border border-cyan-900 bg-[radial-gradient(circle_at_top,rgba(70,170,220,0.35),rgba(10,18,30,0.95))] px-6 py-2.5 text-sm font-bold text-white shadow-[0_0_18px_rgba(34,211,238,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_22px_rgba(34,211,238,0.28)] sm:px-7 sm:text-lg"
           >
             Xem Thêm
           </Link>
@@ -124,6 +144,7 @@ function ProductSection({
     </section>
   );
 }
+
 export default function HotDealsGamingPage({
   products,
   hideViewMore = false,
@@ -146,36 +167,36 @@ export default function HotDealsGamingPage({
         <TopTabs />
 
         <ProductSection
-        id="best-seller"
-        title="Best Seller"
-        products={bestSellerProducts}
-        viewMoreHref={hotDealsViewMoreLinks.bestSeller}
-        hideViewMore={hideViewMore}
-      />
+          id="best-seller"
+          title="Best Seller"
+          products={bestSellerProducts}
+          viewMoreHref={hotDealsViewMoreLinks.bestSeller}
+          hideViewMore={hideViewMore}
+        />
 
-      <ProductSection
-        id="under-25"
-        title="Dưới 25 triệu"
-        products={under25Products}
-        viewMoreHref={hotDealsViewMoreLinks.under25}
-        hideViewMore={hideViewMore}
-      />
+        <ProductSection
+          id="under-25"
+          title="Dưới 25 triệu"
+          products={under25Products}
+          viewMoreHref={hotDealsViewMoreLinks.under25}
+          hideViewMore={hideViewMore}
+        />
 
-      <ProductSection
-        id="under-30"
-        title="Dưới 30 triệu"
-        products={under30Products}
-        viewMoreHref={hotDealsViewMoreLinks.under30}
-        hideViewMore={hideViewMore}
-      />
+        <ProductSection
+          id="under-30"
+          title="Dưới 30 triệu"
+          products={under30Products}
+          viewMoreHref={hotDealsViewMoreLinks.under30}
+          hideViewMore={hideViewMore}
+        />
 
-      <ProductSection
-        id="over-30"
-        title="Trên 30 triệu"
-        products={over30Products}
-        viewMoreHref={hotDealsViewMoreLinks.over30}
-        hideViewMore={hideViewMore}
-      />
+        <ProductSection
+          id="over-30"
+          title="Trên 30 triệu"
+          products={over30Products}
+          viewMoreHref={hotDealsViewMoreLinks.over30}
+          hideViewMore={hideViewMore}
+        />
       </div>
     </div>
   );
