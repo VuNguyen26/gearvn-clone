@@ -361,8 +361,6 @@ const resolveHref = (
     (title.includes("hub") || title.includes("sac") || title.includes("cap") || title.includes("nhom san pham"))
   ) {
     const type = accessoryTypeMap[value] ?? slugify(label);
-    // console.log("Accessory Mapping:", { value, type }); 
-
     return buildHref(PRODUCTS_PATH, {
       category: queryCategory,
       accessoryType: type,
