@@ -2,18 +2,20 @@
 
 import ProductCard from "@/components/ProductCard";
 import Image from "next/image";
+import Link from "next/link";
 import {
   bestSellerSlugs,
   hotDealTabs,
+  hotDealsViewMoreLinks,
   over30Slugs,
   under25Slugs,
   under30Slugs,
 } from "@/data/home/hotDeals";
 import type { Product } from "@/types/product";
-import { useState } from "react";
 
 type Props = {
   products: Product[];
+  hideViewMore?: boolean;
 };
 
 function formatLabel(label: string) {
@@ -31,7 +33,7 @@ function mapProductsBySlugs(products: Product[], slugs: string[]) {
 
 function HeroBanner() {
   return (
-    <div className="w-full bg-black relative h-[851px]">
+    <div className="relative h-[851px] w-full bg-black">
       <Image
         src="/images/hotdeals.png"
         alt="Hot Deals Banner"
@@ -44,10 +46,12 @@ function HeroBanner() {
 
 function TopTabs() {
   return (
-    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-3 px-4 py-2  sticky top-18 z-15 bg-black">
+    <div className="sticky top-18 z-15 mx-auto flex w-full flex-wrap items-center justify-center gap-3 bg-black px-4 py-2">
       <div className="rounded-2xl border border-zinc-600 bg-gradient-to-b from-zinc-500 to-zinc-800 px-5 py-3 text-center text-white shadow-lg">
         <div className="text-lg font-black leading-none md:text-xl">VOUCHER</div>
-        <div className="mt-1 text-2xl font-black leading-none sm:text-3xl">500K</div>
+        <div className="mt-1 text-2xl font-black leading-none sm:text-3xl">
+          500K
+        </div>
         <div className="mt-1 text-[11px] uppercase tracking-wide text-zinc-200 md:text-xs">
           Khi nâng cấp RAM / SSD
         </div>
@@ -84,47 +88,46 @@ function ProductSection({
   id,
   title,
   products,
+  viewMoreHref,
+  hideViewMore = false,
 }: {
   id: string;
   title: string;
   products: Product[];
+  viewMoreHref: string;
+  hideViewMore?: boolean;
 }) {
-  const [expanded, setExpanded] = useState(false);
-
   if (!products.length) return null;
-
-  const visibleProducts = expanded ? products : products.slice(0, 5);
 
   return (
     <section id={id} className="scroll-mt-24 py-8 md:py-10">
       <SectionTitle title={title} />
 
       <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {visibleProducts.map((product) => (
+        {products.slice(0, 5).map((product) => (
           <div key={product.id} className="min-w-0">
             <ProductCard p={product} />
           </div>
         ))}
       </div>
 
-      {products.length > 5 && !expanded && (
+      {!hideViewMore && (
         <div className="mt-6 mb-12 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
+          <Link
+            href={viewMoreHref}
             className="rounded-2xl border border-cyan-900 bg-[radial-gradient(circle_at_top,rgba(70,170,220,0.35),rgba(10,18,30,0.95))] px-7 py-2.5 text-lg font-bold text-white shadow-[0_0_18px_rgba(34,211,238,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_22px_rgba(34,211,238,0.28)]"
           >
             Xem Thêm
-          </button>
+          </Link>
         </div>
       )}
-
-      {expanded && <div className="mb-12" />}
     </section>
   );
 }
-
-export default function HotDealsGamingPage({ products }: Props) {
+export default function HotDealsGamingPage({
+  products,
+  hideViewMore = false,
+}: Props) {
   const bestSellerProducts = mapProductsBySlugs(products, bestSellerSlugs);
   const under25Products = mapProductsBySlugs(products, under25Slugs);
   const under30Products = mapProductsBySlugs(products, under30Slugs);
@@ -143,28 +146,36 @@ export default function HotDealsGamingPage({ products }: Props) {
         <TopTabs />
 
         <ProductSection
-          id="best-seller"
-          title="Best Seller"
-          products={bestSellerProducts}
-        />
+        id="best-seller"
+        title="Best Seller"
+        products={bestSellerProducts}
+        viewMoreHref={hotDealsViewMoreLinks.bestSeller}
+        hideViewMore={hideViewMore}
+      />
 
-        <ProductSection
-          id="under-25"
-          title="Dưới 25 triệu"
-          products={under25Products}
-        />
+      <ProductSection
+        id="under-25"
+        title="Dưới 25 triệu"
+        products={under25Products}
+        viewMoreHref={hotDealsViewMoreLinks.under25}
+        hideViewMore={hideViewMore}
+      />
 
-        <ProductSection
-          id="under-30"
-          title="Dưới 30 triệu"
-          products={under30Products}
-        />
+      <ProductSection
+        id="under-30"
+        title="Dưới 30 triệu"
+        products={under30Products}
+        viewMoreHref={hotDealsViewMoreLinks.under30}
+        hideViewMore={hideViewMore}
+      />
 
-        <ProductSection
-          id="over-30"
-          title="Trên 30 triệu"
-          products={over30Products}
-        />
+      <ProductSection
+        id="over-30"
+        title="Trên 30 triệu"
+        products={over30Products}
+        viewMoreHref={hotDealsViewMoreLinks.over30}
+        hideViewMore={hideViewMore}
+      />
       </div>
     </div>
   );

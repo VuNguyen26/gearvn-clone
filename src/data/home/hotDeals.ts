@@ -61,4 +61,9 @@ export const over30Slugs = [
   "laptop-msi-katana-15-b13vgk-1211vn",
 ];
 
-export const hotDealsViewMoreLink = "/collections/laptop-gaming";
+export const hotDealsViewMoreLinks = {
+  bestSeller: "/category/laptop-gaming?sort=best-seller",
+  under25: "/category/laptop-gaming?maxPrice=25000000",
+  under30: "/category/laptop-gaming?minPrice=25000001&maxPrice=30000000",
+  over30: "/category/laptop-gaming?minPrice=30000001",
+};
