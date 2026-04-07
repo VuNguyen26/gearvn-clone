@@ -714,6 +714,71 @@ const resolveHref = (
     });
   }
 
+  const caseNguonTanPriceMap: Record<string, string> = {
+    "duoi 1 trieu": "case-nguon-tan-under-1m",
+    "tu 1 trieu den 2 trieu": "case-nguon-tan-1-2m",
+    "tren 2 trieu": "case-nguon-tan-over-2m",
+  };
+
+  const psuWattMap: Record<string, string> = {
+    "tu 500w-600w": "500-600w",
+    "tu 500w 600w": "500-600w",
+    "tu 700w-800w": "700-800w",
+    "tu 700w 800w": "700-800w",
+    "tren 1000w": "over-1000w",
+  };
+
+  const coolerTypeMap: Record<string, string> = {
+    "tan nhiet aio 240mm": "aio-240",
+    "tan nhiet aio 280mm": "aio-280",
+    "tan nhiet aio 360mm": "aio-360",
+    "tan nhiet aio 420mm": "aio-420",
+    "tan nhiet khi": "air-cooler",
+    "fan rgb": "rgb-fan",
+  };
+
+  // Case - Nguồn - Tản nhiệt: theo giá
+  if (category === "case-nguon-tan" && title === "theo gia") {
+    if (value === "xem tat ca") {
+      return buildHref(PRODUCTS_PATH, {
+        category: "case-nguon-tan",
+      });
+    }
+
+    return buildHref(PRODUCTS_PATH, {
+      category: "case-nguon-tan",
+      price: caseNguonTanPriceMap[value] ?? slugify(label),
+    });
+  }
+
+  // Nguồn - theo công suất
+  if (title === "nguon theo cong suat") {
+    if (value === "xem tat ca") {
+      return buildHref(PRODUCTS_PATH, {
+        category: "psu",
+      });
+    }
+
+    return buildHref(PRODUCTS_PATH, {
+      category: "psu",
+      psuWatt: psuWattMap[value] ?? slugify(label),
+    });
+  }
+
+  // Loại tản nhiệt
+  if (title === "loai tan nhiet") {
+    if (value === "xem tat ca") {
+      return buildHref(PRODUCTS_PATH, {
+        category: "cooler",
+      });
+    }
+
+    return buildHref(PRODUCTS_PATH, {
+      category: "cooler",
+      coolerType: coolerTypeMap[value] ?? slugify(label),
+    });
+  }
+
   // RAM
   const rams = ["dung luong ram", "loai ram", "hang ram"];
   const matchedRam = rams.find( ram => title.includes(ram));

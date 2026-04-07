@@ -398,6 +398,19 @@ function matchPriceLabel(product: Product, rawValue?: string) {
   if (["over-5m", "micro-tren-5-trieu"].includes(value)) {
     return price > 5000000;
   }
+  // === NHÓM CASE - NGUỒN - TẢN NHIỆT ===
+  if (["case-nguon-tan-under-1m", "case-under-1m"].includes(value)) {
+    return price < 1000000;
+  }
+
+  if (["case-nguon-tan-1-2m", "case-1-2m"].includes(value)) {
+    return price >= 1000000 && price <= 2000000;
+  }
+
+  if (["case-nguon-tan-over-2m", "case-over-2m"].includes(value)) {
+    return price > 2000000;
+  }
+
   // === NHÓM TAI NGHE ===
   if (["under-1m-headphone", "tai-nghe-duoi-1-trieu"].includes(value)) {
     return price < 1000000;
@@ -512,6 +525,96 @@ function matchAccessoryTypeLabel(product: Product, rawValue?: string) {
     ],
     rawValue
   );
+}
+//lọc công suất nguồn
+function matchPsuWattLabel(product: Product, rawValue?: string) {
+  if (!rawValue) return true;
+
+  const value = normalizeValue(rawValue);
+
+  const wattageCandidates = [
+    getSpecValue(product, "wattage"),
+    getSpecValue(product, "Wattage"),
+    ...(product.cardSpecs
+      ?.filter((item) => normalizeValue(item.label) === "cong-suat")
+      .map((item) => item.value) ?? []),
+  ]
+    .filter(Boolean)
+    .map((v) => String(v));
+
+  const watts = wattageCandidates
+    .map((text) => {
+      const match = text.match(/(\d{3,4})\s*w/i);
+      return match ? Number(match[1]) : NaN;
+    })
+    .filter((n) => !Number.isNaN(n));
+
+  if (!watts.length) return false;
+
+  if (value === "500-600w") {
+    return watts.some((w) => w >= 500 && w <= 600);
+  }
+
+  if (value === "700-800w") {
+    return watts.some((w) => w >= 700 && w <= 800);
+  }
+
+  if (value === "over-1000w") {
+    return watts.some((w) => w > 1000);
+  }
+
+  return false;
+}
+
+//lọc kiểu tản nhiệt
+function matchCoolerTypeLabel(product: Product, rawValue?: string) {
+  if (!rawValue) return true;
+
+  const value = normalizeValue(rawValue);
+
+  const candidates = [
+    product.name,
+    product.shortDesc,
+    getSpecValue(product, "type"),
+    getSpecValue(product, "Type"),
+    ...getSpecValues(product),
+    ...(product.cardSpecs?.flatMap((item) => [item.label, item.value]) ?? []),
+    ...(product.detailSpecs?.flatMap((item) => [item.label, item.value]) ?? []),
+  ]
+    .filter(Boolean)
+    .map((v) => normalizeText(String(v)));
+
+  if (value === "aio-240") {
+    return candidates.some((t) => t.includes("aio 240") || t.includes("240mm"));
+  }
+
+  if (value === "aio-280") {
+    return candidates.some((t) => t.includes("aio 280") || t.includes("280mm"));
+  }
+
+  if (value === "aio-360") {
+    return candidates.some((t) => t.includes("aio 360") || t.includes("360mm"));
+  }
+
+  if (value === "aio-420") {
+    return candidates.some((t) => t.includes("aio 420") || t.includes("420mm"));
+  }
+
+  if (value === "air-cooler") {
+    return candidates.some(
+      (t) => t.includes("tan nhiet khi") || t.includes("air cooler")
+    );
+  }
+
+  if (value === "rgb-fan") {
+    return candidates.some(
+      (t) =>
+        (t.includes("fan") || t.includes("quat")) &&
+        (t.includes("rgb") || t.includes("argb"))
+    );
+  }
+
+  return false;
 }
 
 export function getProductsByMenuSlug(slug: string): Product[] {
@@ -640,6 +743,9 @@ export type ListQuery = {
   inch?: string;
 
   type?: string;
+
+  psuWatt?: string;
+  coolerType?: string;
 };
 
 export function filterProducts(items: Product[], query: ListQuery) {
@@ -663,7 +769,8 @@ export function filterProducts(items: Product[], query: ListQuery) {
   const normalizedSeries = normalizeValue(query.series);
   const normalizedQ = normalizeText(query.q);
   const normalizedAccessoryType = normalizeValue(query.accessoryType);
-
+  const normalizedPsuWatt = normalizeValue(query.psuWatt);
+  const normalizedCoolerType = normalizeValue(query.coolerType);
 
 
   const normalizedVga = normalizeValue(query.gpu);
@@ -703,6 +810,18 @@ export function filterProducts(items: Product[], query: ListQuery) {
   if (normalizedAccessoryType) {
     arr = arr.filter((p) =>
       matchAccessoryTypeLabel(p, normalizedAccessoryType)
+    );
+  }
+  // Lọc theo công suất PSU
+  if (normalizedPsuWatt) {
+    arr = arr.filter((p) =>
+      matchPsuWattLabel(p, normalizedPsuWatt)
+    );
+  }
+
+  if (normalizedCoolerType) {
+    arr = arr.filter((p) =>
+      matchCoolerTypeLabel(p, normalizedCoolerType)
     );
   }
   

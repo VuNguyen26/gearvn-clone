@@ -3,26 +3,26 @@ import { Product } from "@/types/product";
 export const psus: Product[] = [
   {
     id: "PSU001",
-    slug: "nguon-asus-prime-850w-gold-80-plus-gold-atx-3-0",
-    name: "Nguồn ASUS Prime 850W Gold - 80 Plus Gold - ATX 3.0",
+    slug: "nguon-asus-prime-750w-gold-80-plus-gold-atx-3-0",
+    name: "Nguồn ASUS Prime 750W Gold - 80 Plus Gold - ATX 3.0",
     category: "psu",
     subcategory: "case_psu_cooler",
     price: 3290000,
     salePrice: 2890000,
     stock: 12,
     images: [
-      "/product_image/case_psu_cooler/psu_asus_prime_850w_80plus/psu_asus_prime_850w_80plus.jpg",
-      "/product_image/case_psu_cooler/psu_asus_prime_850w_80plus/psu_asus_prime_850w_80plus_01.jpg",
-      "/product_image/case_psu_cooler/psu_asus_prime_850w_80plus/psu_asus_prime_850w_80plus_02.jpg",
-      "/product_image/case_psu_cooler/psu_asus_prime_850w_80plus/psu_asus_prime_850w_80plus_03.jpg",
-      "/product_image/case_psu_cooler/psu_asus_prime_850w_80plus/psu_asus_prime_850w_80plus_04.jpg",
-      "/product_image/case_psu_cooler/psu_asus_prime_850w_80plus/psu_asus_prime_850w_80plus_05.jpg",
+      "/product_image/case_psu_cooler/psu_asus_prime_750w_80plus/psu_asus_prime_750w_80plus.jpg",
+      "/product_image/case_psu_cooler/psu_asus_prime_750w_80plus/psu_asus_prime_750w_80plus_01.jpg",
+      "/product_image/case_psu_cooler/psu_asus_prime_750w_80plus/psu_asus_prime_750w_80plus_02.jpg",
+      "/product_image/case_psu_cooler/psu_asus_prime_750w_80plus/psu_asus_prime_750w_80plus_03.jpg",
+      "/product_image/case_psu_cooler/psu_asus_prime_750w_80plus/psu_asus_prime_750w_80plus_04.jpg",
+      "/product_image/case_psu_cooler/psu_asus_prime_750w_80plus/psu_asus_prime_750w_80plus_05.jpg",
     ],
     shortDesc:
       "Nguồn máy tính chuẩn 80 Plus Gold mạnh mẽ, hỗ trợ ATX 3.0 và PCIe 5.0, thiết kế sang trọng phù hợp cho mọi cấu hình PC hiện đại.",
     description: `
       <h3>Hiệu suất 80 Plus Gold tin cậy</h3>
-      <p>ASUS Prime 850W Gold đạt chứng nhận 80 Plus Gold, đảm bảo hiệu suất năng lượng tối ưu, giảm thiểu nhiệt lượng tỏa ra và tiết kiệm điện năng vận hành cho hệ thống của bạn.</p>
+      <p>ASUS Prime 750W Gold đạt chứng nhận 80 Plus Gold, đảm bảo hiệu suất năng lượng tối ưu, giảm thiểu nhiệt lượng tỏa ra và tiết kiệm điện năng vận hành cho hệ thống của bạn.</p>
       
       <h3>Sẵn sàng cho thế hệ GPU mới</h3>
       <p>Với chuẩn ATX 3.0 tích hợp đầu cấp nguồn 16-pin (12VHPWR), bộ nguồn này hoàn toàn tương thích và cung cấp dòng điện ổn định cho các card đồ họa NVIDIA GeForce RTX 40 và 50 Series cao cấp nhất hiện nay.</p>
@@ -33,10 +33,10 @@ export const psus: Product[] = [
     brand: "ASUS",
     specs: {
       brand: "ASUS",
-      wattage: "850W",
+      wattage: "780W",
     },
     cardSpecs: [
-      { label: "Công suất", value: "850W" },
+      { label: "Công suất", value: "780W" },
       { label: "Hiệu suất", value: "80 Plus Gold" },
       { label: "Cáp nguồn", value: "Full Modular" },
     ],
@@ -236,7 +236,7 @@ export const psus: Product[] = [
     salePrice: 1650000,
     stock: 25,
     images: [
-      "/product_image/case_psu_cooler/psu_msi_mag_a1250gl_pcie5_80plus/psu_msi_mag_a750bn_pcie5_80plus_bronze.png",
+      "/product_image/case_psu_cooler/psu_msi_mag_a750bn_pcie5_80plus_bronze.png",
     ],
     shortDesc: "Nguồn chuẩn Bronze đầu tiên tích hợp sẵn đầu cấp nguồn PCIe 5.0 (12VHPWR), giải pháp tối ưu cho RTX 4070 series trở xuống.",
     description: `

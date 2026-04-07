@@ -50,6 +50,8 @@ export default async function ProductsPage({ searchParams }: Props) {
     inch: getFirst(sp.inch),
 
     type: getFirst(sp.type),
+    psuWatt: getFirst(sp.psuWatt),
+    coolerType: getFirst(sp.coolerType),
   });
 
   return (
