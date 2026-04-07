@@ -162,7 +162,6 @@ const resolveHref = (
     "case lianli": "lianli",
     "case cooler master": "cooler-master",
     "case jonsbo": "jonsbo",
-<<<<<<< HEAD
     // psu
     "nguon asus": "asus",
     "nguon deepcool": "deepcool",
@@ -176,7 +175,6 @@ const resolveHref = (
     "tan nhiet cooler master": "cooler-master",
     "tan nhiet msi": "msi",
 
-=======
     // keyboard
     akko : "akko",
     aula : "aula",
@@ -191,7 +189,6 @@ const resolveHref = (
     vgn : "vgn",
     madlions : "madlions",
     skyloong : "skyloong"
->>>>>>> master
   };
 
   const priceMap: Record<string, string> = {
