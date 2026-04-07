@@ -3,8 +3,6 @@
 import Link from "next/link";
 import type { MegaMenuChildItem, MenuItem } from "@/types/megamenu";
 import { constant } from "firebase/firestore/pipelines";
-import { main } from "framer-motion/client";
-import { cp } from "fs";
 
 type MegaMenuProps = {
   activeSidebarItem: MenuItem;
@@ -27,13 +25,14 @@ const slugify = (value: string) =>
 
 const buildHref = (
   pathname: string,
-  query: Record<string, string | undefined>
+  query: Record<string, any>
 ) => {
   const params = new URLSearchParams();
 
   Object.entries(query).forEach(([key, value]) => {
-    if (value && value.trim() !== "") {
-      params.set(key, value);
+    const valStr = value !== undefined && value !== null ? String(value) : "";
+    if (valStr && valStr.trim() !== "") {
+      params.set(key, valStr);
     }
   });
 
@@ -201,6 +200,8 @@ const resolveHref = (
     "phu kien tu 200 den 500 nghin": "200k-500k",
     "phu kien tu 500 nghin den 1 trieu": "500k-1m",
     "phu kien tren 1 trieu": "over-1m",
+    // Case
+    
   };
   const cpuMap: Record<string, string> = {
     // Laptop 
@@ -227,18 +228,17 @@ const resolveHref = (
     "pc ultra 7": "pc-ultra-7",
     "pc ultra 9": "pc-ultra-9",
     // Main, CPU
-    "cpu intel core ultra series 2": "cpu-intel-core-ultra-series-2",
-    "cpu intel 9": "cpu-intel-9",
-    "cpu intel 7": "cpu-intel-7",
-    "cpu intel 5": "cpu-intel-5",
-    "cpu intel 3": "cpu-intel-3",
+    "cpu intel core ultra series 2": "core-ultra",
+    "cpu intel 9": "core-i9",
+    "cpu intel 7": "core-i7",
+    "cpu intel 5": "core-i5",
+    "cpu intel 3": "core-i3",
 
     "cpu amd athlon": "cpu-amd-athlon",
     "cpu amd r3": "cpu-amd-r3",
     "cpu amd r5": "cpu-amd-r5",
     "cpu amd r7": "cpu-amd-r7",
     "cpu amd r9": "cpu-amd-r9",
-    
   };
   const gpuMap: Record<string, string> = {
     // Laptop gaming
@@ -254,33 +254,38 @@ const resolveHref = (
     "pc rtx 3060": "pc-rtx-3060",
     "pc rtx 3050": "pc-rtx-3050",
     // Main, CPU
+    //Card man hinh vga
+    // VGA series
     "rtx 5090" : "rtx-5090",
     "rtx 5080": "rtx-5080",
     "rtx 5070ti": "rtx-5070ti",
     "rtx 5070": "rtx-5070",
     "rtx 5060ti": "rtx-5060ti",
     "rtx 5060": "rtx-5060",
+    // VGA tren 12GB
     "rtx 4070 super (12gb)": "rtx-4070-super-12gb",
     "rtx 4070Ti super (16gb)": "rtx-4070ti-super-16gb",
     "rtx 4080 super (16gb)": "rtx-4080-super-16gb",
-    "rtx 4090 super (24gb)": "rtx-4070-super-24gb",
-
+    "rtx 4090 super (24gb)": "rtx-4090-super-24gb",
+    // VGA duoi 12GB
     "rtx 4060ti (8 - 16gb)": "rtx-4060ti-8-16gb",
     "rtx 4060 (8gb)": "rtx-4060-8gb",
     "rtx 3060 (12gb)": "rtx-3060-12gb",
     "rtx 3050 (6 - 8gb)": "rtx-3050-6-8gb",
     "gtx 1650 (4gb)": "gtx-1650-4gb",
     "gt 710 / gt 1030 (2-4gb)": "gt-710-gt-1030-2-4gb",
-
+    //VGA card man hinh
     "nvidia quadro": "nvidia-quadro",
     "amd radeon": "amd-radeon",
   };
   const mainboardMap : Record<string,string> = {
+    // Intel
     "z890": "z890",
     "z790": "z790",
     "b760": "b760",
     "h610": "h610",
     "x299x": "x299x",
+    // AMD
     "amd x870": "amd-x870",
     "amd x670": "amd-x670",
     "amd x570": "amd-x570",
@@ -297,6 +302,54 @@ const resolveHref = (
     "van phong": "van-phong",
   };
 
+  const ramMap : Record<string,string> = {
+    // dung luong
+    "8 gb": "8GB",
+    "16 gb": "16GB",
+    "32 gb": "32GB",
+    "64 gb": "64GB",
+    // loai
+    "ddr4" : "DDR4",
+    "ddr5" : "DDR5",
+    // hang
+    "corsair" : "Corsair",
+    "kingston" : "Kingston",
+    "g.skill" : "G.Skill",
+    "pny" : "PNY",
+  };
+
+  const ssdMap : Record<string,{ min: number; max: number } | string> =  {
+    // dung luong 
+    "120gb - 128gb" : {min:120, max:128},
+    "250gb - 256gb" : {min:250, max:256},
+    "480gb - 512gb" : {min:480, max:512},
+    "960gb - 1tb" : {min:960, max:1000},
+    "2tb" : {min:2000, max:2000},
+    "tren 2tb" : {min:2000, max:9999999},
+    // hang
+    "samsung" : "samsung",
+    "wester digital" : "wester-digital",
+    "corsair" : "corsair",
+    "kingston" : "kingston",
+    "pny" : "pny",
+  }
+  const sdcardMap : Record<string,string> = {
+    "sandisk" : "sandisk",
+  }
+  //Loa
+  const speakerMap: Record<string, string> = {
+  // Thương hiệu
+  "edifier": "edifier",
+  "razer": "razer",
+  "logitech": "logitech",
+  "soundmax": "soundmax",
+  // Kiểu loa
+  "loa vi tinh": "loa-vi-tinh",
+  "loa bluetooth": "bluetooth",
+  "loa soundbar": "soundbar",
+  "loa mini": "mini",
+  "sub phu (loa tram)": "subwoofer"
+};
   if (title === "thuong hieu" && brandMap[value]) {
     return buildHref(PRODUCTS_PATH, {
       category: queryCategory,
@@ -453,21 +506,18 @@ const resolveHref = (
       price: resolvedPrice ?? slugify(label),
     });
   }
-
   if (title === "cpu intel-amd" && cpuMap[value]) {
     return buildHref(PRODUCTS_PATH, {
       category,
       cpu: cpuMap[value],
     });
   }
-
   if (title === "nhu cau su dung" && usageMap[value]) {
     return buildHref(PRODUCTS_PATH, {
       category,
       usage: usageMap[value],
     });
   }
-
   if (title.startsWith("laptop ")) {
     const brandFromTitle = title.replace("laptop ", "").trim();
     return buildHref(PRODUCTS_PATH, {
@@ -476,7 +526,6 @@ const resolveHref = (
       series: slugify(label),
     });
   }
-
   // Laptop gaming
   if (title === "thuong hieu") {
     // Tách lấy chữ đầu tiên (ví dụ "asus / rog" -> lấy "asus")
@@ -489,7 +538,6 @@ const resolveHref = (
       price: priceMap[value] || slugify(label) 
     });
   }
-
   if (title === "cau hinh") {
     return buildHref(PRODUCTS_PATH, { 
       category, 
@@ -498,7 +546,6 @@ const resolveHref = (
   }
   const brands = ["asus", "acer", "msi", "lenovo", "dell", "hp", "gigabyte"];
   const matchedBrand = brands.find(b => title.includes(b));
-
   if (matchedBrand) {
     return buildHref(PRODUCTS_PATH, {
       category,
@@ -506,7 +553,6 @@ const resolveHref = (
       series: slugify(label),
     });
   }
-
   // PC
   const series = ["pc rtx 50 series", "pc theo cau hinh vga"]
   const matchedSeri = series.find(b => title.includes(b));
@@ -531,27 +577,30 @@ const resolveHref = (
     })
   }
   // Mainboard, CPU
+  // Card man hinh
   const vgas = ["vga rtx 50 series", "vga (tren 12 gb vram)", "vga (duoi 12 gb vram)", "vga - card man hinh"];
   const matchedvgas = vgas.find(vga => title.includes(vga));
   if (matchedvgas){
     return buildHref(PRODUCTS_PATH, {
-      category,
+      category: "vga",
       vga: gpuMap[value]
     })
   }
+  // Bo mach chu 
   const mainboards = ["bo mach chu intel", "bo mach chu amd"];
   const matchedmainboard = mainboards.find(mainboard => title.includes(mainboard));
   if(matchedmainboard) {
     return buildHref(PRODUCTS_PATH, {
-      category,
-      mainboard: mainboardMap[value]
+      category: "mainboard",
+      chip: mainboardMap[value]
     })
   }
+  // CPU
   const cpusMainboard = ["cpu - bo vi xu ly intel", "cpu - bo vi xu ly amd"]
   const matchedCpusMainboard = cpusMainboard.find(cpu => title.includes(cpu))
   if (matchedCpusMainboard) {
     return buildHref(PRODUCTS_PATH,{
-      category,
+      category: "cpu",
       cpu: cpuMap[value],
     })
   }
@@ -582,6 +631,52 @@ const resolveHref = (
     });
   }
 
+  // Case
+  // RAM
+  const rams = ["dung luong ram", "loai ram", "hang ram"];
+  const matchedRam = rams.find( ram => title.includes(ram));
+  if (matchedRam){
+    return buildHref(PRODUCTS_PATH,{
+      category: "ram",
+      ram : ramMap[value],
+    })
+  }
+  // SSD
+  const ssds = ["dung luong ssd", "hang ssd"];
+  const matchedSsd = ssds.find(ssd => title.includes(ssd));
+  if (matchedSsd) {
+    const range = ssdMap[value];
+    if (range && typeof range === "object") {
+      return buildHref(PRODUCTS_PATH, {
+        category: "ssd",
+        minstorage: range?.min,
+        maxstorage: range?.max,
+      });
+    }
+    if (range && typeof range === "string"){
+      return buildHref(PRODUCTS_PATH, {
+        category: "ssd",
+        ssd: range,
+      })
+    }
+  }
+  // The nho, USB
+  if (title === "the nho / usb"){
+    return buildHref(PRODUCTS_PATH,{
+      category: "sdcard",
+      sdcard: sdcardMap[value],
+    })
+  }
+  // Loa
+  const speakerKeys = ["thuong hieu loa", "kieu loa"];
+  const matchedSpeaker = speakerKeys.find(key => title.toLowerCase().includes(key));
+  if (matchedSpeaker) {
+    return buildHref(PRODUCTS_PATH,{
+      category: "speaker",
+      speaker: speakerMap[value],
+    })
+    
+  }
   return buildHref(PRODUCTS_PATH, {
     category: queryCategory,
   });

@@ -375,7 +375,7 @@ export default function Header() {
               text="Giới thiệu"
             />
             <SubItem
-              href="/laptop-gaming-Hot-Deals"
+              href="/laptop-gaming-hot-deals"
               withDivider
               icon={<Flame className="h-[18px] w-[18px]" />}
               text="Hot Deal | Laptop"
