@@ -20,6 +20,9 @@ import { pcs } from "./pcs";
 import { headphones } from "./headphones";
 import { handheldConsoles } from "./handheld_consoles";
 import { accessories } from "./accessories";
+import { cases } from "./cases";
+import { psus } from "./psus";
+import { coolers } from "./coolers";
 
 // export const products = async (): Promise<Product[]> => {
 //   try {
@@ -78,6 +81,9 @@ export const products: Product[] = [
   ...headphones,
   ...handheldConsoles,
   ...accessories,
+  ...cases,
+  ...psus,
+  ...coolers,
 ];
 
 export default products;

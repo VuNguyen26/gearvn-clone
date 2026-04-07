@@ -218,21 +218,48 @@ function getProductCategoryValues(product: Product): string[] {
   ].filter(Boolean);
 }
 
+function isConcreteProductCategory(value: string) {
+  return products.some((p) => {
+    const values = getProductCategoryValues(p);
+    return values.includes(value);
+  });
+}
 function expandCategoryAliases(rawValue?: string) {
   const normalized = normalizeValue(rawValue);
   if (!normalized) return [];
 
-  const directAliases = menuCategoryMap[normalized] || [];
+  // 1) Nếu đây là category/subcategory thật đang tồn tại trong data sản phẩm
+  // thì chỉ match đúng category đó, không bung sang nhóm khác
+  // Ví dụ: case -> chỉ là case, không ra psu/cooler
+  if (isConcreteProductCategory(normalized)) {
+    return [normalized];
+  }
 
-  const reverseAliases = Object.entries(menuCategoryMap)
-    .filter(([, aliases]) =>
-      aliases.map((item) => normalizeValue(item)).includes(normalized)
-    )
-    .flatMap(([key, aliases]) => [key, ...aliases]);
+  // 2) Nếu đây là key nhóm menu
+  // Ví dụ: case-nguon-tan, o-cung-ram-the-nho, chuot-lot-chuot...
+  const directAliases = menuCategoryMap[normalized];
+  if (directAliases) {
+    return Array.from(
+      new Set([normalized, ...directAliases].map(normalizeValue))
+    ).filter(Boolean);
+  }
 
-  return Array.from(
-    new Set([normalized, ...directAliases, ...reverseAliases].map(normalizeValue))
-  ).filter(Boolean);
+  // 3) Nếu đây là alias của 1 nhóm menu
+  // Ví dụ: accessories -> phu-kien, speakers -> loa-micro-webcam
+  const matchedGroup = Object.entries(menuCategoryMap).find(([, aliases]) =>
+    aliases.some((item) => normalizeValue(item) === normalized)
+  );
+
+  if (matchedGroup) {
+    const [groupKey, aliases] = matchedGroup;
+
+    return Array.from(
+      new Set([groupKey, ...aliases].map(normalizeValue))
+    ).filter(Boolean);
+  }
+
+  // 4) Mặc định giữ nguyên
+  return [normalized];
 }
 
 function getAllSearchableValues(product: Product) {
@@ -649,6 +676,8 @@ export function filterProducts(items: Product[], query: ListQuery) {
   }
   
   if (normalizedBrand) {
+    console.log (arr);
+    console.log(normalizedCategory)
     arr = arr.filter((p) =>
       matchFromCandidates(
         [

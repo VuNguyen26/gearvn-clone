@@ -151,6 +151,13 @@ const resolveHref = (
     // Phụ kiện
     ugreen: "ugreen",
     belkin: "belkin",
+    //case
+    "case asus": "asus",
+    "case corsair": "corsair",
+    "case lianli": "lianli",
+    "case nzxt": "nzxt",
+    "case jonsbo": "jonsbo",
+
   };
 
   const priceMap: Record<string, string> = {
@@ -201,6 +208,7 @@ const resolveHref = (
     "phu kien tu 500 nghin den 1 trieu": "500k-1m",
     "phu kien tren 1 trieu": "over-1m",
     // Case
+
     
   };
   const cpuMap: Record<string, string> = {
@@ -630,6 +638,12 @@ const resolveHref = (
   }
 
   // Case
+  if (title === "case theo hang") {
+    return buildHref(PRODUCTS_PATH, {
+      category: "case",
+      brand: brandMap[value],
+    });
+  }
   // RAM
   const rams = ["dung luong ram", "loai ram", "hang ram"];
   const matchedRam = rams.find( ram => title.includes(ram));
