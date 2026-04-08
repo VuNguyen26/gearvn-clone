@@ -84,16 +84,16 @@ export default function RootLayout({
   return (
     <html lang="vi" className={cn("font-sans", inter.variable)}>
       <body className="min-h-screen bg-[#f2f2f2] text-gray-900">
-        <Suspense fallback={<HeaderFallback />}>
+        {/* <Suspense fallback={<HeaderFallback />}>
           <Header />
-        </Suspense>
+        </Suspense> */}
 
         <main className="relative w-full">
           {children}
           {/* <SideFloatBanners /> */}
         </main>
 
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

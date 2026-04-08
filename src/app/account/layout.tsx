@@ -53,22 +53,27 @@ export default function AccountLayout({
     {
       href: "/account/profile",
       label: "Thông tin tài khoản",
-      icon: <User className="h-[22px] w-[22px]" strokeWidth={2} />,
+      icon: <User className="h-[16px] w-[16px] sm:h-[18px] sm:w-[18px]" strokeWidth={2} />,
     },
     {
       href: "/account/addresses",
       label: "Sổ địa chỉ",
-      icon: <MapPin className="h-[22px] w-[22px]" strokeWidth={2} />,
+      icon: <MapPin className="h-[16px] w-[16px] sm:h-[18px] sm:w-[18px]" strokeWidth={2} />,
     },
     {
       href: "/account/orders",
       label: "Quản lý đơn hàng",
-      icon: <ClipboardList className="h-[22px] w-[22px]" strokeWidth={2} />,
+      icon: (
+        <ClipboardList
+          className="h-[16px] w-[16px] sm:h-[18px] sm:w-[18px]"
+          strokeWidth={2}
+        />
+      ),
     },
     {
       href: "/account/viewed",
       label: "Sản phẩm đã xem",
-      icon: <Eye className="h-[22px] w-[22px]" strokeWidth={2} />,
+      icon: <Eye className="h-[16px] w-[16px] sm:h-[18px] sm:w-[18px]" strokeWidth={2} />,
     },
   ];
 
@@ -79,17 +84,20 @@ export default function AccountLayout({
 
   if (!user) {
     return (
-      <main className="min-h-[calc(100vh-160px)] bg-[#f3f4f6] px-4 py-8">
-        <div className="mx-auto max-w-[1440px] rounded-sm bg-white p-8">
-          <h1 className="text-[30px] font-bold text-[#0f2b57]">Tài khoản</h1>
-          <p className="mt-3 text-[17px] text-slate-600">
+      <main className="min-h-[calc(100vh-120px)] bg-[#f3f4f6] px-2 py-3 sm:px-4 sm:py-6">
+        <div className="mx-auto max-w-[1200px] rounded-sm border border-[#e5e7eb] bg-white p-4 sm:p-6">
+          <h1 className="text-[20px] font-bold text-[#0f2b57] sm:text-[28px]">
+            Tài khoản
+          </h1>
+
+          <p className="mt-2 text-[14px] text-slate-600 sm:text-[16px]">
             Bạn chưa đăng nhập tài khoản.
           </p>
 
           <button
             type="button"
             onClick={() => router.push("/login")}
-            className="mt-6 rounded bg-red-600 px-5 py-3 text-[17px] font-semibold text-white hover:bg-red-700"
+            className="mt-4 rounded bg-red-600 px-4 py-2.5 text-[14px] font-semibold text-white hover:bg-red-700 sm:px-5 sm:text-[15px]"
           >
             Đi đến trang đăng nhập
           </button>
@@ -99,38 +107,44 @@ export default function AccountLayout({
   }
 
   return (
-    <main className="min-h-[calc(100vh-160px)] bg-[#f1f3f6] px-4 py-5">
+    <main className="min-h-[calc(100vh-120px)] bg-[#f1f3f6] px-2 py-3 sm:px-4 sm:py-5">
       <div className="mx-auto max-w-[1460px]">
-        <div className="grid gap-4 lg:grid-cols-[355px_1fr]">
-          {/* Sidebar */}
-          <aside className="overflow-hidden rounded-sm bg-white">
-            <div className="flex items-center gap-5 border-b border-[#d7dce3] px-6 py-6">
-              <div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full bg-[#d9dde4] text-[#4b5563]">
-                <User className="h-10 w-10" strokeWidth={2.2} />
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[320px_minmax(0,1fr)] lg:gap-4 xl:grid-cols-[355px_minmax(0,1fr)]">
+          {/* Content - mobile lên trước */}
+          <section className="order-1 min-w-0 overflow-hidden rounded-sm border border-[#e5e7eb] bg-white">
+            {children}
+          </section>
+
+          {/* Sidebar - mobile xuống dưới */}
+          <aside className="order-2 overflow-hidden rounded-sm border border-[#e5e7eb] bg-white lg:order-none">
+            <div className="flex items-center gap-3 border-b border-[#edf0f3] px-4 py-4 sm:px-5 sm:py-5">
+              <div className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-[#e5e7eb] text-[18px] font-bold text-[#0f2b57] sm:h-[56px] sm:w-[56px] sm:text-[22px]">
+                {avatarLetter}
               </div>
 
               <div className="min-w-0">
-                <div className="truncate text-[18px] font-semibold leading-8 text-[#061c3f]">
+                <div className="truncate text-[13px] font-semibold text-[#061c3f] sm:text-[16px]">
                   {user.fullName}
                 </div>
-                <div className="truncate text-[18px] font-semibold leading-8 text-[#061c3f]">
+                <div className="truncate text-[12px] text-[#061c3f] sm:text-[14px]">
                   {user.email}
                 </div>
               </div>
             </div>
 
-            <div className="px-4 py-4">
+            <div className="px-3 py-2 sm:px-4 sm:py-3">
               {menu.map((item) => {
-                const active = pathname === item.href;
+                const active =
+                  pathname === item.href || pathname.startsWith(`${item.href}/`);
 
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`mb-1 flex items-center gap-5 rounded-sm px-4 py-[18px] text-[18px] transition ${
+                    className={`flex items-center gap-3 rounded-sm px-3 py-3 text-[13px] transition sm:px-4 sm:text-[15px] ${
                       active
                         ? "font-semibold text-[#ff1f1f]"
-                        : "font-normal text-[#10284c] hover:bg-[#f8fafc]"
+                        : "text-[#10284c] hover:bg-[#f8fafc]"
                     }`}
                   >
                     <span className={active ? "text-[#ff1f1f]" : "text-[#5b6472]"}>
@@ -143,16 +157,16 @@ export default function AccountLayout({
 
               <button
                 onClick={handleLogout}
-                className="mt-1 flex w-full items-center gap-5 rounded-sm px-4 py-[18px] text-left text-[18px] text-[#10284c] transition hover:bg-[#f8fafc]"
+                className="flex w-full items-center gap-3 rounded-sm px-3 py-3 text-left text-[13px] text-[#10284c] transition hover:bg-[#f8fafc] sm:px-4 sm:text-[15px]"
               >
-                <LogOut className="h-[22px] w-[22px] text-[#5b6472]" strokeWidth={2} />
+                <LogOut
+                  className="h-[16px] w-[16px] text-[#5b6472] sm:h-[18px] sm:w-[18px]"
+                  strokeWidth={2}
+                />
                 <span>Đăng xuất</span>
               </button>
             </div>
           </aside>
-
-          {/* Content */}
-          <section className="rounded-sm bg-white">{children}</section>
         </div>
       </div>
     </main>
