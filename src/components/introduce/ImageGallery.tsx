@@ -27,8 +27,8 @@ export default function ImageGallery() {
 
   return (
     <div className="flex h-full w-full items-center justify-center bg-gray-100 p-4">
-      <div className="flex h-auto w-auto gap-x-2.5">
-        <div className="relative h-100 w-[600px] overflow-hidden rounded-2xl">
+      <div className="flex flex-col lg:flex-row lg:justify-center h-auto w-auto gap-x-2.5">
+        <div className="relative h-69 w-103 lg:h-103 lg:w-150 overflow-hidden rounded-2xl mb-3 lg:mb-0">
           <Image
             src={images[0]}
             alt="Main display"
@@ -37,7 +37,6 @@ export default function ImageGallery() {
             priority
           />
         </div>
-
         <div className="grid grid-cols-2 grid-rows-2 gap-2">
           {images.slice(1).map((src, index) => (
             <div

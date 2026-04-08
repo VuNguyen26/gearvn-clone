@@ -4,7 +4,7 @@ import ImageGallery from "@/components/introduce/ImageGallery";
 import Robot3D from "@/components/introduce/Robot3D";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 
-const MAX_W = "w-300";
+const MAX_W = "max-w-[1200px] w-full ";
 
 export default function IntroducePage() {
   return (
@@ -17,7 +17,7 @@ export default function IntroducePage() {
 
           <div className="grid flex-1 grid-cols-1 items-center gap-6 xl:grid-cols-[1.15fr_0.85fr]">
             <div>
-              <h1 className="ml-4 text-4xl font-bold text-black">
+              <h1 className="ml-4 text-2xl lg:text-4xl font-bold text-black">
                 Giới thiệu về chúng tôi
               </h1>
 
@@ -57,23 +57,23 @@ export default function IntroducePage() {
       <ImageGallery />
 
       <div className="w-full rounded-b-2xl p-4">
-        <h1 className="my-4 text-center text-2xl font-bold text-black">
+        <h1 className="my-4 text-center text-xl lg:text-2xl font-bold text-black">
           Trải nghiệm mua sắm toàn diện
         </h1>
 
         <div className="flex flex-col justify-center gap-5 xl:flex-row">
           <div className="w-full xl:w-120">
             <div className="my-4 flex w-full justify-center">
-              <MapPin className="inline-block h-40 w-40 text-red-500" />
+              <MapPin className="inline-block h-20 w-20 lg:h-40 text-red-500" />
             </div>
 
             <div>
-              <h2 className="my-4 text-center text-2xl font-bold text-gray-500">
+              <h2 className="my-4 text-center text-xl lg:text-2xl font-bold text-gray-500">
                 Hệ thống Showroom
               </h2>
 
               <div className="rounded-2xl bg-gray-100 p-4">
-                <h2 className="my-4 text-2xl font-bold text-red-500">
+                <h2 className="my-4 text-xl lg:text-2xl font-bold text-red-500">
                   Khu vực miền Bắc
                 </h2>
 
@@ -83,7 +83,7 @@ export default function IntroducePage() {
 
                 <span className="my-4 block w-full border"></span>
 
-                <h2 className="my-4 text-2xl font-bold text-red-500">
+                <h2 className="my-4 text-xl lg:text-2xl font-bold text-red-500">
                   Khu vực miền Nam
                 </h2>
 
@@ -95,7 +95,7 @@ export default function IntroducePage() {
 
                 <div className="flex w-full justify-center">
                   <Link href="/showroom" className="flex w-full justify-center">
-                    <button className="btn-heartbeat mt-4 rounded-2xl px-4 py-2 text-2xl font-bold text-red-500">
+                    <button className="btn-heartbeat mt-4 rounded-2xl px-4 py-2 text-xl lg:text-2xl font-bold text-red-500">
                       SHOWROOM
                     </button>
                   </Link>
@@ -106,16 +106,16 @@ export default function IntroducePage() {
 
           <div className="w-full xl:w-120">
             <div className="my-4 flex w-full justify-center">
-              <ShoppingCart className="inline-block h-40 w-40 text-red-500" />
+              <ShoppingCart className="inline-block h-20 w-20 lg:h-40 lg:w-40 text-red-500" />
             </div>
 
             <div>
-              <h2 className="my-4 text-center text-2xl font-bold text-gray-500">
+              <h2 className="my-4 text-center text-xl lg:text-2xl font-bold text-gray-500">
                 Mua sắm trực tuyến
               </h2>
 
               <div className="rounded-2xl bg-gray-100 p-4">
-                <h2 className="my-4 text-2xl font-bold text-red-500">Website</h2>
+                <h2 className="my-4 text-xl lg:text-2xl font-bold text-red-500">Website</h2>
 
                 <ul className="my-4 list-inside list-disc">
                   <li className="my-2">www.....</li>
@@ -124,7 +124,7 @@ export default function IntroducePage() {
 
                 <div className="flex w-full justify-center">
                   <Link href="/" className="flex w-full justify-center">
-                    <button className="btn-heartbeat mt-4 rounded-2xl px-4 py-2 text-2xl font-bold text-red-500">
+                    <button className="btn-heartbeat mt-4 rounded-2xl px-4 py-2 text-xl lg:text-2xl font-bold text-red-500">
                       MUA NGAY
                     </button>
                   </Link>

@@ -6,6 +6,7 @@ import { TopPromoRow, BottomWideRow } from "@/components/home/BottomBanners";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getPaginatedProducts } from "@/lib/products";
+import CategorySidebarMobile from "@/components/home/CategorySidebarMobile";
 
 export const metadata: Metadata = {
   title: "Trang chủ",
@@ -29,15 +30,35 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     safePage,
     20
   );
+  // Tính toán các trang cần hiển thị (Ví dụ: [1, 2, 3, 4])
+  const getVisiblePages = () => {
+    const delta = 1; // Số trang hiển thị xung quanh trang hiện tại
+    const range = [];
+    
+    // Trên mobile (giả sử < 768px), ta giới hạn chặt chẽ hơn
+    // Ở đây mình lấy thuật toán đơn giản để hiện khoảng 4 số
+    let start = Math.max(1, currentPage - 1);
+    let end = Math.min(totalPages, start + 3); // Hiện tối đa 4 số
+
+    // Điều chỉnh lại nếu ở những trang cuối
+    if (end - start < 3) {
+      start = Math.max(1, end - 3);
+    }
+
+    for (let i = start; i <= end; i++) {
+      range.push(i);
+    }
+    return range;
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#f2f2f2]">
-      <div className="hidden xl:block">
+      <div className="hidden lg:block">
         <SideFloatBanners />
       </div>
 
       <div className="mx-auto w-full max-w-[1200px] px-3">
-        <section className="mt-4 rounded-2xl bg-white p-4 shadow-sm">
+        <section className="mt-4 rounded-2xl bg-white p-4 shadow-sm hidden lg:block">
           <h1 className="text-2xl font-bold text-black md:text-3xl">
             Thiết bị công nghệ chính hãng, giá tốt
           </h1>
@@ -51,18 +72,19 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
         <div className="mt-3 flex">
           <CategorySidebar />
-
-          <div className="w-[1030px] h-[575px]">
+          <div className="max-w-[1030px] h-auto w-full">
             <HeroCarousel />
-            <TopPromoRow />
+            <div className="hidden lg:block">
+              <TopPromoRow />
+            </div>
           </div>
         </div>
 
-        <div className="">
+        <div className="mt-3">
           <BottomWideRow />
         </div>
 
-        <section className="mt-6 rounded-2xl bg-white p-4 shadow-sm ">
+        <section className="mt-3 rounded-2xl bg-white p-4 shadow-sm ">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <div>
               <h2 className="text-[22px] font-bold text-black">
@@ -92,8 +114,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               Trang trước
             </Link>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-              (pageNum) => (
+            {getVisiblePages().map((pageNum) => (
                 <Link
                   key={pageNum}
                   href={`/?page=${pageNum}`}

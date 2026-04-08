@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import type { MegaMenuChildItem, MenuItem } from "@/types/megamenu";
-import { constant } from "firebase/firestore/pipelines";
 
 type MegaMenuProps = {
   activeSidebarItem: MenuItem;
@@ -23,10 +22,7 @@ const normalize = (value: string) =>
 const slugify = (value: string) =>
   normalize(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
-const buildHref = (
-  pathname: string,
-  query: Record<string, any>
-) => {
+const buildHref = (pathname: string,query: Record<string, any>) => {
   const params = new URLSearchParams();
 
   Object.entries(query).forEach(([key, value]) => {
@@ -40,7 +36,7 @@ const buildHref = (
   return queryString ? `${pathname}?${queryString}` : pathname;
 };
 
-const getItemLabel = (item: MegaMenuChildItem) =>
+export const getItemLabel = (item: MegaMenuChildItem) =>
   typeof item === "string" ? item : item.label;
 
 const getDirectHref = (item: MegaMenuChildItem) => {
@@ -92,7 +88,7 @@ const categoryPricePrefixMap: Record<string, string> = {
   "handheld-console": "handheld",
 };
 
-const resolveHref = (
+export const resolveHref = (
   category: string | undefined,
   columnTitle: string,
   item: MegaMenuChildItem
@@ -845,7 +841,6 @@ const resolveHref = (
       brand: brandMap[value]
     })
   }
-  console.log(value);
   if (title === "gia tien") {
     return buildHref(PRODUCTS_PATH,{
       category,
@@ -903,19 +898,16 @@ export default function MegaMenu({ activeSidebarItem }: MegaMenuProps) {
             <h4 className="text-[14px] font-bold uppercase tracking-tight text-[#E30019]">
               {col.title}
             </h4>
-
             {col.items?.length > 0 && (
               <ul className="flex flex-col gap-1">
                 {col.items.map((item, itemIndex) => {
                   const label = getItemLabel(item);
                   const href = resolveHref(category, col.title, item);
-
                   return (
                     <li key={`${label}-${itemIndex}`}>
                       {href ? (
                         <Link
                           href={href}
-                          onClick={() => console.log("CLICK:", label, href)}
                           className="text-[13px] text-gray-700 transition-colors duration-150 hover:text-[#E30019]"
                         >
                           {label}

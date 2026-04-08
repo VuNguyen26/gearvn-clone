@@ -71,13 +71,13 @@ export default function SearchBar() {
             if (keyword.trim()) setOpen(true);
           }}
           placeholder="Bạn cần tìm gì?"
-          className="h-[44px] w-full rounded-[6px] bg-white px-4 pr-12 text-[14px] text-black outline-none placeholder:text-gray-500"
+          className="h-10 lg:h-11 w-full rounded-[6px] bg-white px-4 pr-12 text-[14px] text-black outline-none placeholder:text-gray-500"
         />
 
         <button
           type="submit"
           aria-label="Tìm kiếm"
-          className="absolute right-0 top-0 flex h-[44px] w-[52px] items-center justify-center rounded-r-[6px] bg-white text-black hover:bg-gray-50"
+          className="absolute right-0 top-0 flex h-10 w-10 lg:h-11 lg:w-13 items-center justify-center rounded-r-[6px] bg-white text-black hover:bg-gray-50"
         >
           <Search className="h-5 w-5" />
         </button>

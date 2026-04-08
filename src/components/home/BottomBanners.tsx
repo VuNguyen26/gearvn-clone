@@ -8,21 +8,21 @@ type Banner = {
 };
 
 const topRow: Banner[] = [
-  { src: "/home/banner-laptop-gaming.png", alt: "Laptop Gaming", href: "#" },
-  { src: "/home/banner-laptop-office.png", alt: "Laptop Office", href: "#" },
-  { src: "/home/banner-pc-i5-5060.png", alt: "PC i5 5060", href: "#" },
+  { src: "/home/banner-laptop-gaming.png", alt: "Laptop Gaming", href: "/category/laptop-gaming" },
+  { src: "/home/banner-laptop-office.png", alt: "Laptop Office", href: "/category/laptop" },
+  { src: "/home/banner-pc-i5-5060.png", alt: "PC i5 5060", href: "/products?category=pc-gvn&series=pc-core-i5" },
 ];
 
 const bottomRow: Banner[] = [
   { src: "/home/banner-deal-hong-dieu.png", alt: "Deal hồng điều", href: "#" },
-  { src: "/home/banner-monitor.png", alt: "Monitor", href: "#" },
-  { src: "/home/banner-gaming-mouse.png", alt: "Gaming Mouse", href: "#" },
+  { src: "/home/banner-monitor.png", alt: "Monitor", href: "/category/man-hinh" },
+  { src: "/home/banner-gaming-mouse.png", alt: "Gaming Mouse", href: "/products?category=mouse&q=chuot+gaming" },
   { src: "/home/banner-pc-rx6500xt.png", alt: "PC RX 6500XT", href: "#" },
 ];
 
 function BannerCard({
   item,
-  heightClass = "h-[175px]",
+  heightClass = "h-[165px]",
 }: {
   item: Banner;
   heightClass?: string;
@@ -31,7 +31,7 @@ function BannerCard({
     <Link
       href={item.href || "#"}
       aria-label={item.alt}
-      className="block overflow-hidden rounded-lg bg-white"
+      className="block overflow-hidden rounded-lg bg-white min-w-[200px] w-full"
     >
       <div className={`relative w-full overflow-hidden rounded-lg ${heightClass}`}>
         <Image
@@ -47,7 +47,7 @@ function BannerCard({
 
 export function TopPromoRow() {
   return (
-    <div className="grid grid-cols-1 gap-3 xl:grid-cols-3 mt-3">
+    <div className="lg:grid gap-3 lg:grid-cols-3 mt-3">
       {topRow.map((item) => (
         <BannerCard
           key={item.src}
@@ -60,12 +60,12 @@ export function TopPromoRow() {
 
 export function BottomWideRow() {
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="flex overflow-x-auto scrollbar-hide gap-3">
       {bottomRow.map((item) => (
         <BannerCard
           key={item.src}
           item={item}
-          heightClass="h-[150px] xl:h-[150px]"
+          heightClass="lg:h-[150px] h-25"
         />
       ))}
     </div>

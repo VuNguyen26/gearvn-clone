@@ -3,7 +3,6 @@ import "./globals.css";
 import { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import SideFloatBanners from "@/components/home/SideFloatBanners";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 

@@ -19,14 +19,14 @@ import {
   Newspaper,
   Wrench,
   RefreshCw,
-  ShieldCheck,
 } from "lucide-react";
 
 import { useCart } from "@/store/cart";
 import CategorySidebar from "@/components/home/CategorySidebar";
 import SearchBar from "@/components/SearchBar";
+import CategorySidebarMobile from "./home/CategorySidebarMobile";
 
-const MAX_W = "w-full max-w-[1200px]";
+const MAX_W = "max-w-[1200px]";
 
 type HeaderUser = {
   fullName?: string;
@@ -105,10 +105,11 @@ export default function Header() {
   const displayEmail = user?.email || "Chưa có email";
 
   return (
-    <header className="contents w-full">
-      <div className="bg-[#0A86FF]">
+    <header className="contents w-auto">
+      {/*======== Top Header ============ */}
+      <div className="bg-[#0A86FF] hidden lg:block">
         <div className={`mx-auto ${MAX_W} px-3`}>
-          <div className="relative h-[44px] w-full">
+          <div className="relative h-11 w-full">
             <Image
               src="/gearvn-pc-gvn-t11-topbar.png"
               alt="GEARVN Promo"
@@ -118,15 +119,26 @@ export default function Header() {
           </div>
         </div>
       </div>
-
-      <div className="sticky top-0 z-150 bg-[#E30019]">
+      {/*============= Red Header ========= */}
+      <div className="lg:sticky lg:top-0 z-10 lg:z-150 bg-[#E30019]">
         <div
-          className={`mx-auto ${MAX_W} flex h-[74px] items-center gap-3 px-3`}
+          className={`mx-auto ${MAX_W} h-16 flex md:h-18.5 items-center gap-1 sm:gap-3 px-3`}
         >
           <Link href="/" className="flex shrink-0 items-center pr-1">
-            <div className="relative h-[42px] w-[150px]">
+          {/*========== Logo desktop ========= */}
+            <div className="relative h-10.5 w-37.5 hidden md:block">
               <Image
-                src="/logo_fd11946b31524fbe98765f34f3de0628.svg"
+                src="/logo_homepage_desktop.svg"
+                alt="GEARVN"
+                fill
+                priority
+                className="object-contain"
+              />
+            </div>
+            {/*============= Logo mobile =============*/}
+            <div className="relative h-11.5 w-11.5 block md:hidden">
+              <Image
+                src="/logo_homepage_mobile.jpg"
                 alt="GEARVN"
                 fill
                 priority
@@ -134,45 +146,46 @@ export default function Header() {
               />
             </div>
           </Link>
-
-          <div className="relative z-[61] shrink-0">
+          {/*================== Button list =================*/}
+          <div className="relative z-61 shrink-0">
             <button
               type="button"
               onClick={() => setOpenCategory((prev) => !prev)}
-              className="flex h-[44px] w-[115px] shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white transition-colors hover:bg-[#A60012]"
+              className="flex h-10 lg:h-11 lg:w-28.75 shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white transition-colors hover:bg-[#A60012]"
             >
               <Menu className="h-6 w-6" />
-              <span className="text-[13px] leading-none">Danh mục</span>
+              <span className="text-[13px] leading-none hidden lg:block">Danh mục</span>
             </button>
-
+            {/*================= CategorySidebar background ==================*/}
             <div
               className={[
-                "fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-150",
+                "fixed inset-0 bg-black/40 top-0 backdrop-blur-sm transition-opacity duration-150",
                 openCategory
                   ? "pointer-events-auto z-40 opacity-100"
                   : "pointer-events-none opacity-0",
               ].join(" ")}
               onClick={() => setOpenCategory(false)}
             />
-
+            {/*=============== CategorySidebar ============*/}
             <div
               className={[
-                "absolute left-0 top-full mt-2 z-[60] transition-all duration-150 ease-out",
+                "absolute left-0 top-full mt-2 z-60 transition-all duration-150 ease-out",
                 openCategory
                   ? "visible translate-y-0 opacity-100"
                   : "invisible pointer-events-none -translate-y-1 opacity-0",
               ].join(" ")}
             >
-              <div className="shadow-2xl">
+              <div className="shadow-2xl relative">
                 <CategorySidebar onNavigate={() => setOpenCategory(false)} />
               </div>
             </div>
+            <CategorySidebarMobile open={openCategory} onClose={() => setOpenCategory(false)} />
           </div>
-
+          {/*================ Tim kiem ================*/}
           <div className="relative z-10 min-w-0 flex-1">
             <SearchBar />
           </div>
-
+          {/*==================== Showroom ==================*/}
           <div className="relative z-10 hidden shrink-0 items-center gap-2 text-white lg:flex">
             <HeaderAction
               href="/showroom"
@@ -180,7 +193,7 @@ export default function Header() {
               line1="Hệ thống"
               line2="Showroom"
             />
-
+          {/*========== Cart ==================*/}
             <HeaderAction
               href="/cart"
               icon={
@@ -194,7 +207,7 @@ export default function Header() {
               line1="Giỏ"
               line2="hàng"
             />
-
+          {/* Login */}
             <div ref={userRef} className="relative">
               {!user ? (
                 <>
@@ -262,11 +275,11 @@ export default function Header() {
               ) : (
                 <>
                   <button
-  type="button"
-  onClick={() => setOpenUser((v) => !v)}
-  aria-label="Mở menu tài khoản"
-  title="Mở menu tài khoản"
->
+                    type="button"
+                    onClick={() => setOpenUser((v) => !v)}
+                    aria-label="Mở menu tài khoản"
+                    title="Mở menu tài khoản"
+                  >
                     <HeaderAction
                       href="#"
                       icon={<User className="h-6 w-6" />}
@@ -365,13 +378,13 @@ export default function Header() {
           </div>
         </div>
       </div>
-
-      <div className="relative z-0 border-b border-gray-200 bg-white">
-        <div className={`mx-auto ${MAX_W} h-[46px] px-3`}>
-          <div className="grid h-[46px] grid-cols-5">
+      {/*========== Bottom Header menu ===========*/}
+      <div className="relative z-0 border-b border-gray-200 bg-white hidden lg:block">
+        <div className={`mx-auto ${MAX_W} h-11.5 px-3`}>
+          <div className="grid h-11.5 grid-cols-5">
             <SubItem
               href="/introduce"
-              icon={<Tag className="h-[18px] w-[18px]" />}
+              icon={<Tag className="h-4.5 w-4.5" />}
               text="Giới thiệu"
             />
             <SubItem
@@ -401,6 +414,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+      
     </header>
   );
 }
@@ -448,7 +462,7 @@ function HeaderAction({
   );
 }
 
-function SubItem({
+export function SubItem({
   href,
   icon,
   text,
@@ -463,16 +477,16 @@ function SubItem({
     <Link
       href={href}
       className={[
-        "group relative flex h-[46px] items-center justify-center gap-2 px-3",
-        "text-[13px] font-semibold text-black hover:text-[#D70018]",
-        withDivider ? "pl-5" : "",
+        "group relative flex h-8 lg:h-[46px] lg:items-center lg:justify-center lg:gap-2 px-3",
+        " lg:text-[13px] lg:font-semibold text-black hover:text-[#D70018]",
+       
       ].join(" ")}
     >
       {withDivider && (
         <span className="absolute left-0 top-1/2 h-[24px] w-px -translate-y-1/2 bg-gray-300" />
       )}
 
-      <span className="text-black/80 group-hover:text-[#D70018]">{icon}</span>
+      <span className="text-black/80 group-hover:text-[#D70018] mr-3 lg:mr-0">{icon}</span>
       <span className="whitespace-nowrap">{text}</span>
     </Link>
   );

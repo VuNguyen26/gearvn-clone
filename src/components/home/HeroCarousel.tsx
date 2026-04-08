@@ -26,7 +26,7 @@ export default function HeroCarousel() {
     {
       src: "/home/gearvn-ban-phim-sub-banner-t1-26.png",
       alt: "Bàn phím",
-      href: "#",
+      href: "/category/ban-phim",
     },
   ];
 
@@ -35,17 +35,17 @@ export default function HeroCarousel() {
       {
         src: "/home/gearvn-thu-cu-doi-moi-t10-slider.jpeg",
         alt: "Hero 1",
-        href: "#",
+        href: "/trade-in",
       },
       {
         src: "/home/gearvn-pc-gvn-t11-slider.jpg",
         alt: "Hero 2",
-        href: "#",
+        href: "",
       },
       {
         src: "/home/gearvn-man-hinh-t10-slider.jpg",
         alt: "Hero 3",
-        href: "#",
+        href: "/category/man-hinh",
       },
       {
         src: "/home/gearvn-laptop-acer-predator-triton-14a-slider-t12.jpg",
@@ -65,7 +65,7 @@ export default function HeroCarousel() {
       {
         src: "/home/gearvn-pc-gvn-nvidia-sliders.jpg",
         alt: "Hero 7",
-        href: "#",
+        href: "http://localhost:3000/category/pc-gvn",
       },
     ],
     []
@@ -88,7 +88,7 @@ export default function HeroCarousel() {
   return (
     <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
       <div className="lg:col-span-2">
-        <div className="relative h-[367px] overflow-hidden rounded-lg border border-gray-200 bg-white">
+        <div className="relative h-50 sm:h-[345px] sm:w-[650px] overflow-hidden rounded-lg border border-gray-200 bg-white">
           <Link
             href={current.href || "#"}
             aria-label={current.alt}
@@ -119,11 +119,11 @@ export default function HeroCarousel() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-3">
+      <div className="lg:grid lg:grid-cols-1 lg:gap-3 hidden">
         {rightBanners.map((banner) => (
           <div 
             key={banner.src}
-            className="relative h-[175px] w-full rounded-lg overflow-hidden">
+            className="relative h-[165px] w-full rounded-lg overflow-hidden">
           <Link
             href={banner.href || "#"}
             aria-label={banner.alt}

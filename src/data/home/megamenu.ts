@@ -554,43 +554,6 @@ export const MENU_DATA: MenuItem[] = [
             ],
         },
     },
-    { 
-        label: "Phần mềm, mạng", 
-        icon: Network, 
-        href: "/category/phan-mem-mang",
-        id: "phan-mem-mang",
-        content: {
-            columns: [
-            {
-                title: "Hãng sản xuất",
-                items: ["Asus", "LinkSys", "TP-LINK", "Mercusys"],
-            },
-            {
-                title: "Router Wi-Fi",
-                items: [
-                "Gaming",
-                "Phổ thông",
-                "Xuyên tường",
-                "Router Mesh Pack",
-                "Router WiFi 5",
-                "Router WiFi 6"
-                ],
-            },
-            {
-                title: "USB Thu sóng - Card mạng",
-                items: ["Usb WiFi", "Card WiFi", "Dây cáp mạng"],
-            },
-            {
-                title: "Microsoft Office",
-                items: ["Microsoft Office 365", "Office Home 2024"],
-            },
-            {
-                title: "Microsoft Windows",
-                items: ["Windows 11 Home", "Windows 11 Pro"],
-            },
-            ],
-        },
-    },
     {
         label: "Handheld, Console", 
         icon: Gamepad2, 
@@ -640,7 +603,7 @@ export const MENU_DATA: MenuItem[] = [
             },
             
             {
-                title: "GIÁ BÁN",
+                title: "Gía bán",
                 items: [
                     "Dưới 200 nghìn",
                     "Từ 200 đến 500 nghìn",
@@ -670,10 +633,6 @@ export const MENU_DATA: MenuItem[] = [
                 "Chính sách giao hàng",
                 "Chính sách đổi trả"
                 ],
-            },
-            {
-                title: "Build PC",
-                items: [], 
             },
             ],
         },

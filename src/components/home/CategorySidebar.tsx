@@ -31,7 +31,7 @@ import MegaMenuContent from "@/components/menu/MegaMenuContent";
 import { MENU_DATA } from "@/data/home/megamenu";
 import { CATEGORY_MENU, type MenuCategory } from "@/data/category-menu";
 
-type CategorySidebarProps = {
+export type CategorySidebarProps = {
   className?: string;
   onNavigate?: () => void;
 };
@@ -42,22 +42,22 @@ type SidebarItem = {
   icon: ComponentType<{ className?: string }>;
 };
 
-const sidebarItems: SidebarItem[] = [
+export const sidebarItems: SidebarItem[] = [
   { id: "laptop", label: "Laptop", icon: Laptop },
   { id: "laptop-gaming", label: "Laptop Gaming", icon: Laptop },
   { id: "pc-gvn", label: "PC GVN", icon: PcCase },
   { id: "main-cpu-vga", label: "Main, CPU, VGA", icon: Cpu },
   { id: "case-nguon-tan", label: "Case, Nguồn, Tản", icon: PcCase },
-  { id: "o-cung-ram-the-nho", label: "Ổ cứng, RAM, Thẻ nhớ", icon: HardDrive },
-  { id: "loa-micro-webcam", label: "Loa, Micro, Webcam", icon: Mic },
-  { id: "man-hinh", label: "Màn hình", icon: Monitor },
-  { id: "ban-phim", label: "Bàn phím", icon: Keyboard },
-  { id: "chuot-lot-chuot", label: "Chuột + Lót chuột", icon: Mouse },
-  { id: "tai-nghe", label: "Tai nghe", icon: Headphones },
+  { id: "storage-ram", label: "Ổ cứng, RAM, Thẻ nhớ", icon: HardDrive },
+  { id: "audio-webcam", label: "Loa, Micro, Webcam", icon: Mic },
+  { id: "monitor", label: "Màn hình", icon: Monitor },
+  { id: "keyboard", label: "Bàn phím", icon: Keyboard },
+  { id: "mouse-mousepad", label: "Chuột + Lót chuột", icon: Mouse },
+  { id: "headphones", label: "Tai nghe", icon: Headphones },
   { id: "ghe-ban", label: "Ghế - Bàn", icon: Armchair },
   { id: "handheld-console", label: "Handheld Console", icon: Gamepad2 },
-  { id: "phu-kien", label: "Phụ kiện", icon: Usb },
-  { id: "dich-vu-thong-tin-khac", label: "Dịch vụ và thông tin khác", icon: Wrench },
+  { id: "accessories", label: "Phụ kiện", icon: Usb },
+  { id: "dich-vu-thong-tin", label: "Dịch vụ và thông tin", icon: Wrench },
 ];
 
 const slugAliasMap: Record<string, string> = {
@@ -75,6 +75,7 @@ const slugAliasMap: Record<string, string> = {
   mouses: "chuot-lot-chuot",
   mousepad: "chuot-lot-chuot",
   mousepads: "chuot-lot-chuot",
+  "mouse-mousepad" : "chuot-lot-chuot",
 
   keyboard: "ban-phim",
   keyboards: "ban-phim",
@@ -88,6 +89,10 @@ const slugAliasMap: Record<string, string> = {
   handheld: "handheld-console",
   handheldconsole: "handheld-console",
   "handheld-consoles": "handheld-console",
+
+  "storage-ram" : "o-cung-ram-the-nho",
+
+  "audio-webcam" : "loa-micro-webcam",
 };
 
 const fallbackCategory = (id: string, label: string): MenuCategory => ({
@@ -214,11 +219,11 @@ export default function CategorySidebar({
 
   return (
     <div
-      className={`relative w-[180px] h-auto shrink-0 ${className} mr-4`}
+      className={`relative w-[180px] h-auto shrink-0 ${className} mr-4 hidden lg:block`}
       onMouseEnter={handleWrapperEnter}
       onMouseLeave={handleWrapperLeave}
     >
-      <aside className="overflow-visible h-[555px] rounded-md border border-gray-200 bg-white shadow-sm">
+      <aside className="overflow-visible h-[520px] rounded-md border border-gray-200 bg-white shadow-sm">
         <ul className="divide-y divide-gray-200 flex flex-col">
           {mergedItems.map((item) => {
             const Icon = item.icon;
@@ -234,7 +239,7 @@ export default function CategorySidebar({
                   href={item.href}
                   onClick={closeAll}
                   className={[
-                    "group relative h-9 flex w-full items-center gap-2 px-3",
+                    "group relative h-[33.5px] flex w-full items-center gap-2 px-3",
                     "text-left text-[15px] font-medium leading-none",
                     isActive
                       ? "bg-[#E30019] text-white"
