@@ -45,26 +45,28 @@ const receivingNotes = [
 
 export default function ShippingPolicyPage() {
   return (
-    <main className="min-h-screen bg-gray-100 py-6">
-      <div className="mx-auto max-w-[1280px] px-4">
-        <div className="mb-4 flex items-center gap-2 text-[13px] text-gray-500">
+    <main className="min-h-screen bg-gray-100 py-3 sm:py-6">
+      <div className="mx-auto w-full max-w-[1280px] px-3 sm:px-4">
+        <div className="mb-3 flex flex-wrap items-center gap-1.5 text-xs leading-5 text-gray-500 sm:mb-4 sm:gap-2 sm:text-[13px]">
           <Link href="/" className="text-blue-600 hover:underline">
             Trang chủ
           </Link>
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
           <span>Chính sách vận chuyển</span>
         </div>
 
-        <div className="rounded-lg bg-white p-4 md:p-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
-            <ServiceSidebar activeHref="/shipping-policy" />
+        <div className="rounded-lg bg-white p-3 sm:p-4 md:p-6">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+            <div className="min-w-0">
+              <ServiceSidebar activeHref="/shipping-policy" />
+            </div>
 
-            <section>
-              <h1 className="text-[28px] font-bold text-gray-800 md:text-[42px]">
+            <section className="min-w-0">
+              <h1 className="text-xl font-bold leading-tight text-gray-800 sm:text-[28px] md:text-[42px]">
                 Chính sách vận chuyển
               </h1>
 
-              <div className="mt-8 space-y-6 text-[18px] leading-9 text-gray-800">
+              <div className="mt-6 space-y-5 text-sm leading-7 text-gray-800 sm:mt-8 sm:space-y-6 sm:text-[18px] sm:leading-9">
                 <p className="italic">
                   <span className="font-bold">
                     Gearvn cung cấp dịch vụ giao hàng toàn quốc, gửi hàng tận nơi
@@ -80,21 +82,21 @@ export default function ShippingPolicyPage() {
                 </p>
 
                 <div>
-                  <h2 className="text-[22px] font-bold text-black">
+                  <h2 className="text-lg font-bold text-black sm:text-[22px]">
                     Phí dịch vụ giao hàng
                   </h2>
 
-                  <div className="mt-4 overflow-hidden rounded border border-gray-300">
-                    <table className="w-full border-collapse text-left text-[16px]">
+                  <div className="mt-3 overflow-x-auto rounded border border-gray-300 sm:mt-4">
+                    <table className="min-w-[640px] w-full border-collapse text-left text-sm sm:text-[16px]">
                       <thead>
                         <tr className="bg-white">
-                          <th className="border border-gray-300 px-4 py-3 font-semibold">
+                          <th className="border border-gray-300 px-3 py-3 font-semibold sm:px-4">
                             Giá trị đơn hàng
                           </th>
-                          <th className="border border-gray-300 px-4 py-3 font-semibold">
+                          <th className="border border-gray-300 px-3 py-3 font-semibold sm:px-4">
                             Khu vực HCM/HN
                           </th>
-                          <th className="border border-gray-300 px-4 py-3 font-semibold">
+                          <th className="border border-gray-300 px-3 py-3 font-semibold sm:px-4">
                             Khu vực Ngoại thành/ Tỉnh
                           </th>
                         </tr>
@@ -103,7 +105,7 @@ export default function ShippingPolicyPage() {
                         <tr>
                           <td
                             colSpan={3}
-                            className="border border-gray-300 px-4 py-3 text-center font-medium"
+                            className="border border-gray-300 px-3 py-3 text-center font-medium sm:px-4"
                           >
                             GIAO HÀNG NHANH 2H ĐẾN 4H
                           </td>
@@ -111,13 +113,13 @@ export default function ShippingPolicyPage() {
 
                         {deliveryFeeRows.map((row) => (
                           <tr key={row.orderValue}>
-                            <td className="border border-gray-300 px-4 py-4">
+                            <td className="border border-gray-300 px-3 py-4 sm:px-4">
                               • {row.orderValue}
                             </td>
-                            <td className="border border-gray-300 px-4 py-4">
+                            <td className="border border-gray-300 px-3 py-4 sm:px-4">
                               {row.hcmHn}
                             </td>
-                            <td className="border border-gray-300 px-4 py-4">
+                            <td className="border border-gray-300 px-3 py-4 sm:px-4">
                               {row.outerProvince}
                             </td>
                           </tr>
@@ -126,29 +128,31 @@ export default function ShippingPolicyPage() {
                     </table>
                   </div>
 
-                  <p className="mt-2 text-center italic">
+                  <p className="mt-2 text-center text-xs italic sm:text-sm">
                     Chính sách này có hiệu lực từ ngày 03 tháng 09 năm 2025.
                   </p>
                 </div>
 
                 <div>
                   <p>
-                    <span className="font-bold">Thời gian dự kiến giao hàng:</span>{" "}
+                    <span className="font-bold">
+                      Thời gian dự kiến giao hàng:
+                    </span>{" "}
                     phụ thuộc vào kho và địa chỉ nhận hàng của Quý khách. Thời
                     gian dự kiến giao hàng tiêu chuẩn như sau:
                   </p>
 
-                  <div className="mt-4 overflow-hidden rounded border border-gray-300">
-                    <table className="w-full border-collapse text-left text-[16px]">
+                  <div className="mt-3 overflow-x-auto rounded border border-gray-300 sm:mt-4">
+                    <table className="min-w-[760px] w-full border-collapse text-left text-sm sm:text-[16px]">
                       <thead>
                         <tr className="bg-white">
-                          <th className="border border-gray-300 px-4 py-3 font-semibold">
+                          <th className="border border-gray-300 px-3 py-3 font-semibold sm:px-4">
                             Tuyến
                           </th>
-                          <th className="border border-gray-300 px-4 py-3 font-semibold">
+                          <th className="border border-gray-300 px-3 py-3 font-semibold sm:px-4">
                             Khu vực
                           </th>
-                          <th className="border border-gray-300 px-4 py-3 font-semibold">
+                          <th className="border border-gray-300 px-3 py-3 font-semibold sm:px-4">
                             Thời gian dự kiến
                           </th>
                         </tr>
@@ -157,7 +161,7 @@ export default function ShippingPolicyPage() {
                       <tbody>
                         {estimatedDeliveryRows.map((row, index) => (
                           <tr key={index}>
-                            <td className="border border-gray-300 px-4 py-4 align-top">
+                            <td className="border border-gray-300 px-3 py-4 align-top sm:px-4">
                               <ul className="list-disc space-y-2 pl-5">
                                 {row.routes.map((item) => (
                                   <li key={item}>{item}</li>
@@ -165,7 +169,7 @@ export default function ShippingPolicyPage() {
                               </ul>
                             </td>
 
-                            <td className="border border-gray-300 px-4 py-4 align-top">
+                            <td className="border border-gray-300 px-3 py-4 align-top sm:px-4">
                               <ul className="list-disc space-y-2 pl-5">
                                 {row.areas.map((item) => (
                                   <li key={item}>{item}</li>
@@ -173,7 +177,7 @@ export default function ShippingPolicyPage() {
                               </ul>
                             </td>
 
-                            <td className="border border-gray-300 px-4 py-4 align-top">
+                            <td className="border border-gray-300 px-3 py-4 align-top sm:px-4">
                               <ul className="list-disc space-y-2 pl-5">
                                 {row.times.map((item) => (
                                   <li key={item}>{item}</li>
@@ -186,7 +190,7 @@ export default function ShippingPolicyPage() {
                     </table>
                   </div>
 
-                  <ul className="mt-4 list-disc space-y-2 pl-6">
+                  <ul className="mt-4 list-disc space-y-2 pl-5 sm:pl-6">
                     <li>
                       Nội thành Tp.HCM: Quận 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
                       12, Bình Tân, Gò Vấp, Thủ Đức, Bình Thạnh, Phú Nhuận, Tân
@@ -202,7 +206,7 @@ export default function ShippingPolicyPage() {
                   <div className="mt-4">
                     <p className="font-bold underline">Lưu ý:</p>
 
-                    <ul className="mt-2 list-disc space-y-2 pl-6">
+                    <ul className="mt-2 list-disc space-y-2 pl-5 sm:pl-6">
                       <li>
                         Trong một số trường hợp, hàng hóa không có sẵn tại kho
                         gần nhất, thời gian giao hàng có thể chậm hơn so với dự
@@ -218,11 +222,11 @@ export default function ShippingPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-[24px] font-bold uppercase text-black">
+                  <h2 className="text-lg font-bold uppercase text-black sm:text-[24px]">
                     MỘT SỐ LƯU Ý KHI NHẬN HÀNG
                   </h2>
 
-                  <ul className="mt-4 list-disc space-y-3 pl-6">
+                  <ul className="mt-4 list-disc space-y-2 pl-5 sm:space-y-3 sm:pl-6">
                     {receivingNotes.map((note) => (
                       <li key={note}>{note}</li>
                     ))}
@@ -237,7 +241,7 @@ export default function ShippingPolicyPage() {
                       tại{" "}
                       <a
                         href="https://gearvn.com/pages/chinh-sach-bao-hanh"
-                        className="text-blue-600 hover:underline"
+                        className="text-blue-600 hover:underline break-all"
                       >
                         https://gearvn.com/pages/chinh-sach-bao-hanh
                       </a>
@@ -265,7 +269,7 @@ export default function ShippingPolicyPage() {
                       website{" "}
                       <a
                         href="https://gearvn.com/"
-                        className="text-blue-600 hover:underline"
+                        className="text-blue-600 hover:underline break-all"
                       >
                         https://gearvn.com/
                       </a>{" "}

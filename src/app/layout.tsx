@@ -3,7 +3,6 @@ import "./globals.css";
 import { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import SideFloatBanners from "@/components/home/SideFloatBanners";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -83,14 +82,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi" className={cn("font-sans", inter.variable)}>
-      <body className="min-h-screen bg-[#f2f2f2] text-gray-900">
+      <body className="min-h-screen w-full overflow-x-hidden bg-[#f2f2f2] text-gray-900">
         <Suspense fallback={<HeaderFallback />}>
           <Header />
         </Suspense>
 
-        <main className="relative w-full">
+        <main className="relative w-full min-w-0 overflow-x-hidden">
           {children}
-          {/* <SideFloatBanners /> */}
         </main>
 
         <Footer />
