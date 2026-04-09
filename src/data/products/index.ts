@@ -49,6 +49,7 @@ import { coolers } from "./coolers";
 //       headphones(),
 //       handheldConsoles(),
 //       accessories(),
+
 //     ]);
 
 //     // results là mảng các mảng [ [laptop1, laptop2], [cpu1, cpu2], ... ]

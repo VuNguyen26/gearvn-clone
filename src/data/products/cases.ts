@@ -1,4 +1,44 @@
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { Product } from "@/types/product";
+
+// export const cases = async (): Promise<Product[]> => {
+//   const CACHE_KEY = "case_products_session";
+//   const isBrowser = typeof window !== "undefined";
+
+//   // 1. Kiểm tra Cache (Chỉ chạy trên Client)
+//   if (isBrowser) {
+//     const cachedData = sessionStorage.getItem(CACHE_KEY);
+//     if (cachedData) {
+//       console.log("💻 Lấy Laptop từ Session Storage");
+//       return JSON.parse(cachedData) as Product[];
+//     }
+//   }
+
+//   // 2. Fetch Firebase (Chạy trên cả Server và Client)
+//   try {
+//     const q = query(
+//       collection(db, "products"),
+//       where("category", "==", "case")
+//     );
+
+//     const snapshot = await getDocs(q);
+//     const products = snapshot.docs.map(doc => ({
+//       id: doc.id,
+//       ...doc.data(),
+//     })) as Product[];
+
+//     // 3. Lưu vào Cache (Chỉ thực hiện trên Client)
+//     if (isBrowser) {
+//       sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+//     }
+
+//     return products;
+//   } catch (error) {
+//     console.error("Lỗi fetch cases:", error);
+//     return [];
+//   }
+// };
 
 export const cases: Product[] = [
   {

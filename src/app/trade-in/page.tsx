@@ -17,7 +17,7 @@ export default function TradeInPage() {
         <span className="text-gray-500">Thu cũ đổi mới</span>
       </div >
         <div className="bg-white rounded-lg p-10 shadow-sm mt-3 lg:mt-0">
-            <h1 className="text-2xl font-bold mb-4 flex justify-center">Chính sách & bảng giá thu sản phẩm đã qua sử dụng</h1>
+            <h1 className="text-4xl font-bold mb-4 flex justify-center">Chính sách & bảng giá thu sản phẩm đã qua sử dụng</h1>
             <p className="my-4">GearVN ra mắt dịch vụ <span className="font-bold">&quot;Thu cũ đổi mới&quot;</span> nhằm hỗ trợ khách hàng dễ dàng nâng cấp linh kiện với chi phí hợp lý. Chúng tôi cam kết mang đến trải nghiệm thuận tiện và giá trị tốt nhất cho khách hàng.</p>
             <p className="my-4">Các dòng sản phẩm nằm trong chính sách thu cũ đổi mới bao gồm <span className="font-bold">VGA, Mainboard và CPU</span> đã qua sử dụng. </p>
             <p className="my-4">Đối với dòng sản phẩm <span className="font-bold">Mainboard</span>, hiện tại Gearvn chỉ áp dụng cho các thương hiệu <span className="font-bold">Gigabyte, MSI, Asus</span> và <span className="font-bold">Asrock</span>.</p>
@@ -27,8 +27,6 @@ export default function TradeInPage() {
             <h2 className="text-red-500 font-bold text-xl lg:text-2xl my-4">Bảng giá thu sản phẩm cũ tham khảo:</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-4 p-4">
                 {Object.entries(tradeInTables).map(([key,tradein],index) => (
-
-                    
                     <div key={index} className="border w-fit border-black py-2 ">
                         <p className="ml-2">{tradein.title}</p>
                         <MyTable data={tradein}/>

@@ -79,7 +79,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </div>
           </div>
         </div>
-
         <div className="mt-3">
           <BottomWideRow />
         </div>

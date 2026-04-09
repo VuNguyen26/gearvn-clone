@@ -19,7 +19,7 @@ export default function OnSiteTechnicalSupportPage() {
           <Link href="/" className="text-blue-600 hover:underline">
             Trang chủ
           </Link>
-          <ChevronRight className="h-4 w-4" />
+          <span className="mx-2">/</span>
           <span>GearVN hợp tác với ALD Service cung cấp dịch vụ kỹ thuật tại nhà</span>
         </div>
 
