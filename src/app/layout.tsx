@@ -85,13 +85,13 @@ export default function RootLayout({
       <body className="min-h-screen w-full overflow-x-hidden bg-[#f2f2f2] text-gray-900">
         <Suspense fallback={<HeaderFallback />}>
           <Header />
-        </Suspense>
+        </Suspense> 
 
         <main className="relative w-full min-w-0 overflow-x-hidden">
           {children}
         </main>
 
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

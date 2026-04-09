@@ -87,23 +87,32 @@ export default function AccountProfilePage() {
   };
 
   return (
-    <div className="px-8 py-6">
-      <h1 className="text-[28px] font-bold text-slate-900">Thông tin tài khoản</h1>
+    <div className="px-3 py-4 sm:px-5 sm:py-5 md:px-6">
+      <h1 className="text-[16px] font-bold text-slate-900 sm:text-[22px] md:text-[26px]">
+        Thông tin tài khoản
+      </h1>
 
-      <div className="mt-8 max-w-[760px] space-y-6">
-        <div className="grid grid-cols-[140px_1fr] items-center gap-4">
-          <label className="text-[17px] text-slate-900">Họ Tên</label>
+      <div className="mt-4 max-w-[760px] space-y-4 sm:mt-6 sm:space-y-5">
+        {/* Họ tên */}
+        <div className="grid grid-cols-[76px_1fr] items-center gap-2 sm:grid-cols-[120px_1fr] sm:gap-4">
+          <label className="text-[12px] text-slate-900 sm:text-[15px]">
+            Họ Tên
+          </label>
           <input
             value={user?.fullName || ""}
             readOnly
-            className="h-[44px] rounded border border-slate-300 px-4 text-[16px]"
+            className="h-[34px] w-full rounded-sm border border-slate-300 px-2.5 text-[12px] outline-none sm:h-[42px] sm:px-4 sm:text-[15px]"
           />
         </div>
 
-        <div className="grid grid-cols-[140px_1fr] items-center gap-4">
-          <label className="text-[17px] text-slate-900">Giới tính</label>
-          <div className="flex items-center gap-6 text-[16px]">
-            <label className="flex items-center gap-2">
+        {/* Giới tính */}
+        <div className="grid grid-cols-[76px_1fr] items-center gap-2 sm:grid-cols-[120px_1fr] sm:gap-4">
+          <label className="text-[12px] text-slate-900 sm:text-[15px]">
+            Giới tính
+          </label>
+
+          <div className="flex items-center gap-3 text-[12px] sm:gap-6 sm:text-[15px]">
+            <label className="flex items-center gap-1.5">
               <input
                 type="radio"
                 checked={gender === "Nam"}
@@ -112,7 +121,7 @@ export default function AccountProfilePage() {
               Nam
             </label>
 
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-1.5">
               <input
                 type="radio"
                 checked={gender === "Nữ"}
@@ -123,43 +132,58 @@ export default function AccountProfilePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-[140px_1fr] items-center gap-4">
-          <label className="text-[17px] text-slate-900">Số điện thoại</label>
-          <div className="flex items-center gap-4">
+        {/* SĐT */}
+        <div className="grid grid-cols-[76px_1fr] items-center gap-2 sm:grid-cols-[120px_1fr] sm:gap-4">
+          <label className="text-[12px] text-slate-900 sm:text-[15px]">
+            Số điện thoại
+          </label>
+
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <input
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Số điện thoại"
               aria-label="Số điện thoại"
               title="Số điện thoại"
-              className="h-[44px] w-full max-w-[340px] rounded border border-green-500 px-4 text-[16px]"
+              className="h-[34px] min-w-0 flex-1 rounded-sm border border-green-500 px-2.5 text-[12px] outline-none sm:h-[42px] sm:max-w-[340px] sm:px-4 sm:text-[15px]"
             />
+
             <button
               type="button"
-              className="text-[16px] text-blue-600 hover:underline"
+              className="text-[11px] text-blue-600 hover:underline sm:text-[14px]"
             >
               Xác thực
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-[140px_1fr] items-center gap-4">
-          <label className="text-[17px] text-slate-900">Email</label>
-          <div className="flex items-center gap-3">
-            <div className="text-[16px] text-slate-900">{user?.email || ""}</div>
-            <span className="text-green-600">✔</span>
+        {/* Email */}
+        <div className="grid grid-cols-[76px_1fr] items-center gap-2 sm:grid-cols-[120px_1fr] sm:gap-4">
+          <label className="text-[12px] text-slate-900 sm:text-[15px]">
+            Email
+          </label>
+
+          <div className="flex items-center gap-2">
+            <div className="truncate text-[12px] text-slate-900 sm:text-[15px]">
+              {user?.email || ""}
+            </div>
+            <span className="text-[12px] text-green-600 sm:text-[14px]">✔</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-[140px_1fr] items-center gap-4">
-          <label className="text-[17px] text-slate-900">Ngày sinh</label>
-          <div className="flex gap-4">
+        {/* Ngày sinh */}
+        <div className="grid grid-cols-[76px_1fr] items-center gap-2 sm:grid-cols-[120px_1fr] sm:gap-4">
+          <label className="text-[12px] text-slate-900 sm:text-[15px]">
+            Ngày sinh
+          </label>
+
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             <select
               value={day}
               onChange={(e) => setDay(e.target.value)}
               aria-label="Chọn ngày sinh"
               title="Chọn ngày sinh"
-              className="h-[44px] w-[130px] rounded border border-slate-300 px-4 text-[16px]"
+              className="h-[34px] w-[72px] rounded-sm border border-slate-300 px-2 text-[12px] outline-none sm:h-[42px] sm:w-[110px] sm:px-3 sm:text-[14px]"
             >
               <option value="">Ngày</option>
               {Array.from({ length: 31 }, (_, i) => i + 1).map((n) => (
@@ -174,7 +198,7 @@ export default function AccountProfilePage() {
               onChange={(e) => setMonth(e.target.value)}
               aria-label="Chọn tháng sinh"
               title="Chọn tháng sinh"
-              className="h-[44px] w-[130px] rounded border border-slate-300 px-4 text-[16px]"
+              className="h-[34px] w-[78px] rounded-sm border border-slate-300 px-2 text-[12px] outline-none sm:h-[42px] sm:w-[110px] sm:px-3 sm:text-[14px]"
             >
               <option value="">Tháng</option>
               {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
@@ -189,7 +213,7 @@ export default function AccountProfilePage() {
               onChange={(e) => setYear(e.target.value)}
               aria-label="Chọn năm sinh"
               title="Chọn năm sinh"
-              className="h-[44px] w-[130px] rounded border border-slate-300 px-4 text-[16px]"
+              className="h-[34px] w-[72px] rounded-sm border border-slate-300 px-2 text-[12px] outline-none sm:h-[42px] sm:w-[110px] sm:px-3 sm:text-[14px]"
             >
               <option value="">Năm</option>
               {Array.from({ length: 80 }, (_, i) => 2026 - i).map((n) => (
@@ -201,11 +225,12 @@ export default function AccountProfilePage() {
           </div>
         </div>
 
-        <div className="pl-[144px]">
+        {/* Button */}
+        <div className="pl-[78px] sm:pl-[124px]">
           <button
             type="button"
             onClick={handleSave}
-            className="h-[42px] rounded bg-red-600 px-8 text-[18px] font-semibold text-white hover:bg-red-700"
+            className="h-[34px] rounded-sm bg-red-600 px-4 text-[11px] font-semibold text-white hover:bg-red-700 sm:h-[40px] sm:px-6 sm:text-[14px]"
           >
             LƯU THAY ĐỔI
           </button>

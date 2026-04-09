@@ -127,11 +127,13 @@ export default function AccountOrdersPage() {
 
   return (
     <>
-      <div className="px-6 py-6">
-        <h1 className="text-[28px] font-bold text-[#0f2b57]">Quản lý đơn hàng</h1>
+      <div className="px-3 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6">
+        <h1 className="text-[20px] font-bold text-[#0f2b57] sm:text-[24px] lg:text-[28px]">
+          Quản lý đơn hàng
+        </h1>
 
-        <div className="mt-8 border-b border-[#d9dde4]">
-          <div className="flex flex-wrap gap-x-14 gap-y-3">
+        <div className="mt-5 border-b border-[#d9dde4] sm:mt-6 lg:mt-8">
+          <div className="flex gap-5 overflow-x-auto whitespace-nowrap sm:gap-8 lg:flex-wrap lg:gap-x-14 lg:gap-y-3">
             {tabs.map((tab) => {
               const isActive = activeTab === tab.key;
 
@@ -140,13 +142,13 @@ export default function AccountOrdersPage() {
                   key={tab.key}
                   type="button"
                   onClick={() => setActiveTab(tab.key)}
-                  className={`relative pb-4 text-[18px] font-semibold tracking-[0.2px] ${
+                  className={`relative shrink-0 pb-3 text-[12px] font-semibold tracking-[0.1px] sm:pb-4 sm:text-[14px] lg:text-[18px] ${
                     isActive ? "text-[#0f2b57]" : "text-[#274163]"
                   }`}
                 >
                   {tab.label}
                   {isActive && (
-                    <span className="absolute bottom-[-1px] left-0 h-[4px] w-[88px] bg-[#ff1f1f]" />
+                    <span className="absolute bottom-[-1px] left-0 h-[3px] w-full bg-[#ff1f1f] sm:h-[4px] lg:w-[88px]" />
                   )}
                 </button>
               );
@@ -154,9 +156,9 @@ export default function AccountOrdersPage() {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center rounded border border-[#d4dbe5] bg-white">
-          <div className="flex h-[52px] flex-1 items-center gap-3 px-5">
-            <Search className="h-5 w-5 text-[#5f6b7a]" />
+        <div className="mt-4 flex items-center rounded border border-[#d4dbe5] bg-white sm:mt-5 lg:mt-6">
+          <div className="flex h-[40px] flex-1 items-center gap-2 px-3 sm:h-[46px] sm:gap-3 sm:px-4 lg:h-[52px] lg:px-5">
+            <Search className="h-4 w-4 text-[#5f6b7a] sm:h-5 sm:w-5" />
             <input
               value={keywordInput}
               onChange={(e) => setKeywordInput(e.target.value)}
@@ -164,49 +166,49 @@ export default function AccountOrdersPage() {
                 if (e.key === "Enter") handleSearch();
               }}
               placeholder="Tìm đơn hàng theo Mã đơn hàng"
-              className="h-full w-full bg-transparent text-[17px] text-[#0f2b57] outline-none placeholder:text-[#7a8697]"
+              className="h-full w-full bg-transparent text-[12px] text-[#0f2b57] outline-none placeholder:text-[#7a8697] sm:text-[14px] lg:text-[17px]"
             />
           </div>
 
           <button
             type="button"
             onClick={handleSearch}
-            className="h-[52px] border-l border-[#d4dbe5] px-7 text-[17px] font-medium text-[#2b73ff] hover:underline"
+            className="h-[40px] shrink-0 border-l border-[#d4dbe5] px-3 text-[12px] font-medium text-[#2b73ff] hover:underline sm:h-[46px] sm:px-4 sm:text-[13px] lg:h-[52px] lg:px-7 lg:text-[17px]"
           >
             Tìm đơn hàng
           </button>
         </div>
 
-        <div className="mt-5 min-h-[500px] rounded-sm bg-[#f7f8fb] p-4">
+        <div className="mt-4 min-h-[220px] rounded-sm bg-[#f7f8fb] p-3 sm:mt-5 sm:min-h-[320px] sm:p-4 lg:min-h-[500px]">
           {filteredOrders.length === 0 ? (
-            <div className="flex min-h-[440px] items-center justify-center text-[18px] text-[#7a8697]">
+            <div className="flex min-h-[180px] items-center justify-center text-[13px] text-[#7a8697] sm:min-h-[260px] sm:text-[15px] lg:min-h-[440px] lg:text-[18px]">
               Chưa có đơn hàng nào.
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {filteredOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="rounded-md border border-[#e3e8ef] bg-white p-5 shadow-sm"
+                  className="rounded-md border border-[#e3e8ef] bg-white p-3 shadow-sm sm:p-4 lg:p-5"
                 >
                   <div className="flex flex-col gap-3 border-b border-[#edf1f5] pb-4 md:flex-row md:items-start md:justify-between">
                     <div>
-                      <div className="text-[20px] font-bold text-[#0f2b57]">
+                      <div className="text-[16px] font-bold text-[#0f2b57] sm:text-[18px] lg:text-[20px]">
                         {order.code}
                       </div>
-                      <div className="mt-1 text-sm text-[#7a8697]">
+                      <div className="mt-1 text-[12px] text-[#7a8697] sm:text-sm">
                         {new Date(order.createdAt).toLocaleString("vi-VN")}
                       </div>
                       {order.updatedAt ? (
-                        <div className="mt-1 text-xs text-[#98a3b3]">
+                        <div className="mt-1 text-[11px] text-[#98a3b3] sm:text-xs">
                           Cập nhật: {new Date(order.updatedAt).toLocaleString("vi-VN")}
                         </div>
                       ) : null}
                     </div>
 
-                    <div className="flex flex-col items-start gap-3 md:items-end">
+                    <div className="flex flex-col items-start gap-2 sm:gap-3 md:items-end">
                       <div
-                        className={`inline-flex rounded-full px-3 py-1 text-sm font-semibold ${getStatusClass(
+                        className={`inline-flex rounded-full px-3 py-1 text-[12px] font-semibold sm:text-sm ${getStatusClass(
                           order.status
                         )}`}
                       >
@@ -217,7 +219,7 @@ export default function AccountOrdersPage() {
                         <button
                           type="button"
                           onClick={() => openCancelModal(order.id)}
-                          className="rounded border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-100"
+                          className="rounded border border-red-200 bg-red-50 px-3 py-1.5 text-[12px] font-semibold text-red-600 hover:bg-red-100 sm:px-4 sm:py-2 sm:text-sm"
                         >
                           Hủy đơn
                         </button>
@@ -226,7 +228,7 @@ export default function AccountOrdersPage() {
                   </div>
 
                   <div className="mt-4 grid gap-4 md:grid-cols-2">
-                    <div className="space-y-2 text-[15px] text-[#274163]">
+                    <div className="space-y-2 text-[13px] text-[#274163] sm:text-[14px] lg:text-[15px]">
                       <div>
                         <span className="font-semibold text-[#0f2b57]">
                           Khách hàng:
@@ -248,7 +250,7 @@ export default function AccountOrdersPage() {
                       </div>
 
                       {order.cancelReason ? (
-                        <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+                        <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-[12px] text-red-600 sm:text-sm">
                           <span className="font-semibold">Lý do hủy: </span>
                           {order.cancelReason}
                         </div>
@@ -256,8 +258,10 @@ export default function AccountOrdersPage() {
                     </div>
 
                     <div className="text-left md:text-right">
-                      <div className="text-sm text-[#7a8697]">Tổng thanh toán</div>
-                      <div className="mt-1 text-[24px] font-bold text-[#ff1f1f]">
+                      <div className="text-[12px] text-[#7a8697] sm:text-sm">
+                        Tổng thanh toán
+                      </div>
+                      <div className="mt-1 text-[20px] font-bold text-[#ff1f1f] sm:text-[22px] lg:text-[24px]">
                         {vnd(order.total)}
                       </div>
                     </div>
@@ -267,9 +271,9 @@ export default function AccountOrdersPage() {
                     {order.items.map((item) => (
                       <div
                         key={item.productId}
-                        className="flex items-center gap-4 rounded border border-[#edf1f5] bg-[#fafbfc] p-3"
+                        className="flex items-center gap-3 rounded border border-[#edf1f5] bg-[#fafbfc] p-3 sm:gap-4"
                       >
-                        <div className="relative h-[84px] w-[84px] shrink-0 overflow-hidden rounded border bg-white">
+                        <div className="relative h-[64px] w-[64px] shrink-0 overflow-hidden rounded border bg-white sm:h-[74px] sm:w-[74px] lg:h-[84px] lg:w-[84px]">
                           <Image
                             src={item.image}
                             alt={item.name}
@@ -280,15 +284,15 @@ export default function AccountOrdersPage() {
                         </div>
 
                         <div className="min-w-0 flex-1">
-                          <div className="line-clamp-2 font-semibold text-[#0f2b57]">
+                          <div className="line-clamp-2 text-[13px] font-semibold text-[#0f2b57] sm:text-[14px] lg:text-base">
                             {item.name}
                           </div>
-                          <div className="mt-1 text-sm text-[#7a8697]">
+                          <div className="mt-1 text-[12px] text-[#7a8697] sm:text-sm">
                             Số lượng: {item.qty}
                           </div>
                         </div>
 
-                        <div className="text-right font-bold text-[#ff1f1f]">
+                        <div className="text-right text-[13px] font-bold text-[#ff1f1f] sm:text-[14px] lg:text-base">
                           {vnd(item.price * item.qty)}
                         </div>
                       </div>
@@ -296,14 +300,14 @@ export default function AccountOrdersPage() {
                   </div>
 
                   <div className="mt-4 flex items-center justify-between border-t border-[#edf1f5] pt-4">
-                    <div className="text-sm text-[#7a8697]">
+                    <div className="text-[12px] text-[#7a8697] sm:text-sm">
                       {order.items.length} sản phẩm
                     </div>
                     <div>
-                      <span className="mr-2 text-[15px] font-medium text-[#274163]">
+                      <span className="mr-2 text-[13px] font-medium text-[#274163] sm:text-[14px] lg:text-[15px]">
                         Tổng tiền:
                       </span>
-                      <span className="text-[22px] font-bold text-[#ff1f1f]">
+                      <span className="text-[18px] font-bold text-[#ff1f1f] sm:text-[20px] lg:text-[22px]">
                         {vnd(order.total)}
                       </span>
                     </div>
@@ -318,8 +322,10 @@ export default function AccountOrdersPage() {
       {cancelModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 px-4">
           <div className="w-full max-w-[560px] rounded-xl bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b px-5 py-4">
-              <h2 className="text-xl font-bold text-[#0f2b57]">Chọn lý do hủy đơn</h2>
+            <div className="flex items-center justify-between border-b px-4 py-3 sm:px-5 sm:py-4">
+              <h2 className="text-[18px] font-bold text-[#0f2b57] sm:text-xl">
+                Chọn lý do hủy đơn
+              </h2>
               <button
                 type="button"
                 onClick={closeCancelModal}
@@ -331,12 +337,12 @@ export default function AccountOrdersPage() {
               </button>
             </div>
 
-            <div className="max-h-[70vh] overflow-y-auto px-5 py-4">
+            <div className="max-h-[70vh] overflow-y-auto px-4 py-4 sm:px-5">
               <div className="space-y-3">
                 {cancelReasons.map((reason) => (
                   <label
                     key={reason}
-                    className="flex cursor-pointer items-start gap-3 rounded-lg border border-[#e5e7eb] px-4 py-3 hover:bg-[#fafafa]"
+                    className="flex cursor-pointer items-start gap-3 rounded-lg border border-[#e5e7eb] px-3 py-3 hover:bg-[#fafafa] sm:px-4"
                   >
                     <input
                       type="radio"
@@ -346,7 +352,9 @@ export default function AccountOrdersPage() {
                       onChange={() => setSelectedReason(reason)}
                       className="mt-1"
                     />
-                    <span className="text-[15px] text-[#274163]">{reason}</span>
+                    <span className="text-[14px] text-[#274163] sm:text-[15px]">
+                      {reason}
+                    </span>
                   </label>
                 ))}
               </div>
@@ -358,17 +366,17 @@ export default function AccountOrdersPage() {
                     onChange={(e) => setCustomReason(e.target.value)}
                     placeholder="Nhập lý do hủy đơn..."
                     rows={4}
-                    className="w-full rounded-lg border border-[#d4dbe5] px-4 py-3 text-[15px] outline-none focus:border-red-400"
+                    className="w-full rounded-lg border border-[#d4dbe5] px-4 py-3 text-[14px] outline-none focus:border-red-400 sm:text-[15px]"
                   />
                 </div>
               )}
             </div>
 
-            <div className="flex items-center justify-end gap-3 border-t px-5 py-4">
+            <div className="flex items-center justify-end gap-3 border-t px-4 py-3 sm:px-5 sm:py-4">
               <button
                 type="button"
                 onClick={closeCancelModal}
-                className="rounded-lg border border-[#d4dbe5] px-5 py-2.5 text-sm font-semibold text-[#274163] hover:bg-gray-50"
+                className="rounded-lg border border-[#d4dbe5] px-4 py-2 text-[13px] font-semibold text-[#274163] hover:bg-gray-50 sm:px-5 sm:py-2.5 sm:text-sm"
               >
                 Đóng
               </button>
@@ -376,7 +384,7 @@ export default function AccountOrdersPage() {
               <button
                 type="button"
                 onClick={handleConfirmCancel}
-                className="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-700"
+                className="rounded-lg bg-red-600 px-4 py-2 text-[13px] font-semibold text-white hover:bg-red-700 sm:px-5 sm:py-2.5 sm:text-sm"
               >
                 Xác nhận hủy đơn
               </button>
