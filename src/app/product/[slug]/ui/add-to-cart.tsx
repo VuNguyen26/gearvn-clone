@@ -31,7 +31,7 @@ export default function AddToCart({ product }: { product: Product }) {
   };
 
   return (
-    <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center">
+    <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
       <button
         type="button"
         onClick={handleBuyNow}
