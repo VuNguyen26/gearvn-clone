@@ -1,4 +1,47 @@
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import { Product } from "@/types/product";
+
+// export const coolers = async (): Promise<Product[]> => {
+//   const CACHE_KEY = "cooler_products_session";
+  
+//   // KIỂM TRA: Đảm bảo code chỉ truy cập sessionStorage khi chạy ở trình duyệt
+//   const isBrowser = typeof window !== "undefined";
+
+//   // 1. Kiểm tra xem trong Session đã có dữ liệu chưa (Chỉ thực hiện ở Client)
+//   if (isBrowser) {
+//     const cachedData = sessionStorage.getItem(CACHE_KEY);
+//     if (cachedData) {
+//       console.log("⚡ [COOLER] Lấy từ Session Storage (0 Read)");
+//       return JSON.parse(cachedData) as Product[];
+//     }
+//   }
+
+//   // 2. Nếu chưa có hoặc đang ở Server, mới gọi Firebase (Tốn Quota)
+//   try {
+//     console.warn("📡 [COOLER] Đang tải danh sách từ Firebase...");
+//     const q = query(
+//       collection(db, "products"),
+//       where("category", "==", "cooler") 
+//     );
+
+//     const snapshot = await getDocs(q);
+//     const products = snapshot.docs.map(doc => ({
+//       id: doc.id,
+//       ...doc.data(),
+//     })) as Product[];
+
+//     // 3. Lưu vào Session để tái sử dụng (Chỉ thực hiện ở Client)
+//     if (isBrowser) {
+//       sessionStorage.setItem(CACHE_KEY, JSON.stringify(products));
+//     }
+
+//     return products;
+//   } catch (error) {
+//     console.error("Lỗi khi fetch dữ liệu cpus:", error);
+//     return [];
+//   }
+// };
 
 export const coolers: Product[] = [
   {

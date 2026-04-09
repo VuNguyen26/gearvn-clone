@@ -10,7 +10,7 @@ import { Product } from "@/types/product";
 //   if (isBrowser) {
 //     const cachedData = sessionStorage.getItem(CACHE_KEY);
 //     if (cachedData) {
-//       console.log("💻 Lấy Laptop từ Session Storage");
+//       console.log("⚡ [CASE] Lấy từ Session Storage (0 Read)");
 //       return JSON.parse(cachedData) as Product[];
 //     }
 //   }
