@@ -6,7 +6,6 @@ import { TopPromoRow, BottomWideRow } from "@/components/home/BottomBanners";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getPaginatedProducts } from "@/lib/products";
-import CategorySidebarMobile from "@/components/home/CategorySidebarMobile";
 
 export const metadata: Metadata = {
   title: "Trang chủ",

@@ -1,40 +1,33 @@
-import { webcams } from './../data/products/webcams';
-import { speakers } from './../data/products/speakers';
-import { sdcards } from './../data/products/sdcards';
-import { MapPin } from 'lucide-react';
-import { mainboards } from './../data/products/mainboards';
 import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
-import { constant } from 'firebase/firestore/pipelines';
-import { body, p } from 'framer-motion/client';
 
-// export async function getAllProducts() {
-//   return await products(); 
-// }
+let cache: Product[] | null = null;
 
-export function getAllProducts() {
-  return  products; 
+async function getCachedProducts() {
+  if (!cache) {
+    cache = await products();
+  }
+  return cache;
 }
+  
+export const getAllProducts = () => getCachedProducts();
 
-export function getAllProductsFlat() {
-  return products;
-}
-
-export function getProductBySlug(slug: string) {
+export async  function getProductBySlug(slug: string) {
   const normalizedSlug = normalizeValue(slug);
-
-  return products.find(
+  const productList = await getAllProducts(); // 👈 gọi function
+  return productList.find(
     (p) =>
       normalizeValue(p.slug) === normalizedSlug ||
       slugify(p.slug) === slugify(slug)
   );
 }
 
-export function getProductsByCategory(category: string) {
+export async function getProductsByCategory(category: string) {
   const normalizedCategory = normalizeValue(category);
-  const matchedCategories = expandCategoryAliases(normalizedCategory);
+  const matchedCategories = await expandCategoryAliases(normalizedCategory);
+  const productList = await getAllProducts(); // 👈 gọi function
 
-  return products.filter((p) => {
+  return productList.filter((p) => {
     const values = getProductCategoryValues(p);
     return values.some((value) => matchedCategories.includes(value));
   });
@@ -219,11 +212,16 @@ function getProductCategoryValues(product: Product): string[] {
   ].filter(Boolean);
 }
 
-function isConcreteProductCategory(value: string) {
-  return products.some((p) => {
-    const values = getProductCategoryValues(p);
-    return values.includes(value);
-  });
+let categorySet: Set<string> | null = null;
+export async function initCategorySet() {
+  const products = await getAllProducts();
+
+  categorySet = new Set(
+    products.flatMap(p => getProductCategoryValues(p))
+  );
+}
+function isConcreteProductCategory(value: string): boolean {
+  return categorySet?.has(value) ?? false;
 }
 function expandCategoryAliases(rawValue?: string) {
   const normalized = normalizeValue(rawValue);
@@ -617,11 +615,11 @@ function matchCoolerTypeLabel(product: Product, rawValue?: string) {
   return false;
 }
 
-export function getProductsByMenuSlug(slug: string): Product[] {
+export async  function getProductsByMenuSlug(slug: string): Promise<Product[]> {
   const normalizedSlug = normalizeValue(slug);
-  const matchedValues = expandCategoryAliases(normalizedSlug);
-
-  return products.filter((p) => {
+  const matchedValues = await  expandCategoryAliases(normalizedSlug);
+  const productList = await getAllProducts(); // 👈 fix products()
+  return productList.filter((p) => {
     const category = normalizeValue(p.category);
     const subcategory = normalizeValue((p as any).subcategory);
     const values = [category, subcategory].filter(Boolean);
@@ -657,10 +655,11 @@ export function getProductsByMenuSlug(slug: string): Product[] {
   });
 }
 
-export function getFeaturedProducts(limit?: number) {
+export async function getFeaturedProducts(limit?: number) {
+  const productList = await getAllProducts();
   const grouped = new Map<string, Product[]>();
 
-  for (const product of products) {
+  for (const product of productList) {
     const key = normalizeValue(product.category);
     if (!grouped.has(key)) {
       grouped.set(key, []);
@@ -1288,7 +1287,7 @@ function productHasBrandInName(product: Product) {
   return knownBrands.find((brand) => name.includes(brand)) || "";
 }
 
-export function getFilteredPaginatedProducts(
+export async function getFilteredPaginatedProducts(
   query: ListQuery & {
     page?: number;
     pageSize?: number;
@@ -1296,8 +1295,8 @@ export function getFilteredPaginatedProducts(
 ) {
   const page = Number.isFinite(query.page) ? Number(query.page) : 1;
   const pageSize = Number.isFinite(query.pageSize) ? Number(query.pageSize) : 20;
-
-  const filtered = filterProducts(getAllProducts(), query);
+  const productsList = await getAllProducts();
+  const filtered = filterProducts(productsList, query);
 
   const totalItems = filtered.length;
   const totalPages = Math.ceil(totalItems / pageSize);
@@ -1314,10 +1313,13 @@ export function getFilteredPaginatedProducts(
     pageSize,
   };
 }
-export function searchProducts(keyword: string) {
+export function searchProducts(
+  products: Product[],
+  keyword: string
+) {
   const q = normalizeText(keyword);
 
   if (!q) return [];
 
-  return filterProducts(getAllProducts(), { q });
+  return filterProducts(products, { q });
 }

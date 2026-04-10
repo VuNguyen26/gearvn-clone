@@ -150,7 +150,7 @@ export default async function CategoryPage({
     notFound();
   }
 
-  const baseProducts = getProductsByMenuSlug(slug);
+  const baseProducts = await getProductsByMenuSlug(slug);
 
   const keyword = firstValue(sp.q) || firstValue(sp.keyword) || "";
 

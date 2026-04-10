@@ -2,7 +2,6 @@
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
 import { getFilteredPaginatedProducts } from "@/lib/products";
-import { get } from "node_modules/axios/index.cjs";
 
 export const revalidate = 60;
 
@@ -15,7 +14,7 @@ export default async function ProductsPage({ searchParams }: Props) {
 
   const page = Number(sp.page || "1");
 
-  const { items, totalItems } = getFilteredPaginatedProducts({
+  const { items, totalItems } = await getFilteredPaginatedProducts({
     page: Number.isFinite(page) && page > 0 ? page : 1,
     pageSize: 20,
 

@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { filterProducts, getAllProducts } from "@/lib/products";
+import { Product } from "@/types/product";
 
 function formatPrice(price: number) {
   return `${price.toLocaleString("vi-VN")}đ`;
@@ -18,6 +19,15 @@ export default function SearchBar() {
 
   const [keyword, setKeyword] = useState("");
   const [open, setOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]); // 👈 state
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getAllProducts();
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     setKeyword(searchParams?.get("q") ?? "");
@@ -39,8 +49,8 @@ export default function SearchBar() {
 
     if (!q) return [];
 
-    return filterProducts(getAllProducts(), { q }).slice(0, 6);
-  }, [keyword]);
+    return filterProducts(products, { q }).slice(0, 6);
+  }, [keyword, products]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

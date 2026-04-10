@@ -22,7 +22,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const p = getProductBySlug(slug);
+  const p = await  getProductBySlug(slug);
 
   if (!p) {
     return {
@@ -63,7 +63,7 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
-  const p = getProductBySlug(slug);
+  const p = await  getProductBySlug(slug);
 
   if (!p) {
     notFound();

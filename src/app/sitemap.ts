@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { newsArticles } from "@/data/news";
-import { getAllProductsFlat } from "@/lib/products";
+import { getAllProducts } from "@/lib/products";
 
 const SITE_URL = "https://gearvn-clone-t14d.vercel.app";
 
@@ -23,9 +23,9 @@ const categorySlugs = [
   "dich-vu-thong-tin-khac",
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-
+  const products = await getAllProducts();
   const staticRoutes = [
     "",
     "/introduce",
@@ -62,7 +62,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const productRoutes = getAllProductsFlat().map((product: any) => ({
+  const productRoutes = products.map((product: any) => ({
     url: `${SITE_URL}/product/${product.slug}`,
     lastModified: now,
     changeFrequency: "weekly" as const,

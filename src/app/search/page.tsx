@@ -17,9 +17,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const keyword = Array.isArray(rawKeyword)
     ? (rawKeyword[0] ?? "").trim()
     : (rawKeyword ?? "").trim();
-
-  const items = keyword
-    ? filterProducts(getAllProducts(), { q: keyword })
+  const products = await getAllProducts();
+  const items =  keyword
+    ? filterProducts(products, { q: keyword })
     : [];
 
   return (
