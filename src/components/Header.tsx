@@ -169,7 +169,7 @@ export default function Header() {
             {/*=============== CategorySidebar ============*/}
             <div
               className={[
-                "absolute left-0 top-full mt-2 z-60 transition-all duration-150 ease-out",
+                "absolute -left-20 top-full mt-2 z-60 transition-all duration-150 ease-out",
                 openCategory
                   ? "visible translate-y-0 opacity-100"
                   : "invisible pointer-events-none -translate-y-1 opacity-0",

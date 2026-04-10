@@ -887,7 +887,7 @@ export default function MegaMenu({ activeSidebarItem }: MegaMenuProps) {
   return (
     <div
       className={[
-        "h-140 w-247.5  max-w-[calc(100vw-320px)] ml-4",
+        "h-131 w-247.5  max-w-[calc(100vw-320px)] ml-4",
         "rounded-r-md border border-l-0 border-gray-200 bg-white",
         "p-6 text-black shadow-xl",
       ].join(" ")}
