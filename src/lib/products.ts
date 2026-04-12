@@ -825,8 +825,6 @@ export function filterProducts(items: Product[], query: ListQuery) {
   }
   
   if (normalizedBrand) {
-    console.log (arr);
-    console.log(normalizedCategory)
     arr = arr.filter((p) =>
       matchFromCandidates(
         [
