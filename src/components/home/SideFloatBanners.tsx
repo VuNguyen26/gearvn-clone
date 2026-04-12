@@ -1,30 +1,59 @@
-import { div } from "framer-motion/client";
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function SideFloatBanners() {
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setCompact(window.scrollY > 85);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const bannerPositionClass = compact ? "top-[85px]" : "top-[155px]";
+
   return (
     <>
       {/* Left */}
-      <div className="hidden xl:block absolute top-0 left-2 z-40 h-full">
-        <div className="sticky top-20">
-          <Link href="#" aria-label="Side left banner">
-            <div className="relative h-90 w-20 overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm">
-              <Image src="/home/gearvn-pc-gvn-sticky-t1-26.png" alt="Side left" fill className="object-cover" />
-            </div>
-          </Link>
-        </div>
+      <div
+        className={`fixed left-3 ${bannerPositionClass} z-40 hidden xl:block transition-all duration-300 ease-out`}
+      >
+        <Link href="#" aria-label="Side left banner">
+          <div className="relative h-[380px] w-[100px] overflow-hidden rounded-md">
+            <Image
+              src="/home/gearvn-pc-gvn-sticky-t1-26.png"
+              alt="Side left"
+              fill
+              className="object-contain object-center"
+              sizes="100px"
+            />
+          </div>
+        </Link>
       </div>
 
       {/* Right */}
-      <div className="hidden xl:block absolute top-0 right-2 z-40 h-full">
-        <div className="sticky top-20">
-          <Link href="#" aria-label="Side right banner">
-            <div className="relative h-90 w-20 overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm">
-              <Image src="/home/gearvn-laptop-gaming-sticky-t1-26.png" alt="Side right" fill className="object-cover" />
-            </div>
-          </Link>
-        </div>
+      <div
+        className={`fixed right-3 ${bannerPositionClass} z-40 hidden xl:block transition-all duration-300 ease-out`}
+      >
+        <Link href="#" aria-label="Side right banner">
+          <div className="relative h-[380px] w-[100px] overflow-hidden rounded-md">
+            <Image
+              src="/home/gearvn-laptop-gaming-sticky-t1-26.png"
+              alt="Side right"
+              fill
+              className="object-contain object-center"
+              sizes="100px"
+            />
+          </div>
+        </Link>
       </div>
     </>
   );

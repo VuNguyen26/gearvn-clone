@@ -105,9 +105,9 @@ export default function Header() {
   const displayEmail = user?.email || "Chưa có email";
 
   return (
-    <header className="contents w-auto">
+    <>
       {/*======== Top Header ============ */}
-      <div className="bg-[#0A86FF] hidden lg:block">
+      <div className="hidden bg-[#0A86FF] lg:block">
         <div className={`mx-auto ${MAX_W} px-3`}>
           <div className="relative h-11 w-full">
             <Image
@@ -119,14 +119,14 @@ export default function Header() {
           </div>
         </div>
       </div>
+
       {/*============= Red Header ========= */}
-      <div className="lg:sticky lg:top-0 z-10 lg:z-150 bg-[#E30019]">
+      <div className="bg-[#E30019] lg:sticky lg:top-0 lg:z-[200]">
         <div
-          className={`mx-auto ${MAX_W} h-16 flex md:h-18.5 items-center gap-1 sm:gap-3 px-3`}
+          className={`mx-auto ${MAX_W} flex h-16 items-center gap-1 px-3 sm:gap-3 md:h-18.5`}
         >
           <Link href="/" className="flex shrink-0 items-center pr-1">
-          {/*========== Logo desktop ========= */}
-            <div className="relative h-10.5 w-37.5 hidden md:block">
+            <div className="relative hidden h-10.5 w-37.5 md:block">
               <Image
                 src="/logo_homepage_desktop.svg"
                 alt="GEARVN"
@@ -135,8 +135,8 @@ export default function Header() {
                 className="object-contain"
               />
             </div>
-            {/*============= Logo mobile =============*/}
-            <div className="relative h-11.5 w-11.5 block md:hidden">
+
+            <div className="relative block h-11.5 w-11.5 md:hidden">
               <Image
                 src="/logo_homepage_mobile.jpg"
                 alt="GEARVN"
@@ -146,27 +146,29 @@ export default function Header() {
               />
             </div>
           </Link>
-          {/*================== Button list =================*/}
-          <div className="relative z-61 shrink-0">
+
+          <div className="relative z-[61] shrink-0">
             <button
               type="button"
               onClick={() => setOpenCategory((prev) => !prev)}
-              className="flex h-10 lg:h-11 lg:w-28.75 shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white transition-colors hover:bg-[#A60012]"
+              className="flex h-10 shrink-0 items-center gap-2 rounded-[6px] bg-[#B80014] px-2.5 font-bold text-white transition-colors hover:bg-[#A60012] lg:h-11 lg:w-28.75"
             >
               <Menu className="h-6 w-6" />
-              <span className="text-[13px] leading-none hidden lg:block">Danh mục</span>
+              <span className="hidden text-[13px] leading-none lg:block">
+                Danh mục
+              </span>
             </button>
-            {/*================= CategorySidebar background ==================*/}
+
             <div
               className={[
-                "fixed inset-0 bg-black/40 top-0 backdrop-blur-sm transition-opacity duration-150",
+                "fixed inset-0 top-0 bg-black/40 backdrop-blur-sm transition-opacity duration-150",
                 openCategory
                   ? "pointer-events-auto z-40 opacity-100"
                   : "pointer-events-none opacity-0",
               ].join(" ")}
               onClick={() => setOpenCategory(false)}
             />
-            {/*=============== CategorySidebar ============*/}
+
             <div
               className={[
                 "absolute -left-20 top-full mt-2 z-60 transition-all duration-150 ease-out",
@@ -175,17 +177,21 @@ export default function Header() {
                   : "invisible pointer-events-none -translate-y-1 opacity-0",
               ].join(" ")}
             >
-              <div className="shadow-2xl relative">
+              <div className="relative shadow-2xl">
                 <CategorySidebar onNavigate={() => setOpenCategory(false)} />
               </div>
             </div>
-            <CategorySidebarMobile open={openCategory} onClose={() => setOpenCategory(false)} />
+
+            <CategorySidebarMobile
+              open={openCategory}
+              onClose={() => setOpenCategory(false)}
+            />
           </div>
-          {/*================ Tim kiem ================*/}
+
           <div className="relative z-10 min-w-0 flex-1">
             <SearchBar />
           </div>
-          {/*==================== Showroom ==================*/}
+
           <div className="relative z-10 hidden shrink-0 items-center gap-2 text-white lg:flex">
             <HeaderAction
               href="/showroom"
@@ -193,7 +199,7 @@ export default function Header() {
               line1="Hệ thống"
               line2="Showroom"
             />
-          {/*========== Cart ==================*/}
+
             <HeaderAction
               href="/cart"
               icon={
@@ -207,7 +213,7 @@ export default function Header() {
               line1="Giỏ"
               line2="hàng"
             />
-          {/* Login */}
+
             <div ref={userRef} className="relative">
               {!user ? (
                 <>
@@ -378,8 +384,9 @@ export default function Header() {
           </div>
         </div>
       </div>
+
       {/*========== Bottom Header menu ===========*/}
-      <div className="relative z-0 border-b border-gray-200 bg-white hidden lg:block">
+      <div className="relative z-0 hidden border-b border-gray-200 bg-white lg:block">
         <div className={`mx-auto ${MAX_W} h-11.5 px-3`}>
           <div className="grid h-11.5 grid-cols-5">
             <SubItem
@@ -414,8 +421,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-      
-    </header>
+    </>
   );
 }
 
@@ -477,16 +483,17 @@ export function SubItem({
     <Link
       href={href}
       className={[
-        "group relative flex h-8 lg:h-[46px] lg:items-center lg:justify-center lg:gap-2 px-3",
-        " lg:text-[13px] lg:font-semibold text-black hover:text-[#D70018]",
-       
+        "group relative flex h-8 px-3 lg:h-[46px] lg:items-center lg:justify-center lg:gap-2",
+        "lg:text-[13px] lg:font-semibold text-black hover:text-[#D70018]",
       ].join(" ")}
     >
       {withDivider && (
         <span className="absolute left-0 top-1/2 h-[24px] w-px -translate-y-1/2 bg-gray-300" />
       )}
 
-      <span className="text-black/80 group-hover:text-[#D70018] mr-3 lg:mr-0">{icon}</span>
+      <span className="mr-3 text-black/80 group-hover:text-[#D70018] lg:mr-0">
+        {icon}
+      </span>
       <span className="whitespace-nowrap">{text}</span>
     </Link>
   );
