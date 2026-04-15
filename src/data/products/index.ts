@@ -95,15 +95,14 @@ type ProductQuery = {
   brand?: string;
   q?: string;
 };
-
+let fetchCount = 0;
+let reads = 0;
 export const products = async (
   query?: ProductQuery
 ): Promise<Product[]> => {
   const CACHE_KEY = "all_products_session";
   const isBrowser = typeof window !== "undefined";
-
   let allProducts: Product[] = [];
-
   // ✅ 1. Lấy từ session (client)
   if (isBrowser) {
     const cached = sessionStorage.getItem(CACHE_KEY);
@@ -112,19 +111,18 @@ export const products = async (
       allProducts = JSON.parse(cached);
     }
   }
-
   // ✅ 2. Nếu chưa có thì fetch 1 lần
   if (allProducts.length === 0) {
     try {
-      console.log("🚀 Fetch từ Firebase");
-
+      fetchCount++; // 👈 thêm dòng này
+      console.log(`🚀 Fetch từ Firebase lần thứ: ${fetchCount}`);
       const snapshot = await getDocs(collection(db, "products"));
-
+      console.log(`📊 Firebase đọc: ${snapshot.size} documents`);
+      console.log("Reads: ",reads + snapshot.size)
       allProducts = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
       })) as Product[];
-
       // lưu cache
       if (isBrowser) {
         sessionStorage.setItem(CACHE_KEY, JSON.stringify(allProducts));
@@ -134,15 +132,12 @@ export const products = async (
       return [];
     }
   }
-
   // ✅ 3. Nếu không có query → trả tất cả
   if (!query) return allProducts;
-
   // ✅ 4. LỌC NGAY TẠI ĐÂY
   return allProducts.filter(p => {
     // category
     if (query.category && p.category !== query.category) return false;
-
     // brand (trong specs)
     if (
       query.brand &&
@@ -150,7 +145,6 @@ export const products = async (
     ) {
       return false;
     }
-
     // search theo tên
     if (
       query.q &&

@@ -5,7 +5,10 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import { TopPromoRow, BottomWideRow } from "@/components/home/BottomBanners";
 import SideFloatBanners from "@/components/home/SideFloatBanners";
 import ProductCard from "@/components/ProductCard";
-import { getPaginatedProducts } from "@/lib/products";
+import { getAllProducts, getPaginatedProducts } from "@/lib/products";
+import ProductType from "@/components/home/ProductType";
+import { ProductGrid } from "@/components/product/ProductList";
+import CategoryMenuBottom from "@/components/home/CategoryMenuBottom";
 
 export const metadata: Metadata = {
   title: "Trang chủ",
@@ -21,7 +24,7 @@ type HomePageProps = {
 
 export default async function HomePage({ searchParams }: HomePageProps) {
   const sp = await searchParams;
-
+  const allproducts = await getAllProducts();
   const page = Number(sp.page || "1");
   const safePage = Number.isFinite(page) && page > 0 ? page : 1;
 
@@ -68,7 +71,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             người dùng.
           </p>
         </section>
-
+      {/* Banner */}
         <div className="mt-3 flex">
           <CategorySidebar />
           <div className="max-w-[1030px] h-auto w-full">
@@ -81,7 +84,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <div className="mt-3">
           <BottomWideRow />
         </div>
+        {/* Danh sách ngang */}
+        <ProductType products={allproducts}/>
 
+        {/* Tat ca san pham */}
         <section className="mt-3 rounded-2xl bg-white p-4 shadow-sm ">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <div>
@@ -93,12 +99,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </p>
             </div>
           </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {items.map((p) => (
-              <ProductCard key={p.id} p={p} />
-            ))}
-          </div>
+          <ProductGrid products={items}/>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
             <Link
@@ -139,6 +140,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </Link>
           </div>
         </section>
+      <CategoryMenuBottom/>
       </div>
     </div>
   );
