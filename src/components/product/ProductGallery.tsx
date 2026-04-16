@@ -13,6 +13,7 @@ export default function ProductGallery({
   images,
 }: ProductGalleryProps) {
   const safeImages = useMemo(() => {
+    if (!Array.isArray(images)) return [];
     return images.filter((img) => typeof img === "string" && img.trim() !== "");
   }, [images]);
 

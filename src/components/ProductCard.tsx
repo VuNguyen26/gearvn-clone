@@ -23,7 +23,9 @@ export default function ProductCard({ p }: { p: Product }) {
   ].filter((item) => item.value);
 
   const thumbnail =
-    p.images && p.images.length > 0 ? p.images[0] : "/placeholder.png";
+    Array.isArray(p.images) && p.images.length > 0 
+  ? p.images[0] 
+  : (typeof p.images === "string" ? p.images : "/placeholder.png");
 
   return (
     <motion.div

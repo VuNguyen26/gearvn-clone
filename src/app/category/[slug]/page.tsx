@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { filterProducts, getProductsByMenuSlug } from "@/lib/products";
 import CategoryProductsClient from "./CategoryProductsClient";
+import SideFloatBanners from "@/components/home/SideFloatBanners";
 
 export const revalidate = 60;
 
@@ -162,8 +163,12 @@ export default async function CategoryPage({
     sort: parseSort(firstValue(sp.sort)) || undefined,
   });
 
+  console.log(items);
   return (
     <div className={`mx-auto ${MAX_W} px-3 py-4`}>
+      <div className="hidden xl:block">
+        <SideFloatBanners />
+      </div>
       <div className="space-y-4">
         <nav
           aria-label="Breadcrumb"

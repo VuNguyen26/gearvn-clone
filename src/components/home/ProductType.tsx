@@ -57,7 +57,8 @@ const type_product = [
 ]
 
 export default function ProductType({products,}: {products: Product[];}) {
-    const [videoIndex, setVideoIndex] = useState<Record<string, number>>({});
+  const [button, setButton] = useState(false);
+  const [videoIndex, setVideoIndex] = useState<Record<string, number>>({});
   return (
     <div>
       {type_product.map((item) => {
@@ -66,7 +67,10 @@ export default function ProductType({products,}: {products: Product[];}) {
         return(
         <div key={item.category} className="mt-3 w-auto h-auto bg-white overflow-visible relative">
           {/* VIDEO */}
-            <div className="relative min-h-50 max-h-80 overflow-hidden">
+            <div 
+              onMouseEnter={() => setButton(true)}
+              onMouseLeave={() => setButton(false)}
+              className="relative min-h-50 max-h-80 overflow-hidden flex items-center justify-center hover:opacity-80">
               {currentVideo && (
                 <video
                   key={currentVideo}
@@ -85,6 +89,10 @@ export default function ProductType({products,}: {products: Product[];}) {
                   <source src={currentVideo} type="video/mp4" />
                 </video>
               )}
+              {button &&  
+                <Link href={`/category/${item.category}`} 
+                className="hidden lg:block absolute rounded-md border border-white text-white text-2xl px-3 hover:bg-black hover:border-2">Xem</Link>
+              }
             </div>
           {/* PRODUCT */}
           <div className="p-4 w-auto overflow-visible">
