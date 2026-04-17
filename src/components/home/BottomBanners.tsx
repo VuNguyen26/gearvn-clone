@@ -39,6 +39,7 @@ function BannerCard({
           alt={item.alt}
           fill
           className="object-cover"
+          unoptimized
         />
       </div>
     </Link>

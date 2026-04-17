@@ -100,6 +100,7 @@ export default function HeroCarousel() {
               fill
               priority
               className="object-cover"
+              unoptimized
             />
           </Link>
 
@@ -134,6 +135,7 @@ export default function HeroCarousel() {
                 alt={banner.alt}
                 fill
                 className="object-cover"
+                unoptimized
               />
             </Link>
           </div>
