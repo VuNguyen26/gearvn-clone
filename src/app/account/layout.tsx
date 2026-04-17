@@ -135,7 +135,7 @@ export default function AccountLayout({
             <div className="px-3 py-2 sm:px-4 sm:py-3">
               {menu.map((item) => {
                 const active =
-                  pathname === item.href || pathname.startsWith(`${item.href}/`);
+                  pathname === item.href || (pathname?.startsWith(`${item.href}/`) ?? false);
 
                 return (
                   <Link
