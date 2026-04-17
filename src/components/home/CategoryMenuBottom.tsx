@@ -121,7 +121,7 @@ export default function CategoryMenuBottom(){
                     Menu_Data_Images.map((m, index) => (
                         <Link href={`/category/${m.category}`} key={index} >
                             <div className="relative w-20 h-20">
-                                <Image src={m.image} alt={m.alt} fill/>
+                                <Image src={m.image} alt={m.alt} fill unoptimized/>
                             </div>
                             <span className="text-sm text-center font-medium">
                                 {m.title}
