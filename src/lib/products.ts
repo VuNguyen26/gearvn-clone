@@ -1,17 +1,27 @@
+
 import { products } from "@/data/products/index"; 
 import { Product } from "@/types/product";
 
-let cache: Product[] | null = null;
+// let cache: Product[] | null = null;
 
-async function getCachedProducts() {
-  if (!cache) {
-    cache = await products();
-  }
-  return cache;
-}
+// async function getCachedProducts() {
+//   if (!cache) {
+//     cache = await products();
+//   }
+//   return cache;
+// }
   
-export const getAllProducts = () => getCachedProducts();
+// export const getAllProducts = () => getCachedProducts();
 
+export const getAllProducts = async () => {
+  const data = await products();
+  
+  // Nếu log này hiện mà log "🔥 [FIREBASE]" KHÔNG hiện 
+  // -> Nghĩa là dữ liệu đang được lấy từ Cache của Vercel (An toàn).
+  console.log("📦 [SERVICE] Trả về dữ liệu cho Component.");
+  
+  return data;
+};
 export async  function getProductBySlug(slug: string) {
   const normalizedSlug = normalizeValue(slug);
   const productList = await getAllProducts(); // 👈 gọi function
