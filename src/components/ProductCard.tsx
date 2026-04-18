@@ -98,9 +98,9 @@ export default function ProductCard({ p }: { p: Product }) {
           )}
         </div>
 
-        <div className="mt-2 text-[11px] text-gray-500 sm:text-sm">
+        {/* <div className="mt-2 text-[11px] text-gray-500 sm:text-sm">
           Còn lại: <span className="font-medium text-black">{p.stock}</span>
-        </div>
+        </div> */}
       </div>
     </motion.div>
   );
