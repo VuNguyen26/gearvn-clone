@@ -1,6 +1,7 @@
 
-import { products } from "@/data/products/index"; 
+
 import { Product } from "@/types/product";
+import { unstable_cache } from 'next/cache';
 
 // let cache: Product[] | null = null;
 
@@ -13,15 +14,33 @@ import { Product } from "@/types/product";
   
 // export const getAllProducts = () => getCachedProducts();
 
-export const getAllProducts = async () => {
-  const data = await products();
-  
-  // Nếu log này hiện mà log "🔥 [FIREBASE]" KHÔNG hiện 
-  // -> Nghĩa là dữ liệu đang được lấy từ Cache của Vercel (An toàn).
-  console.log("📦 [SERVICE] Trả về dữ liệu cho Component.");
-  
-  return data;
+// Hàm này chỉ làm nhiệm vụ lấy data, không quan tâm cache
+const fetchRawFromFirebase = async () => {
+  const { db } = await import("@/lib/firebase");
+  const { collection, getDocs } = await import("firebase/firestore");
+  console.log("🔥 [FIREBASE] Thực sự gọi tới Firestore...");
+  const snapshot = await getDocs(collection(db, "products"));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Product[];
 };
+
+export const getAllProducts = async (): Promise<Product[]> => {
+  // KIỂM TRA MÔI TRƯỜNG
+  if (typeof window !== "undefined") {
+    // Đang ở Trình duyệt (Client): Không được dùng unstable_cache
+    console.log("🌐 [CLIENT] Fetching trực tiếp...");
+    return await fetchRawFromFirebase();
+  }
+
+  // Đang ở Server: Dùng unstable_cache thoải mái
+  console.log("🖥️ [SERVER] Sử dụng unstable_cache...");
+  const getCached = unstable_cache(
+    async () => fetchRawFromFirebase(),
+    ['all-products'],
+    { revalidate: 3600 }
+  );
+  return getCached();
+};
+
 export async  function getProductBySlug(slug: string) {
   const normalizedSlug = normalizeValue(slug);
   const productList = await getAllProducts(); // 👈 gọi function

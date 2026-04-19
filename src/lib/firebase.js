@@ -14,15 +14,6 @@ const firebaseConfig = {
   appId: "1:163580213267:web:95b40c7838d1be5616e7e6",
   measurementId: "G-1S6QR3X85C"
 };
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDiluorLA-37c1EYStGgYfpGjcMBYO6fyI",
-//   authDomain: "gearvn-db-new.firebaseapp.com",
-//   projectId: "gearvn-db-new",
-//   storageBucket: "gearvn-db-new.firebasestorage.app",
-//   messagingSenderId: "10052288956",
-//   appId: "1:10052288956:web:2da52121322e84f4fc6bb9",
-//   measurementId: "G-R91L8CPBN3"
-// };
 // Khởi tạo Firebase (Tránh lỗi khởi tạo 2 lần khi Next.js reload)
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 // Xuất các dịch vụ bạn sẽ dùng
