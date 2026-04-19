@@ -12,6 +12,8 @@ export default function CartPage() {
   const items = useCart((s) => s.items);
   const remove = useCart((s) => s.remove);
   const setQty = useCart((s) => s.setQty);
+  const increment = useCart((s) => s.increment);
+  const decrement = useCart((s) => s.decrement);
   const total = useCart((s) => s.total());
   const clear = useCart((s) => s.clear);
 
@@ -97,9 +99,8 @@ export default function CartPage() {
                               <div className="inline-flex h-9 items-center overflow-hidden rounded-xl border">
                                 <button
                                   type="button"
-                                  onClick={() => setQty(i.productId, i.qty - 1)}
-                                  disabled={i.qty <= 1}
-                                  className="flex h-9 w-9 items-center justify-center border-r disabled:opacity-50"
+                                  onClick={() => decrement(i.productId)}
+                                  className="flex h-9 w-9 items-center justify-center border-r"
                                   aria-label="Giảm số lượng"
                                   title="Giảm số lượng"
                                 >
@@ -125,7 +126,7 @@ export default function CartPage() {
 
                                 <button
                                   type="button"
-                                  onClick={() => setQty(i.productId, i.qty + 1)}
+                                  onClick={() => increment(i.productId)}
                                   disabled={i.qty >= i.maxQty}
                                   className="flex h-9 w-9 items-center justify-center border-l disabled:opacity-50"
                                   aria-label="Tăng số lượng"
