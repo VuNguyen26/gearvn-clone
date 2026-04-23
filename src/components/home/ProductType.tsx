@@ -25,7 +25,7 @@ const type_product = [
     },
     {
         title: "PC",
-        category : "pc",
+        category : "pc-gvn",
         video: [
             "/home/product/PC.mp4",
             "/home/product/PC_1.mp4",
