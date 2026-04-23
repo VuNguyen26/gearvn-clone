@@ -8,6 +8,7 @@ const type_product = [
     {
         title: "Laptop",
         category : "laptop",
+        href :"laptop",
         video: [
             "/home/product/laptop_dell.mp4",
 
@@ -16,6 +17,7 @@ const type_product = [
     {
         title: "Laptop gaming",
         category : "laptop-gaming",
+        href :"laptop-gaming",
         video: [
             "/home/product/laptopgaming_acer.mp4",
             "/home/product/laptopgaming_asus.mp4",
@@ -25,7 +27,8 @@ const type_product = [
     },
     {
         title: "PC",
-        category : "pc-gvn",
+        category : "pc",
+        href :"pc-gvn",
         video: [
             "/home/product/PC.mp4",
             "/home/product/PC_1.mp4",
@@ -38,6 +41,7 @@ const type_product = [
     {
         title: "Bàn phím",
         category : "keyboard",
+        href :"keyboard",
         video : [
             "/home/product/keyboard.mp4",
             "/home/product/keyboard_1.mp4",
@@ -49,6 +53,7 @@ const type_product = [
     {
         title: "Màn hình",
         category : "monitor",
+        href :"monitor",
         video: [
             "/home/product/monitor.mp4",
             "/home/product/monitor_1.mp4",
@@ -90,7 +95,7 @@ export default function ProductType({products,}: {products: Product[];}) {
                 </video>
               )}
               {button &&  
-                <Link href={`/category/${item.category}`} 
+                <Link href={`/category/${item.href}`} 
                 className="hidden lg:block absolute rounded-md border border-white text-white text-2xl px-3 hover:bg-black hover:border-2">Xem</Link>
               }
             </div>
@@ -98,7 +103,7 @@ export default function ProductType({products,}: {products: Product[];}) {
           <div className="p-4 w-auto overflow-visible">
             <div className="flex justify-between">
                 <h2 className="lg:text-xl font-bold">{item.title}</h2>
-                <Link href={`/category/${item.category}`} className="hover:text-blue-500 underline lg:text-[16px] text-sm">Xem tất cả</Link>
+                <Link href={`/category/${item.href}`} className="hover:text-blue-500 underline lg:text-[16px] text-sm">Xem tất cả</Link>
             </div>
             <ProductList products={products} category={item.category}/>
           </div>

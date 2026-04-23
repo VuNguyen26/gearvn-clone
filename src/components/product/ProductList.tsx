@@ -21,7 +21,6 @@ export function ProductList({
         category.toLowerCase().trim()
     )
     .slice(0, 10);
-    console.log(filtered);
 
   const scrollLeft = () => {
     scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
